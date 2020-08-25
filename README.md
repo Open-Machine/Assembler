@@ -2,11 +2,6 @@
 Designing a computer from scratch. The only components that I didn't made were the ports.
 
 #### Todo
-- [X] ULA
-- [X] Control Unit
-- [X] Basic Circuit
-- [X] Basic Assembler
-- [ ] Assembler with jump to label
 - [ ] High-Level Language Compiler
 - [ ] Signed integer
 - [ ] Float
@@ -17,29 +12,29 @@ Designing a computer from scratch. The only components that I didn't made were t
 ## Objective
 Understand how a computer works behind the curtains and maybe do some things my way.
 
-## Run
-1. Run circuit software
-```sh
-java -jar logisim-evolution.jar
-```
-2. File -> Open -> Select main.circ
-3. Open Main
-4. Program - [How do I program this computer?](#code)
+---
 
-## How does a computer work?
-### Internal components
-- CPU
-  - Control Unit (CU)
-  - Arithmetic Logic Unit (ALU)
-  - Registers: PC, AC, EE
-- RAM
-- Clock
+# 🔖 Table of Contents
+- [👨🏻‍💻 Coding](#coding)
+- [▶️ Assembling (shell commands)](#assembling)
 
-## Machine Code and Assembly
+---
+
+## Coding
+From the Wikipedia:
+> In computer programming, assembly language, often abbreviated asm, is any low-level programming language in which there is a very strong correspondence between the instructions in the language and the architecture's machine code instructions.
+
+Assembly is basically the most basic programming language of a certain hardware. There's a very strong correspondence between the instructions in the language and the architecture's machine code instructions: every instruction in the language is a machine code instruction and vice-versa.
+
+In this case the translating process is called assembling, because ...
+
 The code should be written in RAM and it will be executed from the memmory address in register CP content. Every 4 bytes are considered a line of code.
-<br/>Line of code = Instruction (2 bytes) + Memory Address (2 bytes).
+
+Line of code = Instruction (2 bytes) + Memory Address (2 bytes).
+
 ps: The memory address in the lines of code will be called EE - [EE] represents EE value and EE
-##### Instructions Table
+
+###### Instructions Table
 Machine Code | Assembly Command | Description | Requires Param
 --- | --- | --- | ---
 0x0 | nop | No operation | No
@@ -65,4 +60,11 @@ Machine Code | Assembly Command | Description | Requires Param
 copy 0xff # copy value in the address ff in RAM
 store 0x0a # stores the value of AC in the address 0a
 kill
+```
+
+---
+
+## Assembling
+```sh
+./assembler assemble filename.asm
 ```
