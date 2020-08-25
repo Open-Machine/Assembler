@@ -1,5 +1,7 @@
-# Computer-from-Scratch
-Designing a computer from scratch. The only components that I didn't made were the ports.
+# Assembler
+A program that transforms assembly code into machine code.
+
+*This repository is part of a bigger project: developing a computer from scratch. Check it out [here](https://github.com/Open-Machine/)!*
 
 #### Todo
 - [ ] High-Level Language Compiler
