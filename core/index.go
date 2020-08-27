@@ -1,6 +1,7 @@
 package core
 
 import (
+	"assembler/config"
 	"assembler/data"
 	"assembler/helper"
 	"assembler/myerrors"
@@ -11,20 +12,36 @@ import (
 	"os"
 )
 
-func AssembleFile(path string) {
+const Success = 0
+const Fail = 1
+
+func AssembleFile(path string, execFileNameParam *string) {
+	status, execFileName := assembleFile(path, execFileNameParam)
+	if status == Fail {
+		helper.LogOtherError(fmt.Sprintf("========= Failed to assemble %s =========", path))
+	} else {
+		helper.LogInfo(fmt.Sprintf("========= Executable file is available in '%s' =========", execFileName))
+	}
+}
+
+func assembleFile(path string, execFileNameParam *string) (int, string) {
+	if helper.FileExtension(path) != config.AssemblyFileExtension {
+		helper.LogOtherError(fmt.Sprintf("Invalid extension: assembly file should have '%s' extension.", config.AssemblyFileExtension))
+		return Fail, ""
+	}
+
 	file, err := os.Open(path)
 	if err != nil {
-		helper.LogOtherError(fmt.Sprintf("Cannot open file %s . Error: %s", path, err.Error()))
-		return
+		helper.LogOtherError(fmt.Sprintf("Cannot open file '%s'. Error: %s", path, err.Error()))
+		return Fail, ""
 	}
 	defer file.Close()
 
-	helper.LogInfo(fmt.Sprintf("========= Starting to assemble %s =========", path))
+	helper.LogInfo(fmt.Sprintf("========= Starting to assemble '%s' =========", path))
 
 	ptrProgram := programFromFile(file)
 	if ptrProgram == nil {
-		printFailedToAssemble(path)
-		return
+		return Fail, ""
 	}
 
 	errs := ptrProgram.ReplaceLabelsWithNumbers()
@@ -33,25 +50,28 @@ func AssembleFile(path string) {
 			// TODO: create infrastructure go get lineIndex and line here
 			helper.LogErrorInLine(*myerrors.NewCodeError(err), 0, "")
 		}
-		printFailedToAssemble(path)
-		return
+		return Fail, ""
 	}
 
-	binaryFileName := helper.FilenameWithoutExtension(file.Name())
+	var execFileName string
+	if execFileNameParam == nil {
+		execFileName = helper.FileNameWithoutExtension(file.Name())
+	} else {
+		execFileName = *execFileNameParam
+	}
 
-	binaryFile, err := os.Create(binaryFileName)
+	execFile, err := os.Create(execFileName)
 	if err != nil {
-		helper.LogOtherError(fmt.Sprintf("Cannot open file %s . Error: %s", binaryFileName, err.Error()))
-		printFailedToAssemble(path)
-		return
+		helper.LogOtherError(fmt.Sprintf("Cannot open file '%s'. Error: %s", execFileName, err.Error()))
+		return Fail, ""
 	}
 
-	resultCode := writeBinaryProgram(*ptrProgram, binaryFileName, binaryFile)
+	resultCode := writeExecProgram(*ptrProgram, execFileName, execFile)
 	if resultCode != 0 {
-		printFailedToAssemble(path)
-		return
+		return Fail, ""
 	}
-	helper.LogInfo(fmt.Sprintf("========= Binary file available in %s =========", binaryFileName))
+
+	return Success, execFileName
 }
 
 func programFromFile(file io.Reader) *data.Program {
@@ -124,11 +144,11 @@ func assembleEntireLine(line string) (*string, *data.Command, []myerrors.CustomE
 	return jumpLabel, commandPointer, errs
 }
 
-func writeBinaryProgram(program data.Program, binaryFileName string, binaryFile io.Writer) int {
-	writer := bufio.NewWriter(binaryFile)
+func writeExecProgram(program data.Program, execFileName string, execFile io.Writer) int {
+	writer := bufio.NewWriter(execFile)
 	defer writer.Flush()
 
-	binaryStr, errs := program.ToExecuter()
+	execStr, errs := program.ToExecuter()
 
 	if errs != nil && len(errs) > 0 {
 		for _, err := range errs {
@@ -138,15 +158,11 @@ func writeBinaryProgram(program data.Program, binaryFileName string, binaryFile 
 		return 1
 	}
 
-	_, err := writer.WriteString(binaryStr)
+	_, err := writer.WriteString(execStr)
 	if err != nil {
-		helper.LogOtherError(fmt.Sprintf("Could not write to file %s \n", binaryFileName))
+		helper.LogOtherError(fmt.Sprintf("Could not write to file %s \n", execFileName))
 		return 2
 	}
 
 	return 0
-}
-
-func printFailedToAssemble(path string) {
-	helper.LogOtherError(fmt.Sprintf("========= Failed to assemble %s =========", path))
 }

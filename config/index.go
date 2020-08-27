@@ -6,3 +6,5 @@ const AmntBitsParam = 8
 var Testing bool = false
 
 const VariableNameRegex = "^[a-zA-Z][a-zA-Z0-9_]*$"
+
+const AssemblyFileExtension = ".asm"

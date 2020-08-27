@@ -297,7 +297,7 @@ func TestWriteAssembledFile(t *testing.T) {
 
 	for i, test := range tests {
 		fileWriter := new(bytes.Buffer)
-		got := writeBinaryProgram(test.param, "File", fileWriter)
+		got := writeExecProgram(test.param, "File", fileWriter)
 
 		if !reflect.DeepEqual(test.expectedCode, got) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expectedCode, got)

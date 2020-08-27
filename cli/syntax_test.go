@@ -1,5 +1,4 @@
 package cli
 
-// TODO: test run (check if the stdout and stderr are right)
-
-//TODO: test getSyntaxExample() -> check if the program compiles
+// TODO: test if the shell commands are returning the right AssembleCommand
+// TODO: test getSyntaxExample() -> check if the program compiles

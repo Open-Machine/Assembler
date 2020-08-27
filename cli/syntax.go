@@ -8,8 +8,6 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-// TODO: tests
-
 func ConfigureSyntaxCommand(app *kingpin.Application) {
 	data := &SyntaxCommand{}
 	command := app.Command("syntax", "Help with the syntax of this assembly language").Action(data.run)
@@ -38,7 +36,7 @@ func (data *SyntaxCommand) run(c *kingpin.ParseContext) error {
 	var err error = nil
 
 	if data.Example {
-		// TODO
+		// TODO: create example
 	}
 
 	if data.Ls {

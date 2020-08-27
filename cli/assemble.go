@@ -1,12 +1,11 @@
 package cli
 
 import (
-	"fmt"
+	"assembler/core"
+	"strings"
 
 	"gopkg.in/alecthomas/kingpin.v2"
 )
-
-// TODO: test
 
 func ConfigureAssembleCommand(app *kingpin.Application) {
 	data := &AssembleCommand{}
@@ -17,30 +16,27 @@ func ConfigureAssembleCommand(app *kingpin.Application) {
 		HintOptions("main.asm").
 		StringVar(&data.FileName)
 
-	command.Flag("copy-to-clipboard", "The assembled code will be copied to clipboard instead of written to a file").
-		Short('c').
-		BoolVar(&data.ToClipboard)
-
-	command.Flag("executable-file-name", "Name of the executable file that will be generated").
-		Short('x').
+	command.Flag("rename-exec", "Provide the name of the executable file that will be created (if empty, the name will be the same as the assembly code file)").
+		Short('r').
 		Default("").
 		StringVar(&data.ExecutableFileName)
 }
 
 type AssembleCommand struct {
 	FileName           string
-	ToClipboard        bool
 	ExecutableFileName string
 }
 
 func (data *AssembleCommand) run(c *kingpin.ParseContext) error {
-	// TODO: remove
-	fmt.Printf("FileName: %v\n", data.FileName)
-	fmt.Printf("To Clipboard: %v\n", data.ToClipboard)
-	fmt.Printf("Executable filename: %v\n", data.ExecutableFileName)
+	data.ExecutableFileName = strings.TrimSpace(data.ExecutableFileName)
 
-	// TODO:
-	// core.AssembleFile(file)
+	var execFileNameParam *string
+	if data.ExecutableFileName == "" {
+		execFileNameParam = nil
+	} else {
+		execFileNameParam = &data.ExecutableFileName
+	}
 
+	core.AssembleFile(data.FileName, execFileNameParam)
 	return nil
 }
