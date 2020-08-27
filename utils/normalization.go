@@ -7,9 +7,7 @@ import (
 
 func LineNormalization(line string) string {
 	withoutNewLine := RemoveNewLine(line)
-
-	lowerCaseStr := strings.ToLower(withoutNewLine)
-	return removeUnecessarySpaces(lowerCaseStr)
+	return removeUnecessarySpaces(withoutNewLine)
 }
 
 func RemoveNewLine(line string) string {

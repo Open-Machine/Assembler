@@ -7,8 +7,8 @@ func TestLineNormalization(t *testing.T) {
 		param    string
 		expected string
 	}{
-		{"  MOV\t 8 \r\n", "mov 8"},
-		{"MoV 8\n", "mov 8"},
+		{"  MOV\t 8 \r\n", "MOV 8"},
+		{"MoV 8\n", "MoV 8"},
 	}
 
 	for _, test := range tests {

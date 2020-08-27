@@ -3,5 +3,5 @@ package main
 import "assembler/cli"
 
 func main() {
-	cli.ConfigureCli()
+(	cli.ConfigureCli()
 }
