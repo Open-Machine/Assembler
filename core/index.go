@@ -69,10 +69,10 @@ func programFromFile(file io.Reader) *data.Program {
 			return nil
 		}
 
-		gotoLabel, commandPointer, errs := assembleEntireLine(line)
+		jumpLabel, commandPointer, errs := assembleEntireLine(line)
 
-		if gotoLabel != nil {
-			program.AddGotoLabel(*gotoLabel, program.LenCommands())
+		if jumpLabel != nil {
+			program.AddJumpLabel(*jumpLabel, program.LenCommands())
 		}
 
 		if len(errs) > 0 {
@@ -106,13 +106,13 @@ func assembleEntireLine(line string) (*string, *data.Command, []myerrors.CustomE
 
 	errs := make([]myerrors.CustomError, 0)
 
-	gotoLabel, restOfCommandStr, errLabel := AssembleGotoLabel(normalizedStr)
+	jumpLabel, restOfCommandStr, errLabel := AssembleJumpLabel(normalizedStr)
 	if errLabel != nil {
 		errs = append(errs, *errLabel)
 	}
 
 	if restOfCommandStr == "" {
-		return gotoLabel, nil, errs
+		return jumpLabel, nil, errs
 	}
 
 	commandPointer, errCmd := AssembleCommand(restOfCommandStr)
@@ -121,7 +121,7 @@ func assembleEntireLine(line string) (*string, *data.Command, []myerrors.CustomE
 		errs = append(errs, *errCmd)
 	}
 
-	return gotoLabel, commandPointer, errs
+	return jumpLabel, commandPointer, errs
 }
 
 func writeBinaryProgram(program data.Program, binaryFileName string, binaryFile io.Writer) int {

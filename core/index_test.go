@@ -81,7 +81,7 @@ func TestProgramFromFile(t *testing.T) {
 			nil,
 			true,
 		},
-		// goto labels always on same line and commandIndex!=lineIndex (successful)
+		// jump labels always on same line and commandIndex!=lineIndex (successful)
 		{
 			[]string{
 				"",
@@ -125,7 +125,7 @@ func TestProgramFromFile(t *testing.T) {
 			),
 			false,
 		},
-		// goto labels mixed on same line and on the line above (successful)
+		// jump labels mixed on same line and on the line above (successful)
 		{
 			[]string{
 				"store 1",
@@ -188,8 +188,8 @@ func TestProgramFromFile(t *testing.T) {
 		}
 	}
 }
-func newProgramPointer(commands []data.Command, gotoLabelsDict map[string]int) *data.Program {
-	prog := data.ProgramFromCommandsAndLabels(commands, gotoLabelsDict)
+func newProgramPointer(commands []data.Command, jumpLabelsDict map[string]int) *data.Program {
+	prog := data.ProgramFromCommandsAndLabels(commands, jumpLabelsDict)
 	return &prog
 }
 

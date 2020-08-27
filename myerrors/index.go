@@ -13,12 +13,12 @@ func ParamOverflow(param int, amntBits int) error {
 	return fmt.Errorf("Param '%b' overflows %d bits", param, amntBits)
 }
 
-func GotoLabelAlreadyExistsError(label string) error {
-	return fmt.Errorf("Goto label '%s' already exists", label)
+func JumpLabelAlreadyExistsError(label string) error {
+	return fmt.Errorf("Jump label '%s' already exists", label)
 }
 
-func GotoLabelDoesNotExistError(label string) error {
-	return fmt.Errorf("Goto label '%s' does not exist", label)
+func JumpLabelDoesNotExistError(label string) error {
+	return fmt.Errorf("Jump label '%s' does not exist", label)
 }
 
 func InvalidLabelParam(label string) error {

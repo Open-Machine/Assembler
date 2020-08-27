@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func AssembleGotoLabel(line string) (*string, string, *myerrors.CustomError) {
+func AssembleJumpLabel(line string) (*string, string, *myerrors.CustomError) {
 	indexOfColon := strings.Index(line, ":")
 
 	if indexOfColon < 0 {

@@ -46,7 +46,7 @@ func TestToExecuterFail(t *testing.T) {
 	}
 }
 
-func TestAddGotoLabel(t *testing.T) {
+func TestAddJumpLabel(t *testing.T) {
 	var tests = []struct {
 		program      Program
 		expectsError bool
@@ -58,7 +58,7 @@ func TestAddGotoLabel(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		err := test.program.AddGotoLabel("label", 1)
+		err := test.program.AddJumpLabel("label", 1)
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -73,7 +73,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		programAfter     Program
 		amntErrsExpected int
 	}{
-		// single goto label
+		// single jump label
 		{
 			&Program{
 				[]Command{
@@ -95,7 +95,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 			},
 			0,
 		},
-		// multiple goto labels
+		// multiple jump labels
 		{
 			&Program{
 				[]Command{
@@ -121,7 +121,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 			},
 			0,
 		},
-		// no goto label
+		// no jump label
 		{
 			&Program{
 				[]Command{
@@ -143,7 +143,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 			},
 			0,
 		},
-		// unused goto label
+		// unused jump label
 		{
 			&Program{
 				[]Command{
@@ -169,7 +169,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 			},
 			0,
 		},
-		// Fail: goto label that does not exist
+		// Fail: jump label that does not exist
 		{
 			&Program{
 				[]Command{
@@ -195,7 +195,7 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 			},
 			1,
 		},
-		// Fail: multiple goto labels that do not exist
+		// Fail: multiple jump labels that do not exist
 		{
 			&Program{
 				[]Command{

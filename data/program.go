@@ -6,15 +6,15 @@ import (
 
 type Program struct {
 	commands       []Command
-	gotoLabelsDict map[string]int
+	jumpLabelsDict map[string]int
 }
 
 func NewProgram(lines int) Program {
-	return Program{commands: make([]Command, 0, lines), gotoLabelsDict: map[string]int{}}
+	return Program{commands: make([]Command, 0, lines), jumpLabelsDict: map[string]int{}}
 }
 
-func ProgramFromCommandsAndLabels(commands []Command, gotoLabelsDict map[string]int) Program {
-	return Program{commands: commands, gotoLabelsDict: gotoLabelsDict}
+func ProgramFromCommandsAndLabels(commands []Command, jumpLabelsDict map[string]int) Program {
+	return Program{commands: commands, jumpLabelsDict: jumpLabelsDict}
 }
 
 func (p *Program) AddCommand(command Command) {
@@ -25,13 +25,13 @@ func (p *Program) LenCommands() int {
 	return len(p.commands)
 }
 
-func (p *Program) AddGotoLabel(label string, commandIndex int) error {
-	_, exists := p.gotoLabelsDict[label]
+func (p *Program) AddJumpLabel(label string, commandIndex int) error {
+	_, exists := p.jumpLabelsDict[label]
 	if exists {
-		return myerrors.GotoLabelAlreadyExistsError(label)
+		return myerrors.JumpLabelAlreadyExistsError(label)
 	}
 
-	p.gotoLabelsDict[label] = commandIndex
+	p.jumpLabelsDict[label] = commandIndex
 	return nil
 }
 
@@ -41,10 +41,10 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 	for i, command := range p.commands {
 		if command.parameter.IsStr {
 			label := command.parameter.Str
-			commandIndex, exists := p.gotoLabelsDict[label]
+			commandIndex, exists := p.jumpLabelsDict[label]
 
 			if !exists {
-				errs = append(errs, myerrors.GotoLabelDoesNotExistError(label))
+				errs = append(errs, myerrors.JumpLabelDoesNotExistError(label))
 			} else {
 				command.parameter = NewIntParam(commandIndex)
 				p.commands[i] = command
@@ -53,7 +53,7 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 	}
 
 	if len(errs) == 0 {
-		p.gotoLabelsDict = map[string]int{}
+		p.jumpLabelsDict = map[string]int{}
 	}
 	return errs
 }

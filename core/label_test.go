@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestAssembleGotoLabel(t *testing.T) {
+func TestAssembleJumpLabel(t *testing.T) {
 	var tests = []struct {
 		param              string
 		expectedLabel      *string
@@ -34,7 +34,7 @@ func TestAssembleGotoLabel(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		gotLabel, gotRestOfLine, err := AssembleGotoLabel(test.param)
+		gotLabel, gotRestOfLine, err := AssembleJumpLabel(test.param)
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
