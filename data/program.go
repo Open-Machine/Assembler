@@ -58,14 +58,14 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 	return errs
 }
 
-func (p *Program) ToExecuter() (string, []error) {
+func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
 	str := ""
-	errors := make([]error, 0)
+	var errors []myerrors.CustomError
 
 	for _, command := range p.commands {
 		executerCode, err := command.toExecuter()
 		if err != nil {
-			errors = append(errors, err)
+			errors = append(errors, *err)
 		}
 
 		str += executerCode

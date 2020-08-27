@@ -39,20 +39,19 @@ func NewCommandTest(code int, param CommandParameter) *Command {
 	return &Command{code, param}
 }
 
-func (c Command) toExecuter() (string, error) {
+func (c Command) toExecuter() (string, *myerrors.CustomError) {
 	if c.parameter.IsStr {
-		// TODO: error or custom error?
-		return "", myerrors.InvalidStateTransformationToExecuterError()
+		return "", myerrors.NewAssemblerError(myerrors.InvalidStateTransformationToExecuterError())
 	}
 
 	str1, err1 := utils.IntToStrHex(c.commandCode, 2)
 	if err1 != nil {
-		return "", err1
+		return "", myerrors.NewCodeError(err1)
 	}
 
 	str2, err2 := utils.IntToStrHex(c.parameter.Num, 2)
 	if err2 != nil {
-		return "", err2
+		return "", myerrors.NewCodeError(err2)
 	}
 
 	return str1 + str2, nil

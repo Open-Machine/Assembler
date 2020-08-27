@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"assembler/helper"
 	"fmt"
 
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -35,9 +34,10 @@ type AssembleCommand struct {
 }
 
 func (data *AssembleCommand) run(c *kingpin.ParseContext) error {
-	helper.PrintOut(fmt.Sprintf("FileName: %v\n", data.FileName))
-	helper.PrintOut(fmt.Sprintf("To Clipboard: %v\n", data.ToClipboard))
-	helper.PrintOut(fmt.Sprintf("Executable filename: %v\n", data.ExecutableFileName))
+	// TODO: remove
+	fmt.Printf("FileName: %v\n", data.FileName)
+	fmt.Printf("To Clipboard: %v\n", data.ToClipboard)
+	fmt.Printf("Executable filename: %v\n", data.ExecutableFileName)
 
 	// TODO:
 	// core.AssembleFile(file)

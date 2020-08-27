@@ -43,32 +43,32 @@ func (data *SyntaxCommand) run(c *kingpin.ParseContext) error {
 
 	if data.Ls {
 		if data.Example {
-			helper.PrintlnOut("")
+			helper.PrintlnExplanation("")
 		}
 
-		helper.PrintlnOut("Assembly commands list and explanations:")
-		helper.PrintlnOut("")
+		helper.PrintlnExplanation("Assembly commands list and explanations:")
+		helper.PrintlnExplanation("")
 		sortedCmdNames, cmdExplanations := core.GetCommandsExplanationSorted()
 
 		for _, name := range sortedCmdNames {
 			explanation := cmdExplanations[name]
 
-			helper.PrintlnOut(fmt.Sprintf("   - %s:\t%s", name, explanation.Command))
-			helper.PrintlnOut("")
+			helper.PrintlnExplanation(fmt.Sprintf("   - %s:\t%s", name, explanation.Command))
+			helper.PrintlnExplanation("")
 		}
 	}
 
 	if data.Command != "" {
 		if data.Ls {
-			helper.PrintlnOut("")
+			helper.PrintlnExplanation("")
 		}
 
 		explanation, _ := core.GetCommandExplanation(data.Command)
 		// kingpin won't let the request go throught if the command name does not exist (because of the enum)
 
-		helper.PrintlnOut(fmt.Sprintf("'%s' command explanation:", data.Command))
-		helper.PrintlnOut(fmt.Sprintf("\t\tCommand: %s", explanation.Command))
-		helper.PrintlnOut(fmt.Sprintf("\t\tParameter: %s", explanation.Param))
+		helper.PrintlnExplanation(fmt.Sprintf("'%s' command explanation:", data.Command))
+		helper.PrintlnExplanation(fmt.Sprintf("\t\tCommand: %s", explanation.Command))
+		helper.PrintlnExplanation(fmt.Sprintf("\t\tParameter: %s", explanation.Param))
 	}
 
 	return err

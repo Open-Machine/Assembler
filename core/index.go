@@ -14,12 +14,12 @@ import (
 func AssembleFile(path string) {
 	file, err := os.Open(path)
 	if err != nil {
-		helper.PrintlnErr(fmt.Sprintf("Cannot open file %s . Error: %s", path, err.Error()))
+		helper.LogOtherError(fmt.Sprintf("Cannot open file %s . Error: %s", path, err.Error()))
 		return
 	}
 	defer file.Close()
 
-	helper.PrintlnOut(fmt.Sprintf("========= Starting to assemble %s =========", path))
+	helper.LogInfo(fmt.Sprintf("========= Starting to assemble %s =========", path))
 
 	ptrProgram := programFromFile(file)
 	if ptrProgram == nil {
@@ -31,7 +31,7 @@ func AssembleFile(path string) {
 	if len(errs) > 0 {
 		for _, err := range errs {
 			// TODO: create infrastructure go get lineIndex and line here
-			printErrorOnLine(0, "", *myerrors.NewCodeError(err))
+			helper.LogErrorInLine(*myerrors.NewCodeError(err), 0, "")
 		}
 		printFailedToAssemble(path)
 		return
@@ -41,7 +41,7 @@ func AssembleFile(path string) {
 
 	binaryFile, err := os.Create(binaryFileName)
 	if err != nil {
-		helper.PrintlnErr(fmt.Sprintf("Cannot open file %s . Error: %s", binaryFileName, err.Error()))
+		helper.LogOtherError(fmt.Sprintf("Cannot open file %s . Error: %s", binaryFileName, err.Error()))
 		printFailedToAssemble(path)
 		return
 	}
@@ -51,7 +51,7 @@ func AssembleFile(path string) {
 		printFailedToAssemble(path)
 		return
 	}
-	helper.PrintlnOut(fmt.Sprintf("========= Binary file available in %s =========", binaryFileName))
+	helper.LogInfo(fmt.Sprintf("========= Binary file available in %s =========", binaryFileName))
 }
 
 func programFromFile(file io.Reader) *data.Program {
@@ -65,7 +65,7 @@ func programFromFile(file io.Reader) *data.Program {
 		line, errRead := reader.ReadString('\n')
 
 		if errRead != nil && errRead != io.EOF {
-			helper.PrintlnErr(fmt.Sprintf("Error while reading file. Error: %s", errRead.Error()))
+			helper.LogOtherError(fmt.Sprintf("Error while reading file. Error: %s", errRead.Error()))
 			return nil
 		}
 
@@ -79,7 +79,7 @@ func programFromFile(file io.Reader) *data.Program {
 			successful = false
 
 			for _, err := range errs {
-				printErrorOnLine(lineIndex, line, err)
+				helper.LogErrorInLine(err, lineIndex, line)
 			}
 		} else if commandPointer != nil {
 			program.AddCommand(*commandPointer)
@@ -131,16 +131,16 @@ func writeBinaryProgram(program data.Program, binaryFileName string, binaryFile 
 	binaryStr, errs := program.ToExecuter()
 
 	if errs != nil && len(errs) > 0 {
-		helper.PrintlnErr("[Assembler Errors] It was not possible to assemble your code. Encountered errors:")
-		for i, err := range errs {
-			helper.PrintlnErr(fmt.Sprintf("\t[%d] %s", i+1, err.Error()))
+		for _, err := range errs {
+			// TODO: infrastructure to get line
+			helper.LogErrorInLine(err, 0, "")
 		}
 		return 1
 	}
 
 	_, err := writer.WriteString(binaryStr)
 	if err != nil {
-		helper.PrintlnErr(fmt.Sprintf("Could not write to file %s \n", binaryFileName))
+		helper.LogOtherError(fmt.Sprintf("Could not write to file %s \n", binaryFileName))
 		return 2
 	}
 
@@ -148,13 +148,5 @@ func writeBinaryProgram(program data.Program, binaryFileName string, binaryFile 
 }
 
 func printFailedToAssemble(path string) {
-	helper.PrintlnErr(fmt.Sprintf("========= Failed to assemble %s =========", path))
-}
-
-func printErrorOnLine(lineIndex int, line string, err myerrors.CustomError) {
-	line = utils.RemoveNewLine(line)
-
-	helper.PrintlnErr(fmt.Sprintf("[Error] Error on line %d: '%s'", lineIndex, line))
-	helper.PrintlnErr(fmt.Sprintf("\t\tError: %s", err.Error()))
-	helper.PrintlnErr("")
+	helper.LogOtherError(fmt.Sprintf("========= Failed to assemble %s =========", path))
 }
