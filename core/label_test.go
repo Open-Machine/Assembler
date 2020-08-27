@@ -1,7 +1,7 @@
 package core
 
 import (
-	"assembler/helper"
+	"assembler/utils/helper"
 	"testing"
 )
 

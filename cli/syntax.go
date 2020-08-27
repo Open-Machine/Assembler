@@ -2,7 +2,7 @@ package cli
 
 import (
 	"assembler/core"
-	"assembler/helper"
+	"assembler/utils/helper"
 	"fmt"
 
 	"gopkg.in/alecthomas/kingpin.v2"

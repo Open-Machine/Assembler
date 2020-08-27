@@ -1,7 +1,5 @@
 package cli
 
-// TODO: tests
-
 import (
 	"os"
 

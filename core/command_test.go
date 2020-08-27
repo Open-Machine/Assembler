@@ -2,7 +2,7 @@ package core
 
 import (
 	"assembler/data"
-	"assembler/helper"
+	"assembler/utils/helper"
 	"reflect"
 	"strings"
 	"testing"

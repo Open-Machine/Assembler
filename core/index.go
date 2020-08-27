@@ -3,7 +3,7 @@ package core
 import (
 	"assembler/config"
 	"assembler/data"
-	"assembler/helper"
+	"assembler/utils/helper"
 	"assembler/myerrors"
 	"assembler/utils"
 	"bufio"
