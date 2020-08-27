@@ -97,7 +97,7 @@ func TestProgramFromFile(t *testing.T) {
 					*newCommand(0x1, 15),
 				},
 				map[string]int{
-					// "label1": 0,
+					"label1": 0,
 					"label2": 2,
 				},
 			),
