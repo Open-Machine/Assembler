@@ -14,14 +14,15 @@ Understand how a computer works behind the curtains and maybe do some things my 
 ---
 
 # 🔖 Table of Contents
-### 1. [❔ Purpose and Definition](#purpose-and-definition)
+### 1. [📌 Purpose and Definition](#purpose-and-definition)
 ### 2. [🔡 Code syntax](#code-syntax)
 ### 3. [👨🏻‍💻 Code Example](#example)
 ### 3. [▶️ Assembler CLI](#assembler-cli)
+### 4. [📄 Contributing Guidelines](#contributing-guidelines)
 
 ---
 
-# ❔ Purpose and Definition
+# 📌 Purpose and Definition
 Assembly is basically the most basic programming language of a certain hardware. There's a very strong correspondence between the instructions in the language and the architecture's machine code instructions: every instruction in the language is a machine code instruction and vice-versa. It was created so that humans don't had to memorize the machine code instructions which are many numbers.
 
 From the Wikipedia:
@@ -130,7 +131,7 @@ end
 
 ---
 
-# Code Example
+# 👨🏻‍💻 Code Example
 ```sh
 import help.asm # it has procedure procSum
 
@@ -150,7 +151,7 @@ kill
 
 ---
 
-## Assembler CLI
+# ▶️ Assembler CLI
 You can use the flag ```--help``` to see the options 
 
 #### Assemble code
@@ -173,3 +174,8 @@ You can use the flag ```--help``` to see the options
 ```
 
 ```
+
+---
+
+# 📄 Contributing Guidelines
+Check out the contributing guidelines [here](https://github.com/Open-Machine/Assembler/blob/master/CONTRIBUTION.md).
