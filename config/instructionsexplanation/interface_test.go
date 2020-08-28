@@ -12,6 +12,40 @@ func TestAmountInstructions(t *testing.T) {
 	}
 }
 
-// TODO:
-// func GetInstructionsExplanationSorted() ([]string, map[string]InstructionExplanation) {
-// func GetInstructionExplanation(name string) (*InstructionExplanation, error) {
+func TestOrderExplanations(t *testing.T) {
+	var tests = []struct {
+		index    int
+		expected string
+	}{
+		{0, "add"},
+		{1, "copy"},
+	}
+
+	for _, test := range tests {
+		keys, _ := GetInstructionsExplanationSorted()
+
+		if keys[test.index] != test.expected {
+			t.Errorf("Explanation order is wrong")
+		}
+	}
+}
+
+func TestSpecificExplanation(t *testing.T) {
+	var tests = []struct {
+		param  string
+		exists bool
+	}{
+		{"add", true},
+		{"copy", true},
+		{"mov", false},
+	}
+
+	for _, test := range tests {
+		_, err := GetInstructionExplanation(test.param)
+		gotErr := err != nil
+
+		if !gotErr != test.exists {
+			t.Errorf("Explanation missing or one more")
+		}
+	}
+}
