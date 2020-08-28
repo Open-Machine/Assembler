@@ -32,16 +32,17 @@ func TestIsValidVarName(t *testing.T) {
 		param    string
 		expected bool
 	}{
-		{"", false},
-		{"a", true},
+		// cammelCase
 		{"var", true},
-		{"Var", true},
 		{"vaR", true},
-		{"VAR", true},
-		{"var_able", true},
-		{"var_Able", true},
-		{"var_ABLE", true},
-		{"va0r_4ABLE1", true},
+		{"varName", true},
+		// [FAIL] snake_case
+		{"var_name", false},
+		// [FAIL] PascalCase
+		{"Var", false},
+		// [FAIL] ALLUPERCASE
+		{"VAR", false},
+		// [FAIL] Special*Characters
 		{"va.", false},
 		{"va.r", false},
 		{"va-r", false},
@@ -50,6 +51,9 @@ func TestIsValidVarName(t *testing.T) {
 		{"va&r", false},
 		{"&var", false},
 		{"var&", false},
+		// [FAIL] Blank
+		{"", false},
+		// Reserved words
 		{"jmp", true},
 	}
 
