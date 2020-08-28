@@ -5,6 +5,7 @@ import (
 	"regexp"
 
 	"github.com/open-machine/assembler/config"
+	"github.com/open-machine/assembler/config/instructionsexplanation"
 )
 
 func IsOverflow(num uint, availableBits int) bool {
@@ -12,12 +13,19 @@ func IsOverflow(num uint, availableBits int) bool {
 	return num >= uint(math.Floor(largestNumber))
 }
 
-func IsValidVarName(str string) bool {
-	matched, err := regexp.MatchString(config.VariableNameRegex, str)
+func IsValidVarName(varName string) bool {
+	matched, err := regexp.MatchString(config.VariableNameRegex, varName)
 	return matched && err == nil
 }
 
 // TODO: check valid name
 // TODO: use to validate name
-// func isReservedWord(str string) bool {
-// }
+func isReservedWord(varName string) bool {
+	instructions := instructionsexplanation.GetInstructionsExplanation()
+	for instructionName, _ := range instructions {
+		if varName == instructionName {
+			return true
+		}
+	}
+	return false
+}

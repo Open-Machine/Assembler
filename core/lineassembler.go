@@ -4,7 +4,7 @@ import (
 	"github.com/open-machine/assembler/core/instruction"
 	"github.com/open-machine/assembler/core/label"
 	"github.com/open-machine/assembler/data"
-	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 )
 

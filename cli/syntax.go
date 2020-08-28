@@ -3,8 +3,8 @@ package cli
 import (
 	"fmt"
 
-	"github.com/open-machine/assembler/core/instruction"
-	"github.com/open-machine/assembler/utils/helper"
+	"github.com/open-machine/assembler/config/instructionsexplanation"
+	"github.com/open-machine/assembler/helper"
 
 	"gopkg.in/alecthomas/kingpin.v2"
 )
@@ -47,7 +47,7 @@ func (data *SyntaxInstruction) run(c *kingpin.ParseContext) error {
 
 		helper.PrintlnExplanation("Assembly instructions list and explanations:")
 		helper.PrintlnExplanation("")
-		sortedCmdNames, cmdExplanations := instruction.GetInstructionsExplanationSorted()
+		sortedCmdNames, cmdExplanations := instructionsexplanation.GetInstructionsExplanationSorted()
 
 		for _, name := range sortedCmdNames {
 			explanation := cmdExplanations[name]
@@ -62,7 +62,7 @@ func (data *SyntaxInstruction) run(c *kingpin.ParseContext) error {
 			helper.PrintlnExplanation("")
 		}
 
-		explanation, _ := instruction.GetInstructionExplanation(data.Instruction)
+		explanation, _ := instructionsexplanation.GetInstructionExplanation(data.Instruction)
 		// kingpin won't let the request go throught if the instruction name does not exist (because of the enum)
 
 		helper.PrintlnExplanation(fmt.Sprintf("'%s' instruction explanation:", data.Instruction))
@@ -75,7 +75,7 @@ func (data *SyntaxInstruction) run(c *kingpin.ParseContext) error {
 
 func listInstructions() []string {
 	list := make([]string, 0)
-	for name := range instruction.GetInstructionsExplanation() {
+	for name := range instructionsexplanation.GetInstructionsExplanation() {
 		list = append(list, name)
 	}
 

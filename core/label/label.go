@@ -3,7 +3,7 @@ package label
 import (
 	"strings"
 
-	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 )
 

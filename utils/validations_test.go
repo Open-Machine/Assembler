@@ -65,3 +65,31 @@ func TestIsValidVarName(t *testing.T) {
 		}
 	}
 }
+
+func TestIsReservedWord(t *testing.T) {
+	var tests = []struct {
+		param    string
+		expected bool
+	}{
+		// Not reserved
+		{"mov", false},
+		{"variable", false},
+		{"name", false},
+		// Reserved
+		{"jmp", true},
+		{"store", true},
+		// Maybe in future
+		{"procedure", false},
+		{"import", false},
+		{"declare", false},
+		{"var", false},
+	}
+
+	for _, test := range tests {
+		got := isReservedWord(test.param)
+
+		if test.expected != got {
+			t.Errorf("For var name '%s': Expected: %t, Got: %t", test.param, test.expected, got)
+		}
+	}
+}

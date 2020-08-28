@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/open-machine/assembler/data"
-	"github.com/open-machine/assembler/utils/helper"
+	"github.com/open-machine/assembler/helper"
 )
 
 func TestAssembleEntireLine(t *testing.T) {
