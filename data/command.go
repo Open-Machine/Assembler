@@ -6,14 +6,14 @@ import (
 	"github.com/open-machine/assembler/utils"
 )
 
-type Command struct {
-	commandCode int
-	parameter   CommandParameter
+type Instruction struct {
+	instructionCode int
+	parameter   InstructionParameter
 }
 
-func NewCommand(code int, param CommandParameter) (*Command, *myerrors.CustomError) {
+func NewInstruction(code int, param InstructionParameter) (*Instruction, *myerrors.CustomError) {
 	if utils.IsOverflow(uint(code), config.AmntBitsCode) {
-		err := myerrors.CommandCodeOverflow(code, config.AmntBitsCode)
+		err := myerrors.InstructionCodeOverflow(code, config.AmntBitsCode)
 		return nil, myerrors.NewAssemblerError(err)
 	}
 
@@ -29,22 +29,22 @@ func NewCommand(code int, param CommandParameter) (*Command, *myerrors.CustomErr
 		}
 	}
 
-	return &Command{code, param}, nil
+	return &Instruction{code, param}, nil
 }
 
-func NewCommandTest(code int, param CommandParameter) *Command {
+func NewInstructionTest(code int, param InstructionParameter) *Instruction {
 	if !config.Testing {
 		return nil
 	}
-	return &Command{code, param}
+	return &Instruction{code, param}
 }
 
-func (c Command) toExecuter() (string, *myerrors.CustomError) {
+func (c Instruction) toExecuter() (string, *myerrors.CustomError) {
 	if c.parameter.IsStr {
 		return "", myerrors.NewAssemblerError(myerrors.InvalidStateTransformationToExecuterError())
 	}
 
-	str1, err1 := utils.IntToStrHex(c.commandCode, 2)
+	str1, err1 := utils.IntToStrHex(c.instructionCode, 2)
 	if err1 != nil {
 		return "", myerrors.NewCodeError(err1)
 	}

@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestNewCommandOverflowValidation(t *testing.T) {
+func TestNewInstructionOverflowValidation(t *testing.T) {
 	var tests = []struct {
 		code         int
 		param        int
@@ -22,7 +22,7 @@ func TestNewCommandOverflowValidation(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := NewCommand(test.code, NewIntParam(test.param))
+		_, err := NewInstruction(test.code, NewIntParam(test.param))
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -31,7 +31,7 @@ func TestNewCommandOverflowValidation(t *testing.T) {
 	}
 }
 
-func TestNewCommandWrongStringParam(t *testing.T) {
+func TestNewInstructionWrongStringParam(t *testing.T) {
 	var tests = []struct {
 		code         int
 		param        string
@@ -43,7 +43,7 @@ func TestNewCommandWrongStringParam(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := NewCommand(test.code, NewStringParam(test.param))
+		_, err := NewInstruction(test.code, NewStringParam(test.param))
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -54,19 +54,19 @@ func TestNewCommandWrongStringParam(t *testing.T) {
 
 func TestToExecuter(t *testing.T) {
 	var tests = []struct {
-		command      Command
+		instruction      Instruction
 		expected     string
 		expectsError bool
 	}{
-		{Command{0, NewIntParam(0)}, "0000", false},
-		{Command{11, NewIntParam(5)}, "0b05", false},
-		{Command{300, NewIntParam(5)}, "", true},
-		{Command{5, NewIntParam(300)}, "", true},
-		{Command{5, NewStringParam("abc")}, "", true},
+		{Instruction{0, NewIntParam(0)}, "0000", false},
+		{Instruction{11, NewIntParam(5)}, "0b05", false},
+		{Instruction{300, NewIntParam(5)}, "", true},
+		{Instruction{5, NewIntParam(300)}, "", true},
+		{Instruction{5, NewStringParam("abc")}, "", true},
 	}
 
 	for i, test := range tests {
-		got, err := test.command.toExecuter()
+		got, err := test.instruction.toExecuter()
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -79,27 +79,27 @@ func TestToExecuter(t *testing.T) {
 	}
 }
 
-func TestNewCommandTest(t *testing.T) {
+func TestNewInstructionTest(t *testing.T) {
 	oldTesting := config.Testing
 	defer func() { config.Testing = oldTesting }()
 
 	code := 300
 	param := NewIntParam(300)
 
-	_, err := NewCommand(code, param)
+	_, err := NewInstruction(code, param)
 	if err == nil {
-		t.Errorf("Expected error! NewCommand should verify params and these params should be wrong to validate the NewCommandTest function")
+		t.Errorf("Expected error! NewInstruction should verify params and these params should be wrong to validate the NewInstructionTest function")
 	}
 
 	config.Testing = false
-	ptrCommandNil := NewCommandTest(code, param)
-	if ptrCommandNil != nil {
-		t.Errorf("Expected nil command, got not nil command")
+	ptrInstructionNil := NewInstructionTest(code, param)
+	if ptrInstructionNil != nil {
+		t.Errorf("Expected nil instruction, got not nil instruction")
 	}
 
 	config.Testing = true
-	ptrCommandNotNil := NewCommandTest(code, param)
-	if ptrCommandNotNil == nil {
-		t.Errorf("Expected nil command, got not nil command")
+	ptrInstructionNotNil := NewInstructionTest(code, param)
+	if ptrInstructionNotNil == nil {
+		t.Errorf("Expected nil instruction, got not nil instruction")
 	}
 }

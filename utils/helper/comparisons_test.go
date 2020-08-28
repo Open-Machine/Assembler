@@ -47,40 +47,40 @@ func TestSafeIsEqualProgramPointer(t *testing.T) {
 	}
 }
 func newProgram(a int, b int) *data.Program {
-	cmd, _ := data.NewCommand(a, data.NewIntParam(b))
-	program := data.ProgramFromCommandsAndLabels([]data.Command{*cmd}, map[string]int{})
+	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
+	program := data.ProgramFromInstructionsAndLabels([]data.Instruction{*cmd}, map[string]int{})
 	return &program
 }
 
-func TestSafeIsEqualCommandPointer(t *testing.T) {
+func TestSafeIsEqualInstructionPointer(t *testing.T) {
 	var tests = []struct {
-		param1   *data.Command
-		param2   *data.Command
+		param1   *data.Instruction
+		param2   *data.Instruction
 		expected bool
 	}{
 		{nil, nil, true},
-		{newCommand(1, 1), nil, false},
-		{nil, newCommand(1, 1), false},
-		{newCommand(1, 1), newCommand(1, 1), true},
-		{newCommand(1, 1), newCommand(1, 2), false},
+		{newInstruction(1, 1), nil, false},
+		{nil, newInstruction(1, 1), false},
+		{newInstruction(1, 1), newInstruction(1, 1), true},
+		{newInstruction(1, 1), newInstruction(1, 2), false},
 	}
 
 	for i, test := range tests {
-		got := SafeIsEqualCommandPointer(test.param1, test.param2)
+		got := SafeIsEqualInstructionPointer(test.param1, test.param2)
 		if got != test.expected {
 			t.Errorf("[%d] Expected: %t, Got: %t", i, test.expected, got)
 		}
 	}
 }
-func newCommand(a int, b int) *data.Command {
-	cmd, _ := data.NewCommand(a, data.NewIntParam(b))
+func newInstruction(a int, b int) *data.Instruction {
+	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
 	return cmd
 }
 
-func TestSafeIsEqualCommandParamPointer(t *testing.T) {
+func TestSafeIsEqualInstructionParamPointer(t *testing.T) {
 	var tests = []struct {
-		param1   *data.CommandParameter
-		param2   *data.CommandParameter
+		param1   *data.InstructionParameter
+		param2   *data.InstructionParameter
 		expected bool
 	}{
 		{nil, nil, true},
@@ -91,13 +91,13 @@ func TestSafeIsEqualCommandParamPointer(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		got := SafeIsEqualCommandParamPointer(test.param1, test.param2)
+		got := SafeIsEqualInstructionParamPointer(test.param1, test.param2)
 		if got != test.expected {
 			t.Errorf("[%d] Expected: %t, Got: %t", i, test.expected, got)
 		}
 	}
 }
-func newIntParam(a int) *data.CommandParameter {
+func newIntParam(a int) *data.InstructionParameter {
 	param := data.NewIntParam(a)
 	return &param
 }

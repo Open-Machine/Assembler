@@ -5,25 +5,25 @@ import (
 	"testing"
 )
 
-func TestAddCommand(t *testing.T) {
+func TestAddInstruction(t *testing.T) {
 	program := NewProgram(5)
 
-	if len(program.commands) != 0 {
-		t.Errorf("Expected length 0, got: %d", len(program.commands))
+	if len(program.instructions) != 0 {
+		t.Errorf("Expected length 0, got: %d", len(program.instructions))
 	}
 
-	program.AddCommand(Command{0, NewIntParam(0)})
+	program.AddInstruction(Instruction{0, NewIntParam(0)})
 
-	if len(program.commands) != 1 {
-		t.Errorf("Expected length 1, got: %d", len(program.commands))
+	if len(program.instructions) != 1 {
+		t.Errorf("Expected length 1, got: %d", len(program.instructions))
 	}
 }
 
 func TestToExecuterSuccess(t *testing.T) {
 	program := NewProgram(3)
-	program.AddCommand(Command{1, NewIntParam(2)})
-	program.AddCommand(Command{15, NewIntParam(7)})
-	program.AddCommand(Command{0, NewIntParam(0)})
+	program.AddInstruction(Instruction{1, NewIntParam(2)})
+	program.AddInstruction(Instruction{15, NewIntParam(7)})
+	program.AddInstruction(Instruction{0, NewIntParam(0)})
 
 	got, errors := program.ToExecuter()
 	expected := "01020f070000"
@@ -35,9 +35,9 @@ func TestToExecuterSuccess(t *testing.T) {
 
 func TestToExecuterFail(t *testing.T) {
 	program := NewProgram(3)
-	program.AddCommand(Command{1, NewIntParam(2)})
-	program.AddCommand(Command{1200, NewIntParam(7)})
-	program.AddCommand(Command{0, NewIntParam(0)})
+	program.AddInstruction(Instruction{1, NewIntParam(2)})
+	program.AddInstruction(Instruction{1200, NewIntParam(7)})
+	program.AddInstruction(Instruction{0, NewIntParam(0)})
 
 	execCode, errors := program.ToExecuter()
 
@@ -51,10 +51,10 @@ func TestAddJumpLabel(t *testing.T) {
 		program      Program
 		expectsError bool
 	}{
-		{Program{[]Command{}, map[string]int{"abc": 1, "luca": 2}}, false},
-		{Program{[]Command{}, map[string]int{"abc": 1, "label": 2}}, true},
-		{Program{[]Command{}, map[string]int{"label": 2}}, true},
-		{Program{[]Command{}, map[string]int{"a": 2}}, false},
+		{Program{[]Instruction{}, map[string]int{"abc": 1, "luca": 2}}, false},
+		{Program{[]Instruction{}, map[string]int{"abc": 1, "label": 2}}, true},
+		{Program{[]Instruction{}, map[string]int{"label": 2}}, true},
+		{Program{[]Instruction{}, map[string]int{"a": 2}}, false},
 	}
 
 	for i, test := range tests {
@@ -76,20 +76,20 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// single jump label
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("label")},
-					Command{5, NewIntParam(3)},
-					Command{7, NewIntParam(3)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("label")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{7, NewIntParam(3)},
 				},
 				map[string]int{"label": 3},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewIntParam(3)},
-					Command{5, NewIntParam(3)},
-					Command{7, NewIntParam(3)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewIntParam(3)},
+					Instruction{5, NewIntParam(3)},
+					Instruction{7, NewIntParam(3)},
 				},
 				map[string]int{},
 			},
@@ -98,24 +98,24 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// multiple jump labels
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("label")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewStringParam("abc")},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("label")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewStringParam("abc")},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewIntParam(0)},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewIntParam(0)},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewIntParam(0)},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewIntParam(0)},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -124,20 +124,20 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// no jump label
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -146,24 +146,24 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// unused jump label
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("label")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewStringParam("abc")},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("label")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewStringParam("abc")},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewIntParam(0)},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewIntParam(0)},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewIntParam(0)},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewIntParam(0)},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -172,24 +172,24 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// Fail: jump label that does not exist
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("luca")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewStringParam("abc")},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("luca")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewStringParam("abc")},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("luca")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewIntParam(0)},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("luca")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewIntParam(0)},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
@@ -198,24 +198,24 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		// Fail: multiple jump labels that do not exist
 		{
 			&Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("luca")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewStringParam("abc")},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("luca")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewStringParam("abc")},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"label": 0, "abcdario": 11},
 			},
 			Program{
-				[]Command{
-					Command{3, NewIntParam(1)},
-					Command{1, NewStringParam("luca")},
-					Command{5, NewIntParam(3)},
-					Command{2, NewIntParam(0)},
-					Command{1, NewStringParam("abc")},
-					Command{11, NewIntParam(15)},
+				[]Instruction{
+					Instruction{3, NewIntParam(1)},
+					Instruction{1, NewStringParam("luca")},
+					Instruction{5, NewIntParam(3)},
+					Instruction{2, NewIntParam(0)},
+					Instruction{1, NewStringParam("abc")},
+					Instruction{11, NewIntParam(15)},
 				},
 				map[string]int{"label": 0, "abcdario": 11},
 			},
@@ -236,19 +236,19 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 	}
 }
 
-func TestLenCommands(t *testing.T) {
+func TestLenInstructions(t *testing.T) {
 	program1 := NewProgram(5)
-	if program1.LenCommands() != 0 {
+	if program1.LenInstructions() != 0 {
 		t.Errorf("Wrong 1")
 	}
 
-	program2 := Program{[]Command{mockCommand(), mockCommand()}, map[string]int{}}
-	program2.AddCommand(mockCommand())
-	if program2.LenCommands() != 3 {
+	program2 := Program{[]Instruction{mockInstruction(), mockInstruction()}, map[string]int{}}
+	program2.AddInstruction(mockInstruction())
+	if program2.LenInstructions() != 3 {
 		t.Errorf("Wrong 1")
 	}
 }
-func mockCommand() Command {
-	cmd, _ := NewCommand(0, NewIntParam(1))
+func mockInstruction() Instruction {
+	cmd, _ := NewInstruction(0, NewIntParam(1))
 	return *cmd
 }
