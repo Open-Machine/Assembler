@@ -8,29 +8,30 @@ import (
 	"github.com/open-machine/assembler/utils"
 )
 
-func assembleEntireLine(line string) (*string, *data.Instruction, []myerrors.CustomError) {
+func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.CustomError) {
 	normalizedStr := utils.LineNormalization(line)
 
 	if normalizedStr == "" {
 		return nil, nil, nil
 	}
 
-	errs := make([]myerrors.CustomError, 0)
-
-	jumpLabel, restOfInstructionStr, errLabel := label.AssembleJumpLabel(normalizedStr)
+	// Jump Label
+	jumpLabel, restOfLine, errLabel := label.AssembleJumpLabel(normalizedStr)
 	if errLabel != nil {
-		errs = append(errs, *errLabel)
+		return nil, nil, errLabel
+	}
+	if jumpLabel != nil && restOfLine != "" {
+		return nil, nil, myerrors.NewCodeError(myerrors.MoreThanOneCommandInLine(restOfLine))
+	}
+	if jumpLabel != nil {
+		return jumpLabel, nil, nil
 	}
 
-	if restOfInstructionStr == "" {
-		return jumpLabel, nil, errs
+	// Instruction
+	instructionPointer, errInstruc := instruction.AssembleInstruction(restOfLine)
+	if errInstruc != nil {
+		return nil, nil, errInstruc
 	}
 
-	instructionPointer, errCmd := instruction.AssembleInstruction(restOfInstructionStr)
-
-	if errCmd != nil {
-		errs = append(errs, *errCmd)
-	}
-
-	return jumpLabel, instructionPointer, errs
+	return jumpLabel, instructionPointer, nil
 }

@@ -15,7 +15,7 @@ func AssembleJumpLabel(line string) (*string, string, *myerrors.CustomError) {
 	}
 
 	label := strings.TrimSpace(line[:indexOfColon])
-	restOfLine := strings.TrimSpace(line[indexOfColon+1:])
+	restOfLine := line[indexOfColon+1:]
 
 	if !utils.IsValidVarName(label) {
 		return nil, restOfLine, myerrors.NewCodeError(myerrors.InvalidLabelParam(label))

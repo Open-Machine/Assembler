@@ -9,32 +9,37 @@ import (
 
 func TestAssembleEntireLine(t *testing.T) {
 	var tests = []struct {
-		param            string
-		expectedLabel    *string
-		expectedCmd      *data.Instruction
-		amntErrsExpected int
+		param         string
+		expectedLabel *string
+		expectedCmd   *data.Instruction
+		isErrExpected bool
 	}{
-		// Success without label
-		{"", nil, nil, 0},
-		{" 	 ", nil, nil, 0},
-		{"	 	 	", nil, nil, 0},
-		{"	input 	1 ", nil, newInstruction(7, 1), 0},
-		{"	input 	0x1 ", nil, newInstruction(7, 1), 0},
-		// Fail without label
-		{"	inputa 	0x1 ", nil, nil, 1},
-		{"	inputa 	a0x1 ", nil, nil, 1},
-		// Success with label
-		{"	label: input 	0x1 ", helper.StringPointer("label"), newInstruction(7, 1), 0},
-		// Success only label
-		{"	label: ", helper.StringPointer("label"), nil, 0},
-		// Fail with label
-		{"	label: inputa 	0x1 ", helper.StringPointer("label"), nil, 1},
-		{"	1label: inputa 	0x1 ", nil, nil, 2},
-		{"	1label: input 	0x1 ", nil, newInstruction(7, 1), 1},
+		// Blank: Success
+		{"", nil, nil, false},
+		{"	 	 	", nil, nil, false},
+
+		// Instruction: Success
+		{"	input 	1 ", nil, newInstruction(7, 1), false},
+		{"	input 	0x1 ", nil, newInstruction(7, 1), false},
+		// Instruction: Fail
+		{"	inputa 	0x1 ", nil, nil, true},
+		{"	input 	a0x1 ", nil, nil, true},
+
+		// Label: Success
+		{"	label: ", helper.StringPointer("label"), nil, false},
+		// Label: Fail
+		{"	1label: input 	0x1 ", nil, nil, true},
+
+		// More than one: Fail
+		{"	label: input 	0x1 ", nil, nil, true},
+		{"	1label: input 0x1 ", nil, nil, true},
+
+		// Nothing: Fail (as instruction)
+		{"	; ", nil, nil, true},
 	}
 
 	for i, test := range tests {
-		gotLabel, gotCmd, errs := assembleEntireLine(test.param)
+		gotLabel, gotCmd, err := assembleEntireLine(test.param)
 
 		if !helper.SafeIsEqualInstructionPointer(test.expectedCmd, gotCmd) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expectedCmd, gotCmd)
@@ -44,8 +49,9 @@ func TestAssembleEntireLine(t *testing.T) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expectedLabel, gotLabel)
 		}
 
-		if len(errs) != test.amntErrsExpected {
-			t.Errorf("[%d] Amnt errors expected: %d, Errors: %v", i, test.amntErrsExpected, errs)
+		gotErr := err != nil
+		if gotErr != test.isErrExpected {
+			t.Errorf("[%d] Error expected: %t, Error expected: %t", i, test.isErrExpected, gotErr)
 		}
 	}
 }

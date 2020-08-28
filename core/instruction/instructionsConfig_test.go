@@ -6,7 +6,7 @@ func TestAmountInstructions(t *testing.T) {
 	cmdExplanations := GetInstructionsExplanation()
 
 	if len(cmdExplanations) != 12 {
-		t.Errorf("Expected 12 instructions explanations")
+		t.Errorf("Expected 12 instructions explanations! ALSO CHANGE 'INSTRUCTION_TEST.GO'")
 	}
 
 	for name, explanation := range cmdExplanations {

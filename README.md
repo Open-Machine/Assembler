@@ -63,23 +63,26 @@ A **variable, procedure or label name** should start with a letter and the rest 
 - Snake-case is not allowed and the use of camel-case is encouraged.
 
 ## Imports
-The important files cannot have any code outside procedures.
-Form: ```import {fileName}.asm```
-```sh
-import help.asm
-```
+- The important files cannot have any code outside procedures.
+- Form: ```import {fileName}.asm```
+- Example:
+	```sh
+	import help.asm
+	```
 
 ## Declaring Variables
-If you don't want to worry about the , you can declare some variables at the beginning of the code just after the imports.
-Form: ```declare {variableName} {number}```
-```sh
-declare variable 0xff
-```
+- The variables should be declared between the imports and instructions.
+- Form: ```declare {variableName} {number}```
+- Example
+	```sh
+	declare variable 0xff
+	```
+- Remember to follow the [naming practices](#naming-practices)
 
 ## Jump Label
 - Definition: it marks the line for possible jumps to that line;
 - Form: ```{labelName}:```
-	A line with a jump label should obey the following regex: ```^[\t ]*[a-z][a-zA-Z0-9]*$```
+- Remember to follow the [naming practices](#naming-practices)
 
 ## Instruction line
 ***Definition***
