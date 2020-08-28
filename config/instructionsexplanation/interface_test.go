@@ -1,13 +1,9 @@
-package instruction
+package instructionsexplanation
 
 import "testing"
 
 func TestAmountInstructions(t *testing.T) {
 	cmdExplanations := GetInstructionsExplanation()
-
-	if len(cmdExplanations) != 12 {
-		t.Errorf("Expected 12 instructions explanations! ALSO CHANGE 'INSTRUCTION_TEST.GO'")
-	}
 
 	for name, explanation := range cmdExplanations {
 		if explanation.Instruction == "" || explanation.Param == "" {
@@ -15,3 +11,7 @@ func TestAmountInstructions(t *testing.T) {
 		}
 	}
 }
+
+// TODO:
+// func GetInstructionsExplanationSorted() ([]string, map[string]InstructionExplanation) {
+// func GetInstructionExplanation(name string) (*InstructionExplanation, error) {

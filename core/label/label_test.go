@@ -3,7 +3,7 @@ package label
 import (
 	"testing"
 
-	"github.com/open-machine/assembler/utils/helper"
+	"github.com/open-machine/assembler/helper"
 )
 
 func TestAssembleJumpLabel(t *testing.T) {

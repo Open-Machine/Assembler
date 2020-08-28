@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/config/myerrors"
 	"strconv"
 )
 

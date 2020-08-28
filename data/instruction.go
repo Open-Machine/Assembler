@@ -2,13 +2,13 @@ package data
 
 import (
 	"github.com/open-machine/assembler/config"
-	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 )
 
 type Instruction struct {
 	instructionCode int
-	parameter   InstructionParameter
+	parameter       InstructionParameter
 }
 
 func NewInstruction(code int, param InstructionParameter) (*Instruction, *myerrors.CustomError) {

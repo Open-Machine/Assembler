@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/open-machine/assembler/config"
-	"github.com/open-machine/assembler/myerrors"
-	"github.com/open-machine/assembler/utils/helper"
+	"github.com/open-machine/assembler/config/myerrors"
+	"github.com/open-machine/assembler/helper"
 )
 
 func AssembleFile(path string, execFileNameParam *string) {
