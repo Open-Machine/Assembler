@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"assembler/myerrors"
+	"github.com/open-machine/assembler/myerrors"
 	"bytes"
 	"errors"
 	"fmt"

@@ -1,7 +1,7 @@
 package data
 
 import (
-	"assembler/config"
+	"github.com/open-machine/assembler/config"
 	"testing"
 )
 

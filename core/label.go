@@ -1,8 +1,8 @@
 package core
 
 import (
-	"assembler/myerrors"
-	"assembler/utils"
+	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/utils"
 	"strings"
 )
 

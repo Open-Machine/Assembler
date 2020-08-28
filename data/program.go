@@ -1,7 +1,7 @@
 package data
 
 import (
-	"assembler/myerrors"
+	"github.com/open-machine/assembler/myerrors"
 )
 
 type Program struct {

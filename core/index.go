@@ -1,11 +1,11 @@
 package core
 
 import (
-	"assembler/config"
-	"assembler/data"
-	"assembler/utils/helper"
-	"assembler/myerrors"
-	"assembler/utils"
+	"github.com/open-machine/assembler/config"
+	"github.com/open-machine/assembler/data"
+	"github.com/open-machine/assembler/utils/helper"
+	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/utils"
 	"bufio"
 	"fmt"
 	"io"

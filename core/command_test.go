@@ -1,8 +1,8 @@
 package core
 
 import (
-	"assembler/data"
-	"assembler/utils/helper"
+	"github.com/open-machine/assembler/data"
+	"github.com/open-machine/assembler/utils/helper"
 	"reflect"
 	"strings"
 	"testing"

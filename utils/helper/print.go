@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"assembler/myerrors"
+	"github.com/open-machine/assembler/myerrors"
 	"fmt"
 	"io"
 	"os"
@@ -43,7 +43,7 @@ func LogErrorInLine(customErr myerrors.CustomError, lineIndex int, line string) 
 		color = colorPurple
 
 		firstLine := fmt.Sprintf("[ASSEMBLER ERROR] Unexpected error while compiling line %d.", lineIndex)
-		lastLine := fmt.Sprintf("Please consider openning an ISSUE on Github: https://github.com/Open-Machine/Assembler/issues .")
+		lastLine := fmt.Sprintf("Please consider openning an ISSUE on Github: https://github.com/Open-Machine/github.com/open-machine/assembler/issues .")
 
 		beginningLines := append([]string{firstLine}, middleLines...)
 		lines = append(beginningLines, lastLine)

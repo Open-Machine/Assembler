@@ -1,9 +1,9 @@
 package data
 
 import (
-	"assembler/config"
-	"assembler/myerrors"
-	"assembler/utils"
+	"github.com/open-machine/assembler/config"
+	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/utils"
 )
 
 type Command struct {

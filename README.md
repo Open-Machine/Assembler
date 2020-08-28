@@ -178,4 +178,4 @@ You can use the flag ```--help``` to see the options
 ---
 
 # 📄 Contributing Guidelines
-Check out the contributing guidelines [here](https://github.com/Open-Machine/Assembler/blob/master/CONTRIBUTION.md).
+Check out the contributing guidelines [here](https://github.com/Open-Machine/github.com/open-machine/assemblerblob/master/CONTRIBUTION.md).

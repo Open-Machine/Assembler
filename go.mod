@@ -1,4 +1,4 @@
-module assembler
+module github.com/open-machine/assembler
 
 go 1.13
 
