@@ -1,7 +1,7 @@
 package core
 
 import (
-	"assembler/utils/helper"
+	"github.com/open-machine/assembler/utils/helper"
 	"testing"
 )
 

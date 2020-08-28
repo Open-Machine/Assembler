@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"assembler/data"
+	"github.com/open-machine/assembler/data"
 	"testing"
 )
 

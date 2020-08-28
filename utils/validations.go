@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"assembler/config"
+	"github.com/open-machine/assembler/config"
 	"math"
 	"regexp"
 )

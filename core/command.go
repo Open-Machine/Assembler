@@ -1,9 +1,9 @@
 package core
 
 import (
-	"assembler/data"
-	"assembler/myerrors"
-	"assembler/utils"
+	"github.com/open-machine/assembler/data"
+	"github.com/open-machine/assembler/myerrors"
+	"github.com/open-machine/assembler/utils"
 	"strings"
 )
 

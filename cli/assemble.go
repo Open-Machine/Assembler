@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"assembler/core"
+	"github.com/open-machine/assembler/core"
 	"strings"
 
 	"gopkg.in/alecthomas/kingpin.v2"

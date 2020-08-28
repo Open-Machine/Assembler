@@ -1,6 +1,6 @@
 package main
 
-import "assembler/cli"
+import "github.com/open-machine/assembler/cli"
 
 func main() {
 	cli.ConfigureCli()

@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"assembler/core"
-	"assembler/utils/helper"
+	"github.com/open-machine/assembler/core"
+	"github.com/open-machine/assembler/utils/helper"
 	"fmt"
 
 	"gopkg.in/alecthomas/kingpin.v2"
