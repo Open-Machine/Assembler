@@ -1,4 +1,4 @@
 package cli
 
-// TODO: test if the shell commands are returning the right AssembleCommand
+// TODO: test if the shell instructions are returning the right AssembleInstruction
 // TODO: test getSyntaxExample() -> check if the program compiles

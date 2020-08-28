@@ -1,11 +1,12 @@
-package core
+package instruction
 
 import (
-	"github.com/open-machine/assembler/data"
-	"github.com/open-machine/assembler/utils/helper"
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/open-machine/assembler/data"
+	"github.com/open-machine/assembler/utils/helper"
 )
 
 func TestGetNoParam(t *testing.T) {
@@ -18,7 +19,7 @@ func TestGetNoParam(t *testing.T) {
 func TestGetSecondParamAsInt(t *testing.T) {
 	var tests = []struct {
 		line       string
-		expected   *data.CommandParameter
+		expected   *data.InstructionParameter
 		expectsErr bool
 	}{
 		// Decimal Number
@@ -49,7 +50,7 @@ func TestGetSecondParamAsInt(t *testing.T) {
 			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsErr, gotError)
 		}
 
-		if !helper.SafeIsEqualCommandParamPointer(test.expected, got) {
+		if !helper.SafeIsEqualInstructionParamPointer(test.expected, got) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expected, got)
 		}
 
@@ -62,7 +63,7 @@ func TestGetSecondParamAsInt(t *testing.T) {
 func TestGetSecondParamAsIntOrString(t *testing.T) {
 	var tests = []struct {
 		line       string
-		expected   *data.CommandParameter
+		expected   *data.InstructionParameter
 		expectsErr bool
 	}{
 		// Decimal Number
@@ -95,7 +96,7 @@ func TestGetSecondParamAsIntOrString(t *testing.T) {
 			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsErr, gotError)
 		}
 
-		if !helper.SafeIsEqualCommandParamPointer(test.expected, got) {
+		if !helper.SafeIsEqualInstructionParamPointer(test.expected, got) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expected, got)
 		}
 
@@ -104,44 +105,44 @@ func TestGetSecondParamAsIntOrString(t *testing.T) {
 		}
 	}
 }
-func newCmdIntParam(num int) *data.CommandParameter {
+func newCmdIntParam(num int) *data.InstructionParameter {
 	param := data.NewIntParam(num)
 	return &param
 }
-func newCmdStringParam(str string) *data.CommandParameter {
+func newCmdStringParam(str string) *data.InstructionParameter {
 	param := data.NewStringParam(str)
 	return &param
 }
 
-func TestAssembleCommand(t *testing.T) {
-	if len(commands) != 12 {
+func TestAssembleInstruction(t *testing.T) {
+	if len(instructions) != 12 {
 		t.Errorf("Tests were not updated")
 	}
 
 	var tests = []struct {
 		line       string
-		expected   *data.Command
+		expected   *data.Instruction
 		expectsErr bool
 	}{
 		// Success Number
-		{"nop", getCommand(0x0, 0), false},
-		{"copy 0x10", getCommand(0x1, 16), false},
-		{"store 0x10", getCommand(0x2, 16), false},
-		{"add 10", getCommand(0x3, 10), false},
-		{"sub 10", getCommand(0x4, 10), false},
-		{"input 7", getCommand(0x7, 7), false},
-		{"output 8", getCommand(0x8, 8), false},
-		{"kill", getCommand(0x9, 0), false},
-		{"jmp 0x8", getCommand(0xA, 8), false},
-		{"jg 0x8", getCommand(0xB, 8), false},
-		{"je 0x8", getCommand(0xD, 8), false},
-		{"jl 0x8", getCommand(0xF, 8), false},
+		{"nop", getInstruction(0x0, 0), false},
+		{"copy 0x10", getInstruction(0x1, 16), false},
+		{"store 0x10", getInstruction(0x2, 16), false},
+		{"add 10", getInstruction(0x3, 10), false},
+		{"sub 10", getInstruction(0x4, 10), false},
+		{"input 7", getInstruction(0x7, 7), false},
+		{"output 8", getInstruction(0x8, 8), false},
+		{"kill", getInstruction(0x9, 0), false},
+		{"jmp 0x8", getInstruction(0xA, 8), false},
+		{"jg 0x8", getInstruction(0xB, 8), false},
+		{"je 0x8", getInstruction(0xD, 8), false},
+		{"jl 0x8", getInstruction(0xF, 8), false},
 		// Success Label
-		{"jmp label", getCommandStr(0xA, "label"), false},
-		{"jg label", getCommandStr(0xB, "label"), false},
-		{"je label", getCommandStr(0xD, "label"), false},
-		{"jl label", getCommandStr(0xF, "label"), false},
-		// Fail: Wrong Command
+		{"jmp label", getInstructionStr(0xA, "label"), false},
+		{"jg label", getInstructionStr(0xB, "label"), false},
+		{"je label", getInstructionStr(0xD, "label"), false},
+		{"jl label", getInstructionStr(0xF, "label"), false},
+		// Fail: Wrong Instruction
 		{"nope", nil, true},
 		// Fail: No label as param
 		{"copy label", nil, true},
@@ -159,29 +160,29 @@ func TestAssembleCommand(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		got, err := AssembleCommand(test.line)
+		got, err := AssembleInstruction(test.line)
 		gotError := err != nil
 
 		if test.expectsErr != gotError {
 			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsErr, gotError)
 		}
-		if !helper.SafeIsEqualCommandPointer(test.expected, got) {
-			t.Errorf("Command expected is: %v, Got expected is: %v", test.expected, got)
+		if !helper.SafeIsEqualInstructionPointer(test.expected, got) {
+			t.Errorf("Instruction expected is: %v, Got expected is: %v", test.expected, got)
 		}
 	}
 }
-func getCommand(code int, param int) *data.Command {
-	cmd, _ := data.NewCommand(code, data.NewIntParam(param))
+func getInstruction(code int, param int) *data.Instruction {
+	cmd, _ := data.NewInstruction(code, data.NewIntParam(param))
 	return cmd
 }
-func getCommandStr(code int, param string) *data.Command {
-	cmd, _ := data.NewCommand(code, data.NewStringParam(param))
+func getInstructionStr(code int, param string) *data.Instruction {
+	cmd, _ := data.NewInstruction(code, data.NewStringParam(param))
 	return cmd
 }
 
-func TestGetCommandParams(t *testing.T) {
+func TestGetInstructionParams(t *testing.T) {
 	expected := []string{"0x1", "1", "label"}
-	got := getCommandParams([]string{"mov", "0x1", "1", "label"})
+	got := getInstructionParams([]string{"mov", "0x1", "1", "label"})
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf("Error")
 	}

@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-func CommandCodeOverflow(commandCode int, amntBits int) error {
-	return fmt.Errorf("Command code '%b' overflows %d bits", commandCode, amntBits)
+func InstructionCodeOverflow(instructionCode int, amntBits int) error {
+	return fmt.Errorf("Instruction code '%b' overflows %d bits", instructionCode, amntBits)
 }
 
 func ParamOverflow(param int, amntBits int) error {
@@ -34,10 +34,10 @@ func InvalidParamInt(param string, err error) error {
 }
 
 func InvalidStateTransformationToExecuterError() error {
-	return errors.New("Invalid State: Cannot transform command to executer while parameter is still a label")
+	return errors.New("Invalid State: Cannot transform instruction to executer while parameter is still a label")
 }
 
-func WrongNumberOfParamsError(command string, amntExpected int, amntReceived int, params []string) error {
+func WrongNumberOfParamsError(instruction string, amntExpected int, amntReceived int, params []string) error {
 	strParameters := ""
 	if len(params) == 0 {
 		strParameters = "no params"
@@ -50,11 +50,11 @@ func WrongNumberOfParamsError(command string, amntExpected int, amntReceived int
 		}
 	}
 
-	return fmt.Errorf("The command '%s' requires %d parameters, but received %d parameters (parameters: %s)", command, amntExpected, amntReceived, strParameters)
+	return fmt.Errorf("The instruction '%s' requires %d parameters, but received %d parameters (parameters: %s)", instruction, amntExpected, amntReceived, strParameters)
 }
 
-func CommandDoesNotExistError(commandStr string) error {
-	return fmt.Errorf("Command '%s' does not exist", commandStr)
+func InstructionDoesNotExistError(instructionStr string) error {
+	return fmt.Errorf("Instruction '%s' does not exist", instructionStr)
 }
 
 func InvalidNumberParamParseToHexStrError(num int, strLength int, hexStr string) error {

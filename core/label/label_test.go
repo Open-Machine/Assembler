@@ -1,8 +1,9 @@
-package core
+package label
 
 import (
-	"github.com/open-machine/assembler/utils/helper"
 	"testing"
+
+	"github.com/open-machine/assembler/utils/helper"
 )
 
 func TestAssembleJumpLabel(t *testing.T) {

@@ -33,7 +33,7 @@ func SafeIsEqualProgramPointer(a *data.Program, b *data.Program) bool {
 	return reflect.DeepEqual(*a, *b)
 }
 
-func SafeIsEqualCommandPointer(a *data.Command, b *data.Command) bool {
+func SafeIsEqualInstructionPointer(a *data.Instruction, b *data.Instruction) bool {
 	if a == nil && b == nil {
 		return true
 	}
@@ -47,7 +47,7 @@ func SafeIsEqualCommandPointer(a *data.Command, b *data.Command) bool {
 	return *a == *b
 }
 
-func SafeIsEqualCommandParamPointer(a *data.CommandParameter, b *data.CommandParameter) bool {
+func SafeIsEqualInstructionParamPointer(a *data.InstructionParameter, b *data.InstructionParameter) bool {
 	if a == nil && b == nil {
 		return true
 	}

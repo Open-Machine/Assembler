@@ -7,9 +7,9 @@ import (
 )
 
 func ConfigureCli() {
-	kingpin.Version("1.0.0")
+	kingpin.Version("0.0.1")
 
-	app := kingpin.New("assembler", "Assembler command line tool.")
+	app := kingpin.New("assembly", "Assembler instruction line tool.")
 
 	ConfigureAssembleCommand(app)
 	ConfigureSyntaxCommand(app)
