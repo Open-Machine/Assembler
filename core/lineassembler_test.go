@@ -18,6 +18,11 @@ func TestAssembleEntireLine(t *testing.T) {
 		{"", nil, nil, false},
 		{"	 	 	", nil, nil, false},
 
+		// With comment
+		{"input 1#Hello World ", nil, newInstruction(7, 1), false},
+		{"hello:#Hello World ", helper.StringPointer("hello"), nil, false},
+		{"input #1 ", nil, nil, true},
+
 		// Instruction: Success
 		{"	input 	1 ", nil, newInstruction(7, 1), false},
 		{"	input 	0x1 ", nil, newInstruction(7, 1), false},
@@ -36,6 +41,9 @@ func TestAssembleEntireLine(t *testing.T) {
 
 		// Nothing: Fail (as instruction)
 		{"	; ", nil, nil, true},
+
+		//  : Fail
+		// {"	; ", nil, nil, true},
 	}
 
 	for i, test := range tests {

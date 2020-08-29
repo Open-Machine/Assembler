@@ -1,22 +1,25 @@
 package core
 
 import (
+	"github.com/open-machine/assembler/config/myerrors"
+	"github.com/open-machine/assembler/core/comment"
 	"github.com/open-machine/assembler/core/instruction"
 	"github.com/open-machine/assembler/core/label"
 	"github.com/open-machine/assembler/data"
-	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 )
 
 func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.CustomError) {
 	normalizedStr := utils.LineNormalization(line)
 
-	if normalizedStr == "" {
+	lineWithoutCommand := comment.RemoveComment(normalizedStr)
+
+	if lineWithoutCommand == "" {
 		return nil, nil, nil
 	}
 
 	// Jump Label
-	jumpLabel, restOfLine, errLabel := label.AssembleJumpLabel(normalizedStr)
+	jumpLabel, restOfLine, errLabel := label.AssembleJumpLabel(lineWithoutCommand)
 	if errLabel != nil {
 		return nil, nil, errLabel
 	}

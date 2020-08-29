@@ -19,7 +19,7 @@ func TestSameKeysAsConfig(t *testing.T) {
 		t.Errorf("Amnt of explanations on the config and explanations are different!")
 	}
 
-	for explanationKey, _ := range instructionsExplanation {
+	for explanationKey := range instructionsExplanation {
 		_, exists := instructions[explanationKey]
 		if !exists {
 			t.Errorf("Instruction '%s' has explanation but no configuration!", explanationKey)
