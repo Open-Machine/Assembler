@@ -3,8 +3,8 @@ package instruction
 import (
 	"strings"
 
-	"github.com/open-machine/assembler/data"
 	"github.com/open-machine/assembler/config/myerrors"
+	"github.com/open-machine/assembler/data"
 	"github.com/open-machine/assembler/utils"
 )
 
@@ -60,7 +60,7 @@ func getSecondWord(instructionName string, words []string, acceptStringParam boo
 
 	strParam := words[1]
 
-	if acceptStringParam && utils.IsValidVarName(strParam) {
+	if acceptStringParam && utils.IsValidName(strParam) {
 		param := data.NewStringParam(strParam)
 		return &param, nil
 	}
