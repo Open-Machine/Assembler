@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/open-machine/assembler/utils"
+
 	"github.com/open-machine/assembler/config"
 	"github.com/open-machine/assembler/data"
 	"github.com/open-machine/assembler/helper"
 )
 
-func programFromFile(file io.Reader) *data.Program {
-	reader := bufio.NewReader(file)
+func programFromFile(file utils.MyFileInterface) *data.Program {
+	reader := bufio.NewReader(file.Reader())
 	lineIndex := 1
 	program := data.NewProgram(0)
 

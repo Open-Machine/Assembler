@@ -19,7 +19,9 @@ func TestAssembleEntireLine(t *testing.T) {
 		{"	 	 	", nil, nil, false},
 
 		// With comment
+		{"# Hello World", nil, nil, false},
 		{"input 1#Hello World ", nil, newInstruction(7, 1), false},
+		{"input 1  #Hello World ", nil, newInstruction(7, 1), false},
 		{"hello:#Hello World ", helper.StringPointer("hello"), nil, false},
 		{"input #1 ", nil, nil, true},
 

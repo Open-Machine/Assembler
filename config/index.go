@@ -9,6 +9,8 @@ const VariableNameRegex = "^[a-z][a-zA-Z0-9]*$"
 
 const AssemblyFileExtension = ".asm"
 
+const AssemblyExampleFile = "assembly.asm"
+
 const (
 	SuccessStatus = 0
 	FailStatus    = 1
