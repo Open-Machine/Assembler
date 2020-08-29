@@ -1,6 +1,8 @@
 package core
 
 import (
+	"strings"
+
 	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/core/comment"
 	"github.com/open-machine/assembler/core/instruction"
@@ -13,6 +15,7 @@ func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.Cust
 	normalizedStr := utils.LineNormalization(line)
 
 	lineWithoutCommand := comment.RemoveComment(normalizedStr)
+	lineWithoutCommand = strings.TrimSpace(lineWithoutCommand)
 
 	if lineWithoutCommand == "" {
 		return nil, nil, nil

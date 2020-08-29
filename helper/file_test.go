@@ -14,6 +14,7 @@ func TestFileNameWithoutExtension(t *testing.T) {
 		{"FileA.txt", "FileA"},
 		{"FileA.hello", "FileA"},
 		{"aaa.bbb", "aaa"},
+		{".aaa.bbb", ".aaa"},
 	}
 
 	for _, test := range tests {

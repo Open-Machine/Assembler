@@ -2,6 +2,9 @@ package cli
 
 import (
 	"fmt"
+	"io/ioutil"
+
+	"github.com/open-machine/assembler/config"
 
 	"github.com/open-machine/assembler/config/instructionsexplanation"
 	"github.com/open-machine/assembler/helper"
@@ -71,6 +74,15 @@ func (data *SyntaxInstruction) run(c *kingpin.ParseContext) error {
 	}
 
 	return err
+}
+
+func getAssemblyExample() (string, error) {
+	buf, err := ioutil.ReadFile("../" + config.AssemblyExampleFile)
+	if err != nil {
+		return "", err
+	}
+	fileString := string(buf)
+	return fileString, nil
 }
 
 func listInstructions() []string {
