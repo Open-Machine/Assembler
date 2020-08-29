@@ -54,7 +54,8 @@ func TestIsValidVarName(t *testing.T) {
 		// [FAIL] Blank
 		{"", false},
 		// Reserved words
-		{"jmp", true},
+		{"jmp", false},
+		{"copy", false},
 	}
 
 	for _, test := range tests {
