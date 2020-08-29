@@ -1,6 +1,8 @@
 package comment
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestRemoveComment(t *testing.T) {
 	tests := []struct {

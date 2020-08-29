@@ -14,11 +14,6 @@ import (
 )
 
 func TestProgramFromFile(t *testing.T) {
-	stdout := helper.Out
-	defer func() { helper.Out = stdout }()
-	stderr := helper.Err
-	defer func() { helper.Err = stderr }()
-
 	var tests = []struct {
 		lines      []string
 		expected   *data.Program
@@ -123,8 +118,8 @@ func TestProgramFromFile(t *testing.T) {
 			}
 		}
 
-		helper.Out = new(bytes.Buffer)
-		helper.Err = new(bytes.Buffer)
+		config.Out = new(bytes.Buffer)
+		config.Err = new(bytes.Buffer)
 
 		f := utils.NewMyBufferAsFile(strings.NewReader(str), "file.asm")
 		got := programFromFile(&f)
@@ -133,7 +128,7 @@ func TestProgramFromFile(t *testing.T) {
 			t.Errorf("[%d] Expected: %v, Got: %v", i, test.expected, got)
 		}
 
-		stderrStr := helper.Err.(*bytes.Buffer).String()
+		stderrStr := config.Err.(*bytes.Buffer).String()
 		gotErr := stderrStr != ""
 		if test.expectsErr != gotErr {
 			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsErr, gotErr)
@@ -147,17 +142,10 @@ func newProgramPointer(instructions []data.Instruction, jumpLabelsDict map[strin
 }
 
 func TestWriteAssembledFile(t *testing.T) {
-	stdout := helper.Out
-	helper.Out = new(bytes.Buffer)
-	defer func() { helper.Out = stdout }()
+	config.Out = new(bytes.Buffer)
+	config.Err = new(bytes.Buffer)
 
-	stderr := helper.Err
-	helper.Err = new(bytes.Buffer)
-	defer func() { helper.Err = stderr }()
-
-	oldTesting := config.Testing
 	config.Testing = true
-	defer func() { config.Testing = oldTesting }()
 
 	var tests = []struct {
 		param           data.Program
@@ -218,7 +206,7 @@ func TestWriteAssembledFile(t *testing.T) {
 			t.Errorf("[%d] Expected file str: %v, Got file str: %v", i, test.expectedFileStr, gotFileStr)
 		}
 
-		stderrStr := helper.Err.(*bytes.Buffer).String()
+		stderrStr := config.Err.(*bytes.Buffer).String()
 		gotErr := stderrStr != ""
 		if test.expectsErr != gotErr {
 			t.Errorf("[%d] Expected error: %t, Got error: %t // ", i, test.expectsErr, gotErr)
