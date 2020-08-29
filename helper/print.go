@@ -1,14 +1,12 @@
 package helper
 
 import (
-	"github.com/open-machine/assembler/config/myerrors"
 	"fmt"
 	"io"
-	"os"
-)
 
-var Out io.Writer = os.Stdout
-var Err io.Writer = os.Stderr
+	"github.com/open-machine/assembler/config"
+	"github.com/open-machine/assembler/config/myerrors"
+)
 
 var colorReset = "\033[0m"
 var colorRed = "\033[31m"
@@ -19,16 +17,16 @@ var colorWhite = "\033[37m"
 
 func LogInfo(str string) {
 	formatedStr := fmt.Sprintf("[INFO] %s \n", str)
-	println(Out, colorWhite, formatedStr)
+	println(config.Out, colorWhite, formatedStr)
 }
 
 func PrintlnExplanation(str string) {
-	println(Out, colorWhite, str)
+	println(config.Out, colorWhite, str)
 }
 
 func LogWarning(str string) {
 	formatedStr := fmt.Sprintf("[Warning] %s \n", str)
-	println(Err, colorYellow, formatedStr)
+	println(config.Err, colorYellow, formatedStr)
 }
 
 func LogErrorInLine(customErr myerrors.CustomError, lineIndex int, line string) {
@@ -55,13 +53,13 @@ func LogErrorInLine(customErr myerrors.CustomError, lineIndex int, line string) 
 	}
 
 	for _, formatedStr := range lines {
-		println(Err, string(color), formatedStr)
+		println(config.Err, string(color), formatedStr)
 	}
 }
 
 func LogOtherError(str string) {
 	formatedStr := fmt.Sprintf("[ERROR] %s", str)
-	println(Err, colorRed, formatedStr)
+	println(config.Err, colorRed, formatedStr)
 }
 
 func println(writer io.Writer, color string, str string) {

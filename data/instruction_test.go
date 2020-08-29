@@ -1,8 +1,9 @@
 package data
 
 import (
-	"github.com/open-machine/assembler/config"
 	"testing"
+
+	"github.com/open-machine/assembler/config"
 )
 
 func TestNewInstructionOverflowValidation(t *testing.T) {
@@ -54,7 +55,7 @@ func TestNewInstructionWrongStringParam(t *testing.T) {
 
 func TestToExecuter(t *testing.T) {
 	var tests = []struct {
-		instruction      Instruction
+		instruction  Instruction
 		expected     string
 		expectsError bool
 	}{
@@ -80,9 +81,6 @@ func TestToExecuter(t *testing.T) {
 }
 
 func TestNewInstructionTest(t *testing.T) {
-	oldTesting := config.Testing
-	defer func() { config.Testing = oldTesting }()
-
 	code := 300
 	param := NewIntParam(300)
 

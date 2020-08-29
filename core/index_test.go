@@ -31,11 +31,7 @@ type testInfoAssembleFile struct {
 }
 
 func TestAssembleFileAux(t *testing.T) {
-	stderr := helper.Err
-	defer func() { helper.Err = stderr }()
-	stdout := helper.Out
-	defer func() { helper.Out = stdout }()
-	helper.Out = new(bytes.Buffer)
+	config.Out = new(bytes.Buffer)
 
 	tests := []testInfoAssembleFile{
 		// Wrong file extension
@@ -91,7 +87,7 @@ func TestAssembleFileAux(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		helper.Err = new(bytes.Buffer)
+		config.Err = new(bytes.Buffer)
 
 		str := ""
 		for i, line := range test.lines {
@@ -116,7 +112,7 @@ func TestAssembleFileAux(t *testing.T) {
 
 		statusGot, strGot := assembleFile(test.fileName, test.execFileName, ioReaderFromPath, ioWriterFromPath)
 
-		stderrStr := helper.Err.(*bytes.Buffer).String()
+		stderrStr := config.Err.(*bytes.Buffer).String()
 		stderrLines := strings.Split(stderrStr, "\n")
 		errorsStr := ""
 		for _, line := range stderrLines {
@@ -184,9 +180,7 @@ func getFailTestInfo(lines []string, fileName string, execFileName *string, subs
 }
 
 func TestAssemblyCompiledExample(t *testing.T) {
-	stderr := helper.Err
-	defer func() { helper.Err = stderr }()
-	helper.Err = new(bytes.Buffer)
+	config.Err = new(bytes.Buffer)
 
 	exampleFileName := "../" + config.AssemblyExampleFile
 
@@ -217,7 +211,7 @@ func TestAssemblyCompiledExample(t *testing.T) {
 		t.Errorf("Expected fila name without extension. File name: '%s', Got: '%s'", exampleFileName, strGot)
 	}
 
-	stderrStr := helper.Err.(*bytes.Buffer).String()
+	stderrStr := config.Err.(*bytes.Buffer).String()
 	if stderrStr != "" {
 		t.Errorf("No errors expected, but stderr is not empty: '%s'", stderrStr)
 	}
