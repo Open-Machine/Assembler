@@ -1,24 +1,57 @@
 package cli
 
 import (
+	"bytes"
+	"io"
 	"strings"
 	"testing"
+
+	"github.com/open-machine/assembler/config"
+	"github.com/open-machine/assembler/core"
+	"github.com/open-machine/assembler/utils"
 )
 
-// TODO: test if the shell instructions are returning the right AssembleInstruction
-// TODO: test getSyntaxExample() -> check if the program compiles
+// TODO: test if the shell commands are printing right or returning the right AssembleInstruction (change os.Args)
 
 func TestAssemblyCompiledExample(t *testing.T) {
-	fileString, err := getAssemblyExample()
+	config.Err = new(bytes.Buffer)
+	fileOutput := new(bytes.Buffer)
 
-	if err != nil {
-		t.Errorf("Could not open file. Err: '%s'", err.Error())
+	assemblyLines := GetAssemblyExample()
+	assemblyCodeStr := ""
+	for _, line := range assemblyLines {
+		assemblyCodeStr += line + "\n"
 	}
 
-	replaced := strings.ReplaceAll(fileString, " ", "")
-	replaced = strings.ReplaceAll(fileString, "\n", "")
-	replaced = strings.ReplaceAll(fileString, "\r", "")
-	if replaced == "" {
-		t.Errorf("Blank file")
+	exampleFileName := "file.asm"
+
+	ioReaderFromPath := func(string) (utils.MyFileInterface, error) {
+		reader := strings.NewReader(assemblyCodeStr)
+		myFile := utils.NewMyBufferAsFile(reader, exampleFileName)
+		return &myFile, nil
+	}
+	ioWriterFromPath := func(string) (io.Writer, error) {
+		return fileOutput, nil
+	}
+
+	statusGot, strGot := core.AssembleFileAux("file.asm", nil, ioReaderFromPath, ioWriterFromPath)
+
+	if statusGot != config.SuccessStatus {
+		t.Errorf("Expected Success Status, but got %d", statusGot)
+	}
+
+	fileOutputStr := fileOutput.String()
+	replacedFileOutputStr := strings.ReplaceAll(fileOutputStr, " ", "")
+	if replacedFileOutputStr == "" {
+		t.Errorf("File shouldnt be empty. File output str: '%s'", fileOutputStr)
+	}
+
+	if strings.Index(exampleFileName, strGot) != 0 {
+		t.Errorf("Expected file name without extension. File name: '%s', Got: '%s'", exampleFileName, strGot)
+	}
+
+	stderrStr := config.Err.(*bytes.Buffer).String()
+	if stderrStr != "" {
+		t.Errorf("No errors expected, but stderr is not empty: '%s'", stderrStr)
 	}
 }

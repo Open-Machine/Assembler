@@ -1,3 +1,3 @@
 package cli
 
-// TODO: test if the shell instructions are returning the right AssembleInstruction
+// TODO: test if the shell commands are printing right or returning the right AssembleInstruction (change os.Args)
