@@ -18,8 +18,8 @@ func NewInstruction(code int, param InstructionParameter) (*Instruction, *myerro
 	}
 
 	if param.IsStr {
-		if !utils.IsValidVarName(param.Str) {
-			err := myerrors.InvalidLabelParam(param.Str)
+		err := utils.CheckParamName(param.Str)
+		if err != nil {
 			return nil, myerrors.NewAssemblerError(err)
 		}
 	} else {

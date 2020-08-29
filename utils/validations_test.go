@@ -1,6 +1,8 @@
 package utils
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestOverflow(t *testing.T) {
 	var tests = []struct {
@@ -30,39 +32,51 @@ func TestOverflow(t *testing.T) {
 func TestIsValidVarName(t *testing.T) {
 	var tests = []struct {
 		param    string
-		expected bool
+		expected int
 	}{
 		// cammelCase
-		{"var", true},
-		{"vaR", true},
-		{"varName", true},
+		{"var", validName},
+		{"vaR", validName},
+		{"varName", validName},
 		// [FAIL] snake_case
-		{"var_name", false},
+		{"var_name", invalidNameRegex},
 		// [FAIL] PascalCase
-		{"Var", false},
+		{"Var", invalidNameRegex},
 		// [FAIL] ALLUPERCASE
-		{"VAR", false},
+		{"VAR", invalidNameRegex},
 		// [FAIL] Special*Characters
-		{"va.", false},
-		{"va.r", false},
-		{"va-r", false},
-		{"va*r", false},
-		{"va^r", false},
-		{"va&r", false},
-		{"&var", false},
-		{"var&", false},
+		{"va.", invalidNameRegex},
+		{"va.r", invalidNameRegex},
+		{"va-r", invalidNameRegex},
+		{"va*r", invalidNameRegex},
+		{"va^r", invalidNameRegex},
+		{"va&r", invalidNameRegex},
+		{"&var", invalidNameRegex},
+		{"var&", invalidNameRegex},
 		// [FAIL] Blank
-		{"", false},
+		{"", invalidNameRegex},
 		// Reserved words
-		{"jmp", false},
-		{"copy", false},
+		{"jmp", reservedWord},
+		{"copy", reservedWord},
 	}
 
 	for _, test := range tests {
-		got := IsValidVarName(test.param)
+		got := nameStatus(test.param)
 
 		if test.expected != got {
-			t.Errorf("For var name '%s': Expected: %t, Got: %t", test.param, test.expected, got)
+			t.Errorf("For var name '%s': Expected: %d, Got: %d", test.param, test.expected, got)
+		}
+
+		gotError := got != validName
+
+		gotParam := CheckParamName(test.param)
+		gotErrorParam := gotParam != nil
+
+		gotJump := CheckJumpLabelName(test.param)
+		gotErrorJump := gotJump != nil
+
+		if !(gotError == gotErrorParam && gotError == gotErrorJump) {
+			t.Errorf("CheckParamName and CheckJumpLabelName have is error returns. General got error: %t, Jump got error: %t, Param got error: %t", gotError, gotErrorJump, gotErrorParam)
 		}
 	}
 }

@@ -4,6 +4,8 @@ import (
 	"math"
 	"regexp"
 
+	"github.com/open-machine/assembler/config/myerrors"
+
 	"github.com/open-machine/assembler/config"
 	"github.com/open-machine/assembler/config/instructionsexplanation"
 )
@@ -13,17 +15,29 @@ func IsOverflow(num uint, availableBits int) bool {
 	return num >= uint(math.Floor(largestNumber))
 }
 
-func IsValidVarName(varName string) bool {
+func IsValidName(varName string) bool {
+	return nameStatus(varName) == validName
+}
+
+const (
+	validName        = iota
+	invalidNameRegex = iota
+	reservedWord     = iota
+)
+
+func nameStatus(varName string) int {
 	if isReservedWord(varName) {
-		return false
+		return reservedWord
 	}
 
 	matched, err := regexp.MatchString(config.VariableNameRegex, varName)
-	return matched && err == nil
+	isValidName := matched && err == nil
+	if !isValidName {
+		return invalidNameRegex
+	}
+	return validName
 }
 
-// TODO: check valid name
-// TODO: use to validate name
 func isReservedWord(varName string) bool {
 	instructions := instructionsexplanation.GetInstructionsExplanation()
 	for instructionName, _ := range instructions {
@@ -32,4 +46,26 @@ func isReservedWord(varName string) bool {
 		}
 	}
 	return false
+}
+
+func CheckParamName(varName string) error {
+	status := nameStatus(varName)
+	if status == invalidNameRegex {
+		return myerrors.InvalidParamLabel(varName)
+	}
+	if status == reservedWord {
+		return myerrors.ReservedWordParamError(varName)
+	}
+	return nil
+}
+
+func CheckJumpLabelName(varName string) error {
+	status := nameStatus(varName)
+	if status == invalidNameRegex {
+		return myerrors.InvalidJumpLabel(varName)
+	}
+	if status == reservedWord {
+		return myerrors.ReservedWordJumpLabelError(varName)
+	}
+	return nil
 }
