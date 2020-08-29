@@ -15,7 +15,7 @@ import (
 func AssembleFile(path string, execFileNameParam *string) {
 	helper.LogInfo(fmt.Sprintf("========= Starting to assemble '%s' =========", path))
 
-	status, execFileName := assembleFile(path, execFileNameParam, ioReaderFromPath, ioWriterFromPath)
+	status, execFileName := AssembleFileAux(path, execFileNameParam, ioReaderFromPath, ioWriterFromPath)
 
 	if status == config.FailStatus {
 		helper.LogOtherError(fmt.Sprintf("========= Failed to assemble %s =========", path))
@@ -40,7 +40,7 @@ func ioWriterFromPath(path string) (io.Writer, error) {
 type ioReaderFromPathFun func(string) (utils.MyFileInterface, error)
 type ioWriterFromPathFun func(string) (io.Writer, error)
 
-func assembleFile(path string, execFileNameParam *string, ioReaderFromPath ioReaderFromPathFun, ioWriterFromPath ioWriterFromPathFun) (int, string) {
+func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath ioReaderFromPathFun, ioWriterFromPath ioWriterFromPathFun) (int, string) {
 	if helper.FileExtension(path) != config.AssemblyFileExtension {
 		helper.LogOtherError(fmt.Sprintf("Invalid extension: assembly file should have '%s' extension.", config.AssemblyFileExtension))
 		return config.FailStatus, ""

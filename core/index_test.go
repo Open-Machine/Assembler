@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"io"
-	"os"
 	"strings"
 	"testing"
 
@@ -110,7 +109,7 @@ func TestAssembleFileAux(t *testing.T) {
 			return fileOutput, test.openExecErr
 		}
 
-		statusGot, strGot := assembleFile(test.fileName, test.execFileName, ioReaderFromPath, ioWriterFromPath)
+		statusGot, strGot := AssembleFileAux(test.fileName, test.execFileName, ioReaderFromPath, ioWriterFromPath)
 
 		stderrStr := config.Err.(*bytes.Buffer).String()
 		stderrLines := strings.Split(stderrStr, "\n")
@@ -176,43 +175,5 @@ func getFailTestInfo(lines []string, fileName string, execFileName *string, subs
 		machineCodeOutput: nil,
 		strReturn:         "",
 		substringErrors:   substringErrors,
-	}
-}
-
-func TestAssemblyCompiledExample(t *testing.T) {
-	config.Err = new(bytes.Buffer)
-
-	exampleFileName := "../" + config.AssemblyExampleFile
-
-	fileOutput := new(bytes.Buffer)
-
-	ioReaderFromPath := func(string) (utils.MyFileInterface, error) {
-		file, err := os.Open(exampleFileName)
-		myFile := utils.NewMyFile(*file)
-		return &myFile, err
-	}
-	ioWriterFromPath := func(string) (io.Writer, error) {
-		return fileOutput, nil
-	}
-
-	statusGot, strGot := assembleFile("file.asm", nil, ioReaderFromPath, ioWriterFromPath)
-
-	if statusGot != config.SuccessStatus {
-		t.Errorf("Expected Success Status, but got %d", statusGot)
-	}
-
-	fileOutputStr := fileOutput.String()
-	replacedFileOutputStr := strings.ReplaceAll(fileOutputStr, " ", "")
-	if replacedFileOutputStr == "" {
-		t.Errorf("File shouldnt be empty. File output str: '%s'", fileOutputStr)
-	}
-
-	if strings.Index(exampleFileName, strGot) != 0 {
-		t.Errorf("Expected fila name without extension. File name: '%s', Got: '%s'", exampleFileName, strGot)
-	}
-
-	stderrStr := config.Err.(*bytes.Buffer).String()
-	if stderrStr != "" {
-		t.Errorf("No errors expected, but stderr is not empty: '%s'", stderrStr)
 	}
 }
