@@ -14,6 +14,10 @@ func IsOverflow(num uint, availableBits int) bool {
 }
 
 func IsValidVarName(varName string) bool {
+	if isReservedWord(varName) {
+		return false
+	}
+
 	matched, err := regexp.MatchString(config.VariableNameRegex, varName)
 	return matched && err == nil
 }

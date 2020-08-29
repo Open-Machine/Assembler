@@ -42,8 +42,8 @@ func TestAssembleEntireLine(t *testing.T) {
 		// Nothing: Fail (as instruction)
 		{"	; ", nil, nil, true},
 
-		//  : Fail
-		// {"	; ", nil, nil, true},
+		// Reserved word: Fail
+		{"copy: ", nil, nil, true},
 	}
 
 	for i, test := range tests {
