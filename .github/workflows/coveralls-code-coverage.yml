@@ -32,10 +32,6 @@ jobs:
             dep ensure
         fi
 
-    - name: make test-coverage
-      run: |
-        make test-coverage
-
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
