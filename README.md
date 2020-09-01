@@ -1,3 +1,23 @@
+<h1 align="center">Assembler - from Open Machine</h1>
+<div align="center">
+
+<a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
+<a href="https://github.com/Open-Machine/Assembler/network/members"><img src="https://img.shields.io/github/forks/Open-Machine/Assembler" alt="Forks Badge"/></a>
+<a href="https://github.com/Open-Machine/Assembler/pulls"><img src="https://img.shields.io/github/issues-pr/Open-Machine/Assembler" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/Open-Machine/Assembler/issues"><img src="https://img.shields.io/github/issues/Open-Machine/Assembler" alt="Issues Badge"/></a>
+<a href="https://github.com/Open-Machine/Assembler/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Open-Machine/Assembler?color=2b9348"></a>
+<a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9348" alt="License Badge"/></a>
+
+<img src="https://raw.githubusercontent.com/Open-Machine/README/master/Media/logo-horizontal.png" alt="open-machine"/>
+
+<br/>
+<i>The goal is to to design and build a computer from scratch only using logical gates to do so.<i/>
+<br/>
+
+<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project<a/>: developing a computer from scratch with its <a href="https://github.com/Open-Machine/Assembler">assembler<a/> and compiler.
+
+</div>
+
 # Assembler
 A program that transforms assembly code into machine code.
 
