@@ -18,9 +18,6 @@
 
 </div>
 
-## Objective
-Understand how a computer works behind the curtains and maybe do some things my way.
-
 ---
 
 # 🔖 Table of Contents
