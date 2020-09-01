@@ -11,7 +11,7 @@
 <img src="https://raw.githubusercontent.com/Open-Machine/README/master/Media/logo-horizontal.png" alt="open-machine"/>
 
 <br/>
-<i>The goal is to to design and build a computer from scratch only using logical gates to do so.<i/>
+<i>Assembler of Open-Machine's Circuit.<i/>
 <br/>
 
 <i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project<a/>: developing a computer from scratch with its <a href="https://github.com/Open-Machine/Assembler">assembler<a/> and compiler.
