@@ -6,7 +6,7 @@
 <a href="https://github.com/Open-Machine/Assembler/pulls"><img src="https://img.shields.io/github/issues-pr/Open-Machine/Assembler" alt="Pull Requests Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/issues"><img src="https://img.shields.io/github/issues/Open-Machine/Assembler" alt="Issues Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Open-Machine/Assembler?color=2b9348"></a>
-<a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9348" alt="License Badge"/></a>
+<a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9347" alt="License Badge"/></a>
 
 <img src="https://raw.githubusercontent.com/Open-Machine/README/master/Media/logo-horizontal.png" alt="open-machine"/>
 
@@ -24,16 +24,17 @@ Understand how a computer works behind the curtains and maybe do some things my 
 ---
 
 # 🔖 Table of Contents
-### 1. [☑️ Todo](#todo)
-### 2. [📌 Purpose and Definition](#purpose-and-definition)
-### 3. [🔡 Code syntax](#code-syntax)
-### 4. [👨🏻‍💻 Code Example](#example)
-### 5. [▶️ Assembler CLI](#assembler-cli)
-### 6. [📄 Contributing Guidelines](#contributing-guidelines)
+### 1. [✔ Todo](#-todo)
+### 2. [📌 Definition and Explanation (WIP)](#-definition-and-explanation-wip)
+### 3. [🔡 Code syntax](#-code-syntax)
+### 4. [👨🏻‍💻 Code Example](#-code-example)
+### 5. [:arrow_forward: Assembler CLI](#arrow_forward-assembler-cli)
+### 6. [:bug: Build and Test](#bug-build-and-test)
+### 7. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 ---
 
-# ☑️ Todo
+# ✔ Todo
 - [X] Core
 - [X] Add jump labels
 - [X] Add comments
@@ -43,7 +44,7 @@ Understand how a computer works behind the curtains and maybe do some things my 
 
 ---
 
-# 📌 Purpose and Definition
+# 📌 Definition and Explanation (WIP)
 Assembly is basically the most basic programming language of a certain hardware. There's a very strong correspondence between the instructions in the language and the architecture's machine code instructions: every instruction in the language is a machine code instruction and vice-versa. It was created so that humans don't had to memorize the machine code instructions which are many numbers.
 
 From the Wikipedia:
@@ -55,31 +56,27 @@ The code should be written in RAM and it will be executed from the memmory addre
 
 ## Memory
 
-Line of code = Instruction (2 bytes) + Memory Address (2 bytes).
+Line of code = Instruction (4 bits) + Memory Address (12 bits).
 
-ps: The memory address in the lines of code will be called EE - [EE] represents EE value and EE
-
-For more information about the machine code and the circuit, check out the [Circuits Repository]().
+For more information about the machine code and the circuit, check out the [Circuits Repository](https://github.com/Open-Machine/Circuits/).
 
 ---
 
 # 🔡 Code Syntax
-This assembly 
+This is the assembly of Open-Machine's Circuits and it may be different from assemblies of other computers.
 
-RAM Memory and ACC
+The circuit has two types of memories that can be used to store data: variables, which will be store in the RAM, and the ACC register, which should be used as an auxiliary memory for arithmetic operations.
 
-Sum, subtract, store and , jump to another instruction
+Read the specifications below to learn how to code in Open-Machine's Assembly.
 
-## Some Specifications
-
-#### Tabs, spaces and cases 
+## Tabs, spaces and case sensitivity
 - Case sensitive;
 - **Tabs and spaces** can be used interchangeably;
 - Blank or empty lines will be disconsidered;
 - **Numbers** can be written in hexadecimal in the form of ```0xff``` or in decimal as ```255```;
 
-#### Naming Practices
-A **variable, procedure or label name** should start with a letter and the rest of the name can have more letters and numbers;
+## Naming Practices
+- A **variable, procedure or label name** should start with a letter and the rest of the name can have more letters and numbers;
 - Every name should obey the following regex: ```[a-z][a-zA-Z0-9]*```;
 - Snake-case is not allowed and the use of camel-case is encouraged.
 
@@ -134,7 +131,7 @@ copy | [ACC] = [variable] | A value from the memory is copied to the ACC registe
 store | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
 add | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
 sub | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-input | [variable] = to the input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
+input | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
 output | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
 kill | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
 jmp | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
@@ -175,28 +172,61 @@ kill
 
 ---
 
-# ▶️ Assembler CLI
+# :arrow_forward: Assembler CLI
 You can use the flag ```--help``` to see the options 
 
-#### Assemble code
-**Assemble file**
-```sh
-./assembler assemble filename.asm
-```
-**Help**
+### Assemble
 ```sh
 ./assembler assemble --help
 ```
 ```
+usage: assembler assemble [<flags>] <file-name>
 
+Assemble assembly code
+
+Flags:
+      --help            Show context-sensitive help (also try --help-long and
+                        --help-man).
+  -r, --rename-exec=""  Provide the name of the executable file that will be created
+                        (if empty, the name will be the same as the assembly code
+                        file)
+
+Args:
+  <file-name>  Provide the name of file with the assembly code
 ```
+*ps: If you want to **assemble your assembly file** run:* ```./assembler assemble filename.asm```
 
-#### Syntax explanation
+### Syntax
 ```sh
 ./assembler syntax --help
 ```
 ```
+usage: assembler syntax [<flags>]
 
+Help with the syntax of this assembly language
+
+Flags:
+      --help                     Show context-sensitive help (also try --help-long
+                                 and --help-man).
+  -e, --example                  Assembly code example with explanation
+  -l, --ls                       List all available instructions
+  -c, --instruction=INSTRUCTION  Explanation of an specific instruction
+```
+
+---
+
+# :bug: Build and Test
+
+## Build
+To build the GoLang code run:
+```sh
+go build
+```
+
+## Test
+To test the GoLang code run:
+```sh
+go test ./...
 ```
 
 ---
