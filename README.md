@@ -11,22 +11,12 @@
 <img src="https://raw.githubusercontent.com/Open-Machine/README/master/Media/logo-horizontal.png" alt="open-machine"/>
 
 <br/>
-<i>Assembler of Open-Machine's Circuit.<i/>
+<i><b>Assembler</b> of Open-Machine's <a href="https://github.com/Open-Machine/Circuits">Circuit</a>. The program reads assembly code and generates machine code.</i>
 <br/>
 
-<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project<a/>: developing a computer from scratch with its <a href="https://github.com/Open-Machine/Assembler">assembler<a/> and compiler.
+<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project</a>: <b>developing a computer from scratch</b> with its custom <a href="https://github.com/Open-Machine/Circuits">circuit</a>, <a href="https://github.com/Open-Machine/Assembler">assembler</a> and compiler.</i>
 
 </div>
-
-# Assembler
-A program that transforms assembly code into machine code.
-
-*This repository is part of a bigger project: **developing an open-source computer from scratch**. Check out **[Open Machine](https://github.com/Open-Machine/)**!*
-
-#### Todo
-- [ ] Variables
-- [ ] Import
-- [ ] Procedures
 
 ## Objective
 Understand how a computer works behind the curtains and maybe do some things my way.
@@ -34,11 +24,22 @@ Understand how a computer works behind the curtains and maybe do some things my 
 ---
 
 # 🔖 Table of Contents
-### 1. [📌 Purpose and Definition](#purpose-and-definition)
-### 2. [🔡 Code syntax](#code-syntax)
-### 3. [👨🏻‍💻 Code Example](#example)
-### 3. [▶️ Assembler CLI](#assembler-cli)
-### 4. [📄 Contributing Guidelines](#contributing-guidelines)
+### 1. [☑️ Todo](#todo)
+### 2. [📌 Purpose and Definition](#purpose-and-definition)
+### 3. [🔡 Code syntax](#code-syntax)
+### 4. [👨🏻‍💻 Code Example](#example)
+### 5. [▶️ Assembler CLI](#assembler-cli)
+### 6. [📄 Contributing Guidelines](#contributing-guidelines)
+
+---
+
+# ☑️ Todo
+- [X] Core
+- [X] Add jump labels
+- [X] Add comments
+- [ ] Variables
+- [ ] Import
+- [ ] Procedures
 
 ---
 
