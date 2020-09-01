@@ -1,4 +1,4 @@
-<h1 align="center">Assembler - from Open Machine</h1>
+<h1 align="center">Open Machine's Assembler</h1>
 <div align="center">
 
 <a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
