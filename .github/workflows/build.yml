@@ -1,8 +1,4 @@
-<<<<<<< HEAD:.github/workflows/build.yml
 name: Build
-=======
-name: Go Build and Test
->>>>>>> 68ee39a6bceb35f7aaadbc1376d5848a9d9b29dd:.github/workflows/go-action-test.yml
 
 on: [push, pull_request]
 
