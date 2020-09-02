@@ -5,7 +5,7 @@ import (
 )
 
 type Program struct {
-	instructions       []Instruction
+	instructions   []Instruction
 	jumpLabelsDict map[string]int
 }
 
@@ -58,8 +58,12 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 	return errs
 }
 
+const executerFileHeader = "v2.0 raw"
+
 func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
-	str := ""
+	machineCodeStr := executerFileHeader + "\n" + "0000"
+	// TODO: Circuit requires "0000" as first (probably because of the PC counter and inverted clock)
+
 	var errors []myerrors.CustomError
 
 	for _, instruction := range p.instructions {
@@ -68,8 +72,8 @@ func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
 			errors = append(errors, *err)
 		}
 
-		str += executerCode
+		machineCodeStr += executerCode
 	}
 
-	return str, errors
+	return machineCodeStr, errors
 }

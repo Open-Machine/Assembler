@@ -19,31 +19,63 @@ func TestAddInstruction(t *testing.T) {
 	}
 }
 
-func TestToExecuterSuccess(t *testing.T) {
-	program := NewProgram(3)
-	program.AddInstruction(Instruction{1, NewIntParam(2)})
-	program.AddInstruction(Instruction{15, NewIntParam(7)})
-	program.AddInstruction(Instruction{0, NewIntParam(0)})
+func TestProgToExecuter(t *testing.T) {
+	tests := []struct {
+		instructions []Instruction
+		expect       string
+		amntErrs     int
+	}{
+		// Success with header
+		{
+			[]Instruction{
+				Instruction{1, NewIntParam(2)},
+				Instruction{15, NewIntParam(7)},
+				Instruction{0, NewIntParam(0)},
+			},
+			"v2.0 raw\n00001002f0070000",
+			0,
+		},
+		// 1 Overflow
+		{
+			[]Instruction{
+				Instruction{1, NewIntParam(2)},
+				Instruction{1200, NewIntParam(7)},
+				Instruction{0, NewIntParam(0)},
+			},
+			"",
+			1,
+		},
+		// 2 Overflows
+		{
+			[]Instruction{
+				Instruction{1, NewIntParam(2)},
+				Instruction{1200, NewIntParam(7)},
+				Instruction{3000, NewIntParam(7)},
+			},
+			"",
+			2,
+		},
+	}
 
-	got, errors := program.ToExecuter()
-	expected := "01020f070000"
+	for i, test := range tests {
+		program := newProgram(test.instructions)
+		got, errors := program.ToExecuter()
 
-	if !(len(errors) == 0 && got == expected) {
-		t.Errorf("Expected: '%s', got: '%s'", expected, got)
+		if got != test.expect {
+			t.Errorf("[%d] Expected: '%s', got: '%s'", i, test.expect, got)
+		}
+
+		if len(errors) != test.amntErrs {
+			t.Errorf("[%d] Expected %d errors, but got %d. Executer code: %s // Errors: %v", len(errors), test.amntErrs, execCode, errors)
+		}
 	}
 }
-
-func TestToExecuterFail(t *testing.T) {
-	program := NewProgram(3)
-	program.AddInstruction(Instruction{1, NewIntParam(2)})
-	program.AddInstruction(Instruction{1200, NewIntParam(7)})
-	program.AddInstruction(Instruction{0, NewIntParam(0)})
-
-	execCode, errors := program.ToExecuter()
-
-	if len(errors) != 1 {
-		t.Errorf("Should result in error because of overflow. Executer code: %s // Errors: %v", execCode, errors)
+func newProgram(instructions []Instruction) Program {
+	program := NewProgram(len(instructions))
+	for _, instruc := range instructions {
+		program.AddInstruction(instruc)
 	}
+	return program
 }
 
 func TestAddJumpLabel(t *testing.T) {
