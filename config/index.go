@@ -5,8 +5,10 @@ import (
 	"os"
 )
 
-const AmntBitsCode = 8
-const AmntBitsParam = 8
+const AmntBitsInstruction = 4
+const AmntHexDigitsInstruction = 1
+const AmntBitsParam = 12
+const AmntHexDigitsParam = 3
 
 const VariableNameRegex = "^[a-z][a-zA-Z0-9]*$"
 

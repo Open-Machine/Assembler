@@ -13,13 +13,17 @@ func TestNewInstructionOverflowValidation(t *testing.T) {
 		expectsError bool
 	}{
 		{0, 0, false},
+		// neg
 		{-1, 0, true},
 		{0, -1, true},
-		{1000, 1000, true},
-		{255, 0, false},
-		{256, 0, true},
-		{0, 255, false},
-		{0, 256, true},
+		// large num
+		{0, 5000, true},
+		{1000, 0, true},
+		// line between right and wrong
+		{15, 0, false},
+		{16, 0, true},
+		{0, 4095, false},
+		{0, 4096, true},
 	}
 
 	for i, test := range tests {
@@ -60,9 +64,10 @@ func TestToExecuter(t *testing.T) {
 		expectsError bool
 	}{
 		{Instruction{0, NewIntParam(0)}, "0000", false},
-		{Instruction{11, NewIntParam(5)}, "0b05", false},
-		{Instruction{300, NewIntParam(5)}, "", true},
-		{Instruction{5, NewIntParam(300)}, "", true},
+		{Instruction{11, NewIntParam(5)}, "b005", false},
+		{Instruction{5, NewIntParam(300)}, "512c", false},
+		{Instruction{5000, NewIntParam(5)}, "", true},
+		{Instruction{5, NewIntParam(5000)}, "", true},
 		{Instruction{5, NewStringParam("abc")}, "", true},
 	}
 
