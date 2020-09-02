@@ -12,8 +12,8 @@ type Instruction struct {
 }
 
 func NewInstruction(code int, param InstructionParameter) (*Instruction, *myerrors.CustomError) {
-	if utils.IsOverflow(uint(code), config.AmntBitsCode) {
-		err := myerrors.InstructionCodeOverflow(code, config.AmntBitsCode)
+	if utils.IsOverflow(uint(code), config.AmntBitsInstruction) {
+		err := myerrors.InstructionCodeOverflow(code, config.AmntBitsInstruction)
 		return nil, myerrors.NewAssemblerError(err)
 	}
 
@@ -44,12 +44,12 @@ func (c Instruction) toExecuter() (string, *myerrors.CustomError) {
 		return "", myerrors.NewAssemblerError(myerrors.InvalidStateTransformationToExecuterError())
 	}
 
-	str1, err1 := utils.IntToStrHex(c.instructionCode, 2)
+	str1, err1 := utils.IntToStrHex(c.instructionCode, config.AmntHexDigitsInstruction)
 	if err1 != nil {
 		return "", myerrors.NewCodeError(err1)
 	}
 
-	str2, err2 := utils.IntToStrHex(c.parameter.Num, 2)
+	str2, err2 := utils.IntToStrHex(c.parameter.Num, config.AmntHexDigitsParam)
 	if err2 != nil {
 		return "", myerrors.NewCodeError(err2)
 	}

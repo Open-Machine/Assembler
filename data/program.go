@@ -75,5 +75,8 @@ func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
 		machineCodeStr += executerCode
 	}
 
-	return machineCodeStr, errors
+	if len(errors) == 0 {
+		return machineCodeStr, errors
+	}
+	return "", errors
 }

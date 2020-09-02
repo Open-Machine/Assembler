@@ -66,7 +66,7 @@ func TestProgToExecuter(t *testing.T) {
 		}
 
 		if len(errors) != test.amntErrs {
-			t.Errorf("[%d] Expected %d errors, but got %d. Executer code: %s // Errors: %v", len(errors), test.amntErrs, execCode, errors)
+			t.Errorf("[%d] Expected %d errors, but got %d", i, len(errors), test.amntErrs)
 		}
 	}
 }
