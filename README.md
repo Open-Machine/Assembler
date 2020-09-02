@@ -1,5 +1,5 @@
 <h1 align="center">Open Machine's Assembler</h1>
-<div align="center">
+<div align="center"> 
 
 <a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/network/members"><img src="https://img.shields.io/github/forks/Open-Machine/Assembler" alt="Forks Badge"/></a>
