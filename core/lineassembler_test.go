@@ -34,6 +34,7 @@ func TestAssembleEntireLine(t *testing.T) {
 
 		// Label: Success
 		{"	label: ", helper.StringPointer("label"), nil, false},
+		{"	label:\t ", helper.StringPointer("label"), nil, false},
 		// Label: Fail
 		{"	1label: input 	0x1 ", nil, nil, true},
 

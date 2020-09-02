@@ -26,10 +26,10 @@ func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.Cust
 	if errLabel != nil {
 		return nil, nil, errLabel
 	}
-	if jumpLabel != nil && restOfLine != "" {
-		return nil, nil, myerrors.NewCodeError(myerrors.MoreThanOneCommandInLine(restOfLine))
-	}
 	if jumpLabel != nil {
+		if restOfLine != "" {
+			return nil, nil, myerrors.NewCodeError(myerrors.MoreThanOneCommandInLine(restOfLine))
+		}
 		return jumpLabel, nil, nil
 	}
 

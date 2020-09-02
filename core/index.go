@@ -67,8 +67,6 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 		return config.FailStatus, ""
 	}
 
-	// TODO: verify execFileName as possible name or not ([a-zA-Z_-]+)
-
 	var execFileName string
 	if execFileNameParam == nil {
 		execFileName = helper.FileNameWithoutExtension(file.Name())
