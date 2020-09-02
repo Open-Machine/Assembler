@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 
 	"github.com/open-machine/assembler/config"
@@ -27,15 +28,19 @@ func programFromFile(file utils.MyFileInterface) *data.Program {
 			return nil
 		}
 
-		jumpLabel, instructionPointer, err := assembleEntireLine(line)
+		jumpLabel, instructionPointer, errAssemble := assembleEntireLine(line)
 
 		if jumpLabel != nil {
-			program.AddJumpLabel(*jumpLabel, program.LenInstructions())
+			errJumpLabel := program.AddJumpLabel(*jumpLabel, program.LenInstructions())
+			if errJumpLabel != nil {
+				helper.LogErrorInLine(*myerrors.NewCodeError(errJumpLabel), lineIndex, line)
+				return nil
+			}
 		}
 
-		if err != nil {
+		if errAssemble != nil {
 			successful = false
-			helper.LogErrorInLine(*err, lineIndex, line)
+			helper.LogErrorInLine(*errAssemble, lineIndex, line)
 		} else if instructionPointer != nil {
 			program.AddInstruction(*instructionPointer)
 		}
@@ -58,7 +63,7 @@ func writeExecProgram(program data.Program, execFileName string, execFile io.Wri
 
 	execStr, errs := program.ToExecuter()
 
-	if errs != nil && len(errs) > 0 {
+	if len(errs) > 0 {
 		for _, err := range errs {
 			// TODO: infrastructure to get line
 			helper.LogErrorInLine(err, 0, "")

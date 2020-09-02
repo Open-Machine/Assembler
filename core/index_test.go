@@ -13,8 +13,6 @@ import (
 	"github.com/open-machine/assembler/helper"
 )
 
-const indexBracketsOnStdErr = 6
-
 type testInfoAssembleFile struct {
 	//input
 	lines        []string
@@ -111,40 +109,51 @@ func TestAssembleFileAux(t *testing.T) {
 
 		statusGot, strGot := AssembleFileAux(test.fileName, test.execFileName, ioReaderFromPath, ioWriterFromPath)
 
-		stderrStr := config.Err.(*bytes.Buffer).String()
-		stderrLines := strings.Split(stderrStr, "\n")
-		errorsStr := ""
-		for _, line := range stderrLines {
-			errorsStr += line
-		}
-
-		containsAll := true
-		for _, word := range test.substringErrors {
-			if !strings.Contains(errorsStr, word) {
-				containsAll = false
-			}
-		}
-		if !containsAll {
-			t.Errorf("[%d] Expected error to have the substrings %v. Actual error: %s", i, test.substringErrors, errorsStr)
-		}
-
-		outputStr := fileOutput.String()
-		if test.machineCodeOutput != nil && *test.machineCodeOutput != outputStr {
-			t.Errorf("[%d] Different machine code expected.", i)
-			t.Errorf("\t\tExpected: %s", *test.machineCodeOutput)
-			t.Errorf("\t\tGot: %s", outputStr)
-		}
-
+		// Check returns
 		if statusGot != test.statusReturn {
 			t.Errorf("[%d] Status differs. Got: %d, Expected: %d", i, statusGot, test.statusReturn)
 		}
-
 		if strGot != test.strReturn {
 			t.Errorf("[%d] Strings differs. Got: '%s', Expected: '%s'", i, strGot, test.strReturn)
 		}
 		if strGot != "" {
 			if pathNameWritingTo != test.strReturn {
 				t.Errorf("[%d] Assembler is not actually writing to the right file. Got: '%s', Expected: '%s'", i, pathNameWritingTo, test.strReturn)
+			}
+		}
+
+		// Check outputs
+
+		stderrStr := config.Err.(*bytes.Buffer).String()
+
+		indexError := strings.Index(stderrStr, "[ERROR]")
+		gotError := indexError >= 0
+
+		if test.statusReturn == config.FailStatus && !gotError {
+			t.Errorf("[%d] Expected Fail but didn't get error on the stderr. StdErr: %s", i, stderrStr)
+		}
+		if test.statusReturn == config.SuccessStatus && gotError {
+			t.Errorf("[%d] Expected Sucess but did get error on the stderr. StdErr: %s", i, stderrStr)
+		}
+
+		if len(test.substringErrors) > 0 {
+			errorsStr := stderrStr[indexError:]
+
+			containsAll := true
+			for _, word := range test.substringErrors {
+				if !strings.Contains(errorsStr, word) {
+					containsAll = false
+				}
+			}
+			if !containsAll {
+				t.Errorf("[%d] Expected error to have the substrings %v. Actual error: %s", i, test.substringErrors, errorsStr)
+			}
+
+			outputStr := fileOutput.String()
+			if test.machineCodeOutput != nil && *test.machineCodeOutput != outputStr {
+				t.Errorf("[%d] Different machine code expected.", i)
+				t.Errorf("\t\tExpected: %s", *test.machineCodeOutput)
+				t.Errorf("\t\tGot: %s", outputStr)
 			}
 		}
 	}
@@ -160,7 +169,7 @@ func getSuccessTestInfo(lines []string, fileName string, execFileName *string, m
 		statusReturn:      config.SuccessStatus,
 		machineCodeOutput: machineCodeOutput,
 		strReturn:         strReturn,
-		substringErrors:   []string{},
+		substringErrors:   nil,
 	}
 }
 func getFailTestInfo(lines []string, fileName string, execFileName *string, substringErrors []string, openSrcErr error, openExecErr error) testInfoAssembleFile {

@@ -10,10 +10,10 @@ import (
 
 var colorReset = "\033[0m"
 var colorRed = "\033[31m"
-var colorGreen = "\033[32m"
 var colorPurple = "\033[35m"
 var colorYellow = "\033[33m"
 var colorWhite = "\033[37m"
+var _ = "\033[32m" //colorGreen
 
 func LogInfo(str string) {
 	formatedStr := fmt.Sprintf("[INFO] %s \n", str)
@@ -41,7 +41,7 @@ func LogErrorInLine(customErr myerrors.CustomError, lineIndex int, line string) 
 		color = colorPurple
 
 		firstLine := fmt.Sprintf("[ASSEMBLER ERROR] Unexpected error while compiling line %d.", lineIndex)
-		lastLine := fmt.Sprintf("Please consider openning an ISSUE on Github: https://github.com/Open-Machine/github.com/open-machine/assembler/issues .")
+		lastLine := "Please consider openning an ISSUE on Github: https://github.com/Open-Machine/github.com/open-machine/assembler/issues ."
 
 		beginningLines := append([]string{firstLine}, middleLines...)
 		lines = append(beginningLines, lastLine)
