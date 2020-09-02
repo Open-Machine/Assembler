@@ -93,7 +93,3 @@ func listInstructions() []string {
 
 	return list
 }
-
-func getSyntaxExample() []string {
-	return []string{}
-}

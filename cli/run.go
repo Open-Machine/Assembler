@@ -1,8 +1,6 @@
 package cli
 
-import (
-	"gopkg.in/alecthomas/kingpin.v2"
-)
+/*
 
 func ConfigureRunCommand(app *kingpin.Application) {
 	data := &AssembleInstruction{}
@@ -20,6 +18,7 @@ type RunCommandConfig struct {
 
 func (data *RunCommandConfig) run(c *kingpin.ParseContext) error {
 	// TODO: run command line
-
 	return nil
 }
+
+*/

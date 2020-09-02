@@ -40,7 +40,7 @@ func nameStatus(varName string) int {
 
 func isReservedWord(varName string) bool {
 	instructions := instructionsexplanation.GetInstructionsExplanation()
-	for instructionName, _ := range instructions {
+	for instructionName := range instructions {
 		if varName == instructionName {
 			return true
 		}
