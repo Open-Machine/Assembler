@@ -1,9 +1,6 @@
 package steps
 
 import (
-	"strings"
-
-	"github.com/open-machine/assembler/commands/comment"
 	"github.com/open-machine/assembler/commands/instruction"
 	"github.com/open-machine/assembler/commands/label"
 	"github.com/open-machine/assembler/config/myerrors"
@@ -14,15 +11,12 @@ import (
 func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.CustomError) {
 	normalizedStr := utils.LineNormalization(line)
 
-	lineWithoutCommand := comment.RemoveComment(normalizedStr)
-	lineWithoutCommand = strings.TrimSpace(lineWithoutCommand)
-
-	if lineWithoutCommand == "" {
+	if normalizedStr == "" {
 		return nil, nil, nil
 	}
 
 	// Jump Label
-	jumpLabel, restOfLine, errLabel := label.AssembleJumpLabel(lineWithoutCommand)
+	jumpLabel, restOfLine, errLabel := label.AssembleJumpLabel(normalizedStr)
 	if errLabel != nil {
 		return nil, nil, errLabel
 	}

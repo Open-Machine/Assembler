@@ -9,6 +9,8 @@ func TestLineNormalization(t *testing.T) {
 	}{
 		{"  MOV\t 8 \r\n", "MOV 8"},
 		{"MoV 8\n", "MoV 8"},
+		{"MoV 8 #asdf", "MoV 8"},
+		{"hello, my name is Luca #adfd \n", "hello, my name is Luca"},
 	}
 
 	for _, test := range tests {
@@ -33,7 +35,7 @@ func TestRemoveNewLine(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := RemoveNewLine(test.param)
+		got := removeNewLine(test.param)
 
 		if got != test.expected {
 			t.Errorf("Expected: '%s', Got: '%s'", test.expected, got)
@@ -56,6 +58,26 @@ func TestRemoveUnecessarySpaces(t *testing.T) {
 
 		if got != test.expected {
 			t.Errorf("Expected: '%s', Got: '%s'", test.expected, got)
+		}
+	}
+}
+
+func TestRemoveComment(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected string
+	}{
+		{"", ""},
+		{"copy 0x0", "copy 0x0"},
+		{"# Hello World ", ""},
+		{"copy 0x0 # Hello World", "copy 0x0 "},
+		{"luca dillenburg doing stuff # Hello World", "luca dillenburg doing stuff "},
+	}
+
+	for _, test := range tests {
+		got := removeComment(test.param)
+		if got != test.expected {
+			t.Errorf("Comment removed wrongly. Expected '%s', Got: '%s'", test.expected, test.param)
 		}
 	}
 }
