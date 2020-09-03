@@ -3,10 +3,10 @@ package steps
 import (
 	"strings"
 
+	"github.com/open-machine/assembler/commands/comment"
+	"github.com/open-machine/assembler/commands/instruction"
+	"github.com/open-machine/assembler/commands/label"
 	"github.com/open-machine/assembler/config/myerrors"
-	"github.com/open-machine/assembler/core/commands/comment"
-	"github.com/open-machine/assembler/core/commands/instruction"
-	"github.com/open-machine/assembler/core/commands/label"
 	"github.com/open-machine/assembler/data"
 	"github.com/open-machine/assembler/utils"
 )
