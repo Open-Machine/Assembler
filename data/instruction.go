@@ -17,18 +17,6 @@ func NewInstruction(code int, param InstructionParameter) (*Instruction, *myerro
 		return nil, myerrors.NewAssemblerError(err)
 	}
 
-	if param.IsStr {
-		err := utils.CheckParamName(param.Str)
-		if err != nil {
-			return nil, myerrors.NewAssemblerError(err)
-		}
-	} else {
-		if !param.IsStr && utils.IsOverflow(uint(param.Num), config.AmntBitsParam) {
-			err := myerrors.ParamOverflow(param.Num, config.AmntBitsParam)
-			return nil, myerrors.NewCodeError(err)
-		}
-	}
-
 	return &Instruction{code, param}, nil
 }
 

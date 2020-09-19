@@ -27,7 +27,8 @@ func TestNewInstructionOverflowValidation(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := NewInstruction(test.code, NewIntParam(test.param))
+		param, _ := NewIntParam(test.param)
+		_, err := NewInstruction(test.code, *param)
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -48,7 +49,8 @@ func TestNewInstructionWrongStringParam(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := NewInstruction(test.code, NewStringParam(test.param))
+		param, _ := NewStringParam(test.param)
+		_, err := NewInstruction(test.code, *param)
 		gotErr := err != nil
 
 		if test.expectsError != gotErr {
@@ -63,12 +65,12 @@ func TestToExecuter(t *testing.T) {
 		expected     string
 		expectsError bool
 	}{
-		{Instruction{0, NewIntParam(0)}, "0000", false},
-		{Instruction{11, NewIntParam(5)}, "b005", false},
-		{Instruction{5, NewIntParam(300)}, "512c", false},
-		{Instruction{5000, NewIntParam(5)}, "", true},
-		{Instruction{5, NewIntParam(5000)}, "", true},
-		{Instruction{5, NewStringParam("abc")}, "", true},
+		{Instruction{0, newIntParam(0)}, "0000", false},
+		{Instruction{11, newIntParam(5)}, "b005", false},
+		{Instruction{5, newIntParam(300)}, "512c", false},
+		{Instruction{5000, newIntParam(5)}, "", true},
+		{Instruction{5, newIntParam(5000)}, "", true},
+		{Instruction{5, newStringParam("abc")}, "", true},
 	}
 
 	for i, test := range tests {
@@ -84,24 +86,30 @@ func TestToExecuter(t *testing.T) {
 		}
 	}
 }
+func newIntParam(num int) InstructionParameter {
+	return InstructionParameter{Num: 0, Str: "", IsStr: false}
+}
+func newStringParam(str string) InstructionParameter {
+	return InstructionParameter{Num: 0, Str: str, IsStr: true}
+}
 
 func TestNewInstructionTest(t *testing.T) {
 	code := 300
-	param := NewIntParam(300)
+	param, _ := NewIntParam(300)
 
-	_, err := NewInstruction(code, param)
+	_, err := NewInstruction(code, *param)
 	if err == nil {
 		t.Errorf("Expected error! NewInstruction should verify params and these params should be wrong to validate the NewInstructionTest function")
 	}
 
 	config.Testing = false
-	ptrInstructionNil := NewInstructionTest(code, param)
+	ptrInstructionNil := NewInstructionTest(code, *param)
 	if ptrInstructionNil != nil {
 		t.Errorf("Expected nil instruction, got not nil instruction")
 	}
 
 	config.Testing = true
-	ptrInstructionNotNil := NewInstructionTest(code, param)
+	ptrInstructionNotNil := NewInstructionTest(code, *param)
 	if ptrInstructionNotNil == nil {
 		t.Errorf("Expected nil instruction, got not nil instruction")
 	}

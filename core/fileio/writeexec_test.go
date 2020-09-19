@@ -1,4 +1,4 @@
-package steps
+package fileio
 
 import (
 	"bytes"
@@ -43,7 +43,7 @@ func TestWriteAssembledFile(t *testing.T) {
 		{
 			data.ProgramFromInstructionsAndLabels([]data.Instruction{
 				*newInstruction(0x2, 1),
-				*data.NewInstructionTest(0x222, data.NewIntParam(12)),
+				*newInstruction(0x222, 12),
 				*newInstruction(0xD, 115),
 			}, map[string]int{}),
 			"",
@@ -53,7 +53,8 @@ func TestWriteAssembledFile(t *testing.T) {
 		{
 			data.ProgramFromInstructionsAndLabels([]data.Instruction{
 				*newInstruction(0x2, 1),
-				*data.NewInstructionTest(0x2, data.NewStringParam("a")),
+				*newInstruction(0x2, 1),
+				*newInstructionStr(0x2, "a"),
 			}, map[string]int{}),
 			"",
 			1,
@@ -82,7 +83,13 @@ func TestWriteAssembledFile(t *testing.T) {
 		}
 	}
 }
-func newInstruction(cmdCode int, param int) *data.Instruction {
-	got, _ := data.NewInstruction(cmdCode, data.NewIntParam(param))
+func newInstruction(cmdCode int, intParam int) *data.Instruction {
+	param, _ := data.NewIntParam(intParam)
+	got, _ := data.NewInstruction(cmdCode, *param)
+	return got
+}
+func newInstructionStr(cmdCode int, strParam string) *data.Instruction {
+	param, _ := data.NewStringParam(strParam)
+	got, _ := data.NewInstruction(cmdCode, *param)
 	return got
 }

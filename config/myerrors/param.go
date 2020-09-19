@@ -6,6 +6,10 @@ func ParamOverflow(param int, amntBits int) error {
 	return fmt.Errorf("Param '%b' overflows %d bits", param, amntBits)
 }
 
+func ThereIsNoSpaceLeft(err error) error {
+	return fmt.Errorf("There is no space left: %s", err.Error())
+}
+
 func InvalidParamLabelOrInt(param string, err error) error {
 	return fmt.Errorf("Param '%s' is not a valid label nor a valid number (Conversion error: %s)", param, err.Error())
 }

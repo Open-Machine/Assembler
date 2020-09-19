@@ -1,4 +1,4 @@
-package steps
+package fileio
 
 import (
 	"bufio"

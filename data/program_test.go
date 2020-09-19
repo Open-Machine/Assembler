@@ -12,7 +12,7 @@ func TestAddInstruction(t *testing.T) {
 		t.Errorf("Expected length 0, got: %d", len(program.instructions))
 	}
 
-	program.AddInstruction(Instruction{0, NewIntParam(0)})
+	program.AddInstruction(Instruction{0, newIntParam(0)})
 
 	if len(program.instructions) != 1 {
 		t.Errorf("Expected length 1, got: %d", len(program.instructions))
@@ -28,9 +28,9 @@ func TestProgToExecuter(t *testing.T) {
 		// Success with header
 		{
 			[]Instruction{
-				Instruction{1, NewIntParam(2)},
-				Instruction{15, NewIntParam(7)},
-				Instruction{0, NewIntParam(0)},
+				Instruction{1, newIntParam(2)},
+				Instruction{15, newIntParam(7)},
+				Instruction{0, newIntParam(0)},
 			},
 			"v2.0 raw\n00001002f0070000",
 			0,
@@ -38,9 +38,9 @@ func TestProgToExecuter(t *testing.T) {
 		// 1 Overflow
 		{
 			[]Instruction{
-				Instruction{1, NewIntParam(2)},
-				Instruction{1200, NewIntParam(7)},
-				Instruction{0, NewIntParam(0)},
+				Instruction{1, newIntParam(2)},
+				Instruction{1200, newIntParam(7)},
+				Instruction{0, newIntParam(0)},
 			},
 			"",
 			1,
@@ -48,9 +48,9 @@ func TestProgToExecuter(t *testing.T) {
 		// 2 Overflows
 		{
 			[]Instruction{
-				Instruction{1, NewIntParam(2)},
-				Instruction{1200, NewIntParam(7)},
-				Instruction{3000, NewIntParam(7)},
+				Instruction{1, newIntParam(2)},
+				Instruction{1200, newIntParam(7)},
+				Instruction{3000, newIntParam(7)},
 			},
 			"",
 			2,
@@ -109,19 +109,19 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("label")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{7, NewIntParam(3)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("label")},
+					Instruction{5, newIntParam(3)},
+					Instruction{7, newIntParam(3)},
 				},
 				map[string]int{"label": 3},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewIntParam(3)},
-					Instruction{5, NewIntParam(3)},
-					Instruction{7, NewIntParam(3)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newIntParam(3)},
+					Instruction{5, newIntParam(3)},
+					Instruction{7, newIntParam(3)},
 				},
 				map[string]int{},
 			},
@@ -131,23 +131,23 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("label")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewStringParam("abc")},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("label")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newStringParam("abc")},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewIntParam(0)},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewIntParam(0)},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newIntParam(0)},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newIntParam(0)},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -157,19 +157,19 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -179,23 +179,23 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("label")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewStringParam("abc")},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("label")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newStringParam("abc")},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewIntParam(0)},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewIntParam(0)},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newIntParam(0)},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newIntParam(0)},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{},
 			},
@@ -205,23 +205,23 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("luca")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewStringParam("abc")},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("luca")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newStringParam("abc")},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("luca")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewIntParam(0)},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("luca")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newIntParam(0)},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"abc": 0, "label": 0, "abcdario": 11},
 			},
@@ -231,23 +231,23 @@ func TestReplaceLabelsWithNumbers(t *testing.T) {
 		{
 			&Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("luca")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewStringParam("abc")},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("luca")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newStringParam("abc")},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"label": 0, "abcdario": 11},
 			},
 			Program{
 				[]Instruction{
-					Instruction{3, NewIntParam(1)},
-					Instruction{1, NewStringParam("luca")},
-					Instruction{5, NewIntParam(3)},
-					Instruction{2, NewIntParam(0)},
-					Instruction{1, NewStringParam("abc")},
-					Instruction{11, NewIntParam(15)},
+					Instruction{3, newIntParam(1)},
+					Instruction{1, newStringParam("luca")},
+					Instruction{5, newIntParam(3)},
+					Instruction{2, newIntParam(0)},
+					Instruction{1, newStringParam("abc")},
+					Instruction{11, newIntParam(15)},
 				},
 				map[string]int{"label": 0, "abcdario": 11},
 			},
@@ -281,6 +281,6 @@ func TestLenInstructions(t *testing.T) {
 	}
 }
 func mockInstruction() Instruction {
-	cmd, _ := NewInstruction(0, NewIntParam(1))
+	cmd, _ := NewInstruction(0, newIntParam(1))
 	return *cmd
 }

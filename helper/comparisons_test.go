@@ -1,8 +1,9 @@
 package helper
 
 import (
-	"github.com/open-machine/assembler/data"
 	"testing"
+
+	"github.com/open-machine/assembler/data"
 )
 
 func TestSafeIsEqualStringPointer(t *testing.T) {
@@ -47,7 +48,8 @@ func TestSafeIsEqualProgramPointer(t *testing.T) {
 	}
 }
 func newProgram(a int, b int) *data.Program {
-	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
+	param, _ := data.NewIntParam(b)
+	cmd, _ := data.NewInstruction(a, *param)
 	program := data.ProgramFromInstructionsAndLabels([]data.Instruction{*cmd}, map[string]int{})
 	return &program
 }
@@ -73,7 +75,8 @@ func TestSafeIsEqualInstructionPointer(t *testing.T) {
 	}
 }
 func newInstruction(a int, b int) *data.Instruction {
-	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
+	param, _ := data.NewIntParam(b)
+	cmd, _ := data.NewInstruction(a, *param)
 	return cmd
 }
 
@@ -98,6 +101,6 @@ func TestSafeIsEqualInstructionParamPointer(t *testing.T) {
 	}
 }
 func newIntParam(a int) *data.InstructionParameter {
-	param := data.NewIntParam(a)
-	return &param
+	param, _ := data.NewIntParam(a)
+	return param
 }

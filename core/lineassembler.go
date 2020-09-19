@@ -1,4 +1,4 @@
-package steps
+package core
 
 import (
 	"github.com/open-machine/assembler/commands/instruction"
@@ -8,11 +8,11 @@ import (
 	"github.com/open-machine/assembler/utils"
 )
 
-func assembleEntireLine(line string) (*string, *data.Instruction, *myerrors.CustomError) {
+func assembleEntireLine(line string, program *data.Program) *myerrors.CustomError {
 	normalizedStr := utils.LineNormalization(line)
 
 	if normalizedStr == "" {
-		return nil, nil, nil
+		return nil
 	}
 
 	// Jump Label

@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/open-machine/assembler/core/steps"
+	"github.com/open-machine/assembler/core/fileio"
 	"github.com/open-machine/assembler/utils"
 
 	"github.com/open-machine/assembler/config"
@@ -54,7 +54,7 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 	}
 	defer file.Close()
 
-	ptrProgram := steps.ProgramFromFile(file)
+	ptrProgram := fileio.ProgramFromFile(file)
 	if ptrProgram == nil {
 		return config.FailStatus, ""
 	}
@@ -81,7 +81,7 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 		return config.FailStatus, ""
 	}
 
-	writeStatus := steps.WriteExecProgram(*ptrProgram, execFileName, execFile)
+	writeStatus := fileio.WriteExecProgram(*ptrProgram, execFileName, execFile)
 	if writeStatus == config.FailStatus {
 		return config.FailStatus, ""
 	}

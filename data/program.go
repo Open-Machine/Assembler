@@ -46,8 +46,15 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 			if !exists {
 				errs = append(errs, myerrors.JumpLabelDoesNotExistError(label))
 			} else {
-				instruction.parameter = NewIntParam(instructionIndex)
-				p.instructions[i] = instruction
+				updatedParam, err := NewIntParam(instructionIndex)
+				// TODO: test this error
+
+				if err != nil {
+					errs = append(errs, myerrors.ThereIsNoSpaceLeft(err))
+				} else {
+					instruction.parameter = *updatedParam
+					p.instructions[i] = instruction
+				}
 			}
 		}
 	}

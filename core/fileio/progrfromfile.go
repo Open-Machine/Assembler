@@ -1,11 +1,10 @@
-package steps
+package fileio
 
 import (
 	"bufio"
 	"fmt"
 	"io"
 
-	"github.com/open-machine/assembler/config/myerrors"
 	"github.com/open-machine/assembler/utils"
 
 	"github.com/open-machine/assembler/data"
@@ -27,21 +26,11 @@ func ProgramFromFile(file utils.MyFileInterface) *data.Program {
 			return nil
 		}
 
-		jumpLabel, instructionPointer, errAssemble := assembleEntireLine(line)
-
-		if jumpLabel != nil {
-			errJumpLabel := program.AddJumpLabel(*jumpLabel, program.LenInstructions())
-			if errJumpLabel != nil {
-				helper.LogErrorInLine(*myerrors.NewCodeError(errJumpLabel), lineIndex, line)
-				return nil
-			}
-		}
+		errAssemble := assembleEntireLine(line, &program)
 
 		if errAssemble != nil {
 			successful = false
 			helper.LogErrorInLine(*errAssemble, lineIndex, line)
-		} else if instructionPointer != nil {
-			program.AddInstruction(*instructionPointer)
 		}
 
 		if errRead == io.EOF {
