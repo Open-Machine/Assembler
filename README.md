@@ -1,8 +1,9 @@
 <h1 align="center">Open Machine's Assembler</h1>
-<div align="center">
+<div align="center"> 
 
 <a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/network/members"><img src="https://img.shields.io/github/forks/Open-Machine/Assembler" alt="Forks Badge"/></a>
+<a href="https://github.com/Open-Machine/Assembler/"><img src="https://img.shields.io/badge/version-0.0.1-blue" alt="Version Badge"/></a>
 <a href="https://coveralls.io/github/Open-Machine/Assembler"><img src="https://img.shields.io/coveralls/github/Open-Machine/Assembler" alt="coverage"></a>
 <a href="https://github.com/Open-Machine/Assembler/commits/"><img src="https://img.shields.io/github/commit-activity/m/Open-Machine/Assembler" alt="commits"/></a>
 <a href="https://github.com/Open-Machine/Assembler/pulls"><img src="https://img.shields.io/github/issues-pr/Open-Machine/Assembler" alt="Pull Requests Badge"/></a>
