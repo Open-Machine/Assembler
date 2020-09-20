@@ -89,22 +89,24 @@ ACC | The ACC register
 variable | A variable from the memory
 label | Jump label
 [ ] | "Value of"
+```${memAddr}``` | Memory address parameter
+```${jumpTo}``` | Instruction index or jump label parameter
 
 ### Instructions Table
 Assembly Command | Short Instruction Description | Long Instruction Description | Short Param Description | Long Param Description
 --- | --- | --- | --- | ---
-nop | - | This instruction doesn't perform any action | - | No parameter is required
-copy | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
-store | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
-add | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-sub | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-input | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
-output | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
-kill | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
-jmp | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
-jg | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
-je | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
-jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
+```nop``` | - | This instruction doesn't perform any action | - | No parameter is required
+```copy ${memAddr}``` | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
+```store ${memAddr}``` | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
+```add ${memAddr}``` | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+```sub ${memAddr}``` | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+```input ${memAddr}``` | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
+```output ${memAddr}``` | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
+```kill``` | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
+```jmp ${jumpTo}``` | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
+```jg ${jumpTo}``` | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
+```je ${jumpTo}``` | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
+```jl ${jumpTo}``` | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
 
 <br/>
 
@@ -171,22 +173,30 @@ Check out [here](#-instructions) the instruction table to know what instructions
 <br/>
 
 # 👨🏻‍💻 Code Example
+The following assembly code gets two numbers from input and outputs the sum of them. If the sum is greater than zero it will output zero.
+
+*ps: Since the ```input``` instruction doesn't wait for a change, expect the output to be zero.*
 ```sh
-# Let's get two numbers as input and print the result of the sum of them
+# data inputs
+input 0x55
+input 0x56
 
+# sum
+copy 0x55
+add 0x56
+store 0x57
 
+# output
+output 0x57
 
-procedure procSub
-	copy 0xff # copy value in the address ff in RAM
-	store 0x0a # stores the value of ACC in the address 0a
-end
+# if output higher than zero, it will output zero
+copy 0x57
+je finish # if
+jl finish # if
+output 0xff # [0xff] = 0 since we didn't change it
 
-start:
-	procSub
+finish:
 
-	copy 0xff # copy value in the address ff in RAM
-	store 0x0a # stores the value of ACC in the address 0a
-	je start # jumps to the 'start' label if ACC is 0
 kill
 ```
 
