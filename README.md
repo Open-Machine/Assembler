@@ -11,6 +11,13 @@
 <a href="https://github.com/Open-Machine/Assembler/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Open-Machine/Assembler?color=2b9348"></a>
 <a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9347" alt="License Badge"/></a>
 
+This is a paragraph with one <span style="font-size:larger;">word</span>
+larger than the others.
+
+<span style="font-size:10px;">word</span>
+<span style="font-size:20px;">word</span>
+<span style="font-size:50px;">word</span>
+
 <img src="https://raw.githubusercontent.com/Open-Machine/README/stable/Media/logo-horizontal.png" alt="open-machine"/>
 
 <br/>
