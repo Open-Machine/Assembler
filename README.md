@@ -11,7 +11,7 @@
 <a href="https://github.com/Open-Machine/Assembler/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Open-Machine/Assembler?color=2b9348"></a>
 <a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9347" alt="License Badge"/></a>
 
-<img src="https://raw.githubusercontent.com/Open-Machine/README/master/Media/logo-horizontal.png" alt="open-machine"/>
+<img src="https://raw.githubusercontent.com/Open-Machine/README/stable/Media/logo-horizontal.png" alt="open-machine"/>
 
 <br/>
 <i><b>Assembler</b> of Open-Machine's <a href="https://github.com/Open-Machine/Circuits">Circuit</a>. The program reads assembly code and generates machine code.</i>
@@ -24,8 +24,8 @@
 ---
 
 # 🔖 Table of Contents
-### 1. [✔ Todo](#-todo)
-### 2. [📌 Definition and Explanation (WIP)](#-definition-and-explanation-wip)
+### 1. [📌 Definition and Explanation](#-definition-and-explanation)
+### 2. [🔡 Code Flow and Tips](#-code-flow-and-tips)
 ### 3. [🔡 Code syntax](#-code-syntax)
 ### 4. [👨🏻‍💻 Code Example](#-code-example)
 ### 5. [:arrow_forward: Assembler CLI](#arrow_forward-assembler-cli)
@@ -34,45 +34,120 @@
 
 ---
 
-# ✔ Todo
-- [X] Core
-- [X] Add jump labels
-- [X] Add comments
-- [ ] Variables
-- [ ] Import
-- [ ] Procedures
-
----
-
-# 📌 Definition and Explanation (WIP)
+# 📌 Definition and Explanation
 Assembly is basically the most basic programming language of a certain hardware. There's a very strong correspondence between the instructions in the language and the architecture's machine code instructions: every instruction in the language is a machine code instruction and vice-versa. It was created so that humans don't had to memorize the machine code instructions which are many numbers.
 
 From the Wikipedia:
 > In computer programming, assembly language, often abbreviated asm, is any low-level programming language in which there is a very strong correspondence between the instructions in the language and the architecture's machine code instructions.
 
-In this case the translating process is called assembling, because ...
+Because of this strong correspondence, the translating process is called assembling instead of compiling, which is the same process but for high-end languages. Those languages do not have this strong correspondence that assembly languages have.
 
-The code should be written in RAM and it will be executed from the memmory address in register CP content. Every 4 bytes are considered a line of code.
+The core of the assembling process is to identify the assembly instructions and translate them to the circuit's instruction binary equivalent. Similarly, it also has to convert each variable to a memory address.
 
-## Memory
+#### Learn more
 
-Line of code = Instruction (4 bits) + Memory Address (12 bits).
+If you are interested in knowing more how this process works don't be afraid to read at the code.
 
-For more information about the machine code and the circuit, check out the [Circuits Repository](https://github.com/Open-Machine/Circuits/).
+If you are interested in knowing more about the actual circuit that runs the code you write, click [here](https://github.com/Open-Machine/Circuits/).
+
+If you are interested in knowing more about the Open-Computer project, click [here](https://github.com/Open-Machine/README/).
+
+---
+
+# Instructions
+### Symbols Legend for the Instructions Table
+Symbol | Explanation
+--- | ---
+ACC | The ACC register
+variable | A variable from the memory
+label | Jump label
+[ ] | "Value of"
+### Instructions Table
+Assembly Command | Short Instruction Description | Long Instruction Description | Short Param Description | Long Param Description
+--- | --- | --- | --- | ---
+nop | - | This instruction doesn't perform any action | - | No parameter is required
+copy | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
+store | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
+add | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+sub | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+input | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
+output | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
+kill | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
+jmp | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
+jg | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
+je | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
+jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
+
+---
+
+# 🔀 Code Flow and Tips
+
+Because Open-Machine's Circuit only has very simple commands and few registers, the way to think about your assembly code will be very different.
+
+### Storage
+The circuit has two components that store data: the ACC register and the memory RAM. Both of these are volatile memories, which means that when the circuit is turned the data lost. Let's take a closer look in the memories available and when they should be used:
+- **RAM**: is the main memory, it can store thousands of bits and every variable should be stored here.
+- **ACC register**: is an auxiliary memory for arithmetic operations that can store only one value. It must not store variables indefinitely. 
+
+	Most CPUs have many registers, so in those cases some registers can be used to store variables indefinitely. However, since Open-Computer's circuit only offers one register, it must be used exclusively as an auxiliary memory for the instructions.
+
+### Operation Flow
+Since the circuit has only one register, the flow of the operations will be a little bit different, following a pattern somewhat similar to:
+
+1. Change the value of ACC register
+2. Do an instruction
+3. Store the value of the ACC register in RAM
+
+**For example**, if you want to sum variables A and B and store the result in C you could use the following instructions:
+1. Copy the value of variable A to the ACC register
+2. Use the sum instruction to sum the value of ACC register with B and store the result in the ACC register
+3. Store the value of the ACC register in C memory address
+
+### IFs, WHILEs, FORs and procedures
+If that's your first time programming assembly, it must be very strange to know that there are no ```if```s, ```while```s and ```for```s. However, it's not that hard not having those keywords, because all of those things can be done with the combination arithmetic operations and conditional and unconditional jumps.
+
+Let me show you an example. Imagine you have this code written in C and wanted to translate it to assembly.
+```c
+	// before
+	if (a > b) {
+		// ...
+	}
+	// after
+```
+One way of doing it would be:
+
+*Each one of the the steps 1 through 3 is one assembly instruction*
+1. **Copy** the value of ```a``` from RAM to the ACC register
+2. Update the value of the ACC register with the result of the ```subtraction``` between the value of the ACC register and ```b```
+3. **Jump** to **step 5** if the ACC register is greater than zero
+4. Instructions inside the ```if``` statement
+	
+	```c
+	// after
+	```
+
+5. After instructions
+
+	```c
+	// after
+	```
+
+## More Tips
+- Remember to add the ```kill``` instruction at the end of your programs
 
 ---
 
 # 🔡 Code Syntax
-This is the assembly of Open-Machine's Circuits and it may be different from assemblies of other computers.
+Warning ⚠️: Assembly languages are specific to their hardware so remember that Open-Computer's Assembly may be different from other assembly languages.
 
-The circuit has two types of memories that can be used to store data: variables, which will be store in the RAM, and the ACC register, which should be used as an auxiliary memory for arithmetic operations.
+Warning ⚠️: Have you read [Code Flow and Tips](#--code-flow-and-tips)
 
-Read the specifications below to learn how to code in Open-Machine's Assembly.
+Read the specifications below to learn the code syntax.
 
 ## Tabs, spaces and case sensitivity
 - Case sensitive;
 - **Tabs and spaces** can be used interchangeably;
-- Blank or empty lines will be disconsidered;
+- Blank or empty lines won't be considered;
 - **Numbers** can be written in hexadecimal in the form of ```0xff``` or in decimal as ```255```;
 
 ## Naming Practices
@@ -116,28 +191,7 @@ An instruction line is a line that contains an instruction call.
 - An instruction line should obey the following regex: ```^[\t ]*(((nop)|(copy)|(store)|(add)|(sub)|(input)|(output)|(kill)|(jmp)|(jg)|(je)|(jl))(([\t ]+[a-z][a-zA-Z0-9]*)|()))[\t ]*$```
 
 ## Instructions Table
-### Symbols Legend for the Instructions Table
-Symbol | Explanation
---- | ---
-ACC | The ACC register
-variable | A variable from the memory
-label | Jump label
-[ ] | "Value of"
-### Instructions Table
-Assembly Command | Short Instruction Description | Long Instruction Description | Short Param Description | Long Param Description
---- | --- | --- | --- | ---
-nop | - | This instruction doesn't perform any action | - | No parameter is required
-copy | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
-store | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
-add | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-sub | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-input | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
-output | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
-kill | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
-jmp | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
-jg | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
-je | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
-jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
+Check out [here](#-instructions) the instruction table to know what instructions you can use and their parameters.
 
 ## Procedures
 ```sh
@@ -146,9 +200,6 @@ procedure procSum
 	copy variable
 end
 ```
-
-## Tips
-- Remember to add the ```kill``` instruction at the end of your programs
 
 ---
 
