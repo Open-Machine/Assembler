@@ -2,7 +2,7 @@
 <h1>Open Machine's Assembler</h1>
 <h4>CLI app that reads Assembly code and generates Machine Code for Open-Machine's Circuit.</h4>
 
-<h3>This repository is just a piece of a much larger project: <a href="https://github.com/Open-Machine/README">Open-Machine</a> - an open-source computer developed from scratch.</h3>
+<i>This repository is a component of a larger project: <b><a href="https://github.com/Open-Machine/README">Open-Machine</a></b> - an open-source computer developed from scratch.</i>
 
 <a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/network/members"><img src="https://img.shields.io/github/forks/Open-Machine/Assembler" alt="Forks Badge"/></a>
