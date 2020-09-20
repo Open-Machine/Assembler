@@ -11,13 +11,14 @@
 <a href="https://github.com/Open-Machine/Assembler/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Open-Machine/Assembler?color=2b9348"></a>
 <a href="https://github.com/Open-Machine/Circuits/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Open-Machine/Assembler?color=2b9347" alt="License Badge"/></a>
 
+<h3><i><b>Assembler</b> of Open-Machine's <a href="https://github.com/Open-Machine/Circuits">Circuit</a>. The program reads assembly code and generates machine code.</i></h3>
+<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project</a>: <b>developing a computer from scratch</b> with its custom <a href="https://github.com/Open-Machine/Circuits">circuit</a>, <a href="https://github.com/Open-Machine/Assembler">assembler</a> and compiler.</i>
+<br/>
+<br/>
+
 <img src="https://raw.githubusercontent.com/Open-Machine/README/stable/Media/logo-horizontal.png" alt="open-machine"/>
 
 <br/>
-<i><b>Assembler</b> of Open-Machine's <a href="https://github.com/Open-Machine/Circuits">Circuit</a>. The program reads assembly code and generates machine code.</i>
-<br/>
-
-<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project</a>: <b>developing a computer from scratch</b> with its custom <a href="https://github.com/Open-Machine/Circuits">circuit</a> and <a href="https://github.com/Open-Machine/Assembler">assembler</a>.</i>
 
 </div>
 
@@ -25,21 +26,21 @@
 
 # 🔖 Table of Contents
 
-##### Introduction
-### 1. [📌 Definition and Explanation](#-definition-and-explanation)
+##### *Introduction*
+### &nbsp;&nbsp;&nbsp;&nbsp;1. [📌 Definition and Explanation](#-definition-and-explanation)
 
-## Code
-### 2. [🔢 Instructions](#-instructions)
-### 3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
-### 4. [🔡 Code syntax](#-code-syntax)
-### 5. [👨🏻‍💻 Code Example](#-code-example)
+##### *Code*
+### &nbsp;&nbsp;&nbsp;&nbsp;2. [🔢 Instructions](#-instructions)
+### &nbsp;&nbsp;&nbsp;&nbsp;3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
+### &nbsp;&nbsp;&nbsp;&nbsp;4. [🔡 Code syntax](#-code-syntax)
+### &nbsp;&nbsp;&nbsp;&nbsp;5. [👨🏻‍💻 Code Example](#-code-example)
 
-## Run
-### 6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
-### 7. [💻 Assembler CLI](#-assembler-cli)
+##### *Run*
+### &nbsp;&nbsp;&nbsp;&nbsp;6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
+### &nbsp;&nbsp;&nbsp;&nbsp;7. [💻 Assembler CLI](#-assembler-cli)
 
-## More
-### 9. [📄 Contributing Guidelines](#-contributing-guidelines)
+##### *More*
+### &nbsp;&nbsp;&nbsp;&nbsp;9. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 ---
 
