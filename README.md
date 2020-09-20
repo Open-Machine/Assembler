@@ -23,7 +23,9 @@
 </div>
 
 <br/>
+
 ---
+
 <br/>
 
 # 🔖 Table of Contents
@@ -45,7 +47,9 @@
 ### &nbsp;&nbsp;&nbsp;&nbsp;9. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 <br/>
+
 ---
+
 <br/>
 
 # 📌 Definition and Explanation
@@ -67,7 +71,9 @@ If you are interested in knowing more **about the actual circuit** that runs the
 If you are interested in knowing more **about the Open-Computer project**, click [here](https://github.com/Open-Machine/README/).
 
 <br/>
+
 ---
+
 <br/>
 
 # 🔢 Instructions
@@ -101,7 +107,9 @@ je | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the 
 jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
 
 <br/>
+
 ---
+
 <br/>
 
 # 🔀 Code Flow and Tips
@@ -112,7 +120,9 @@ Because Open-Machine's Circuit only has very simple commands and very few regist
 ### [Click here](https://github.com/Open-Machine/Circuits/#-code-flow-and-tips) to go the section!
 
 <br/>
+
 ---
+
 <br/>
 
 # 🔡 Code Syntax
@@ -155,7 +165,9 @@ An instruction line is a line that contains an instruction call.
 Check out [here](#-instructions) the instruction table to know what instructions you can use and their parameters.
 
 <br/>
+
 ---
+
 <br/>
 
 # 👨🏻‍💻 Code Example
@@ -179,7 +191,9 @@ kill
 ```
 
 <br/>
+
 ---
+
 <br/>
 
 # :arrow_forward: Setup and Run
@@ -239,7 +253,9 @@ The outputs will appear on the console following this pattern: ```{16 bits of th
 The first output can be ignored.
 
 <br/>
+
 ---
+
 <br/>
 
 ## 💻 Assembler CLI
@@ -283,7 +299,9 @@ Flags:
 ```
 
 <br/>
+
 ---
+
 <br/>
 
 # 📄 Contributing Guidelines
