@@ -258,7 +258,7 @@ The first output can be ignored.
 
 <br/>
 
-## 💻 Assembler CLI
+# 💻 Assembler CLI
 You can use the flag ```--help``` to see all the options.
 
 ### Assemble
