@@ -30,16 +30,16 @@
 
 ## Code
 ### 2. [🔢 Instructions](#-instructions)
-### 3. [🔡 Code Flow and Tips](#-code-flow-and-tips)
+### 3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
 ### 4. [🔡 Code syntax](#-code-syntax)
 ### 5. [👨🏻‍💻 Code Example](#-code-example)
 
 ## Run
-### 6. [:arrow_forward: Assembler CLI](#arrow_forward-assembler-cli)
-### 7. [:bug: Build and Test](#bug-build-and-test)
+### 6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
+### 7. [💻 Assembler CLI](#-assembler-cli)
 
 ## More
-### 8. [📄 Contributing Guidelines](#-contributing-guidelines)
+### 9. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 ---
 
@@ -64,15 +64,19 @@ If you are interested in knowing more about the Open-Computer project, click [he
 ---
 
 # 🔢 Instructions
-First of all, let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
+Let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
 
-### Symbols Legend for the Instructions Table
+**Warning** ⚠️: If you have never programmed in an assembly language, please read the section [🔀 Code Flow and Tips](#-code-flow-and-tips).
+
+### Symbols Legend
+Some symbols are used in the Instructions Table. Here you can see their meaning.
 Symbol | Explanation
 --- | ---
 ACC | The ACC register
 variable | A variable from the memory
 label | Jump label
 [ ] | "Value of"
+
 ### Instructions Table
 Assembly Command | Short Instruction Description | Long Instruction Description | Short Param Description | Long Param Description
 --- | --- | --- | --- | ---
@@ -126,12 +130,10 @@ Let me show you an example. Imagine you have this code written in C and wanted t
 	// after
 ```
 One way of doing it would be:
-
-*Each one of the the steps 1 through 3 is one assembly instruction*
 1. **Copy** the value of ```a``` from RAM to the ACC register
 2. Update the value of the ACC register with the result of the ```subtraction``` between the value of the ACC register and ```b```
 3. **Jump** to **step 5** if the ACC register is greater than zero
-4. Instructions inside the ```if``` statement
+4. One or more instructions inside the ```if``` statement
 	
 	```c
 	// after
@@ -149,9 +151,7 @@ One way of doing it would be:
 ---
 
 # 🔡 Code Syntax
-Warning ⚠️: Assembly languages are specific to their hardware so remember that Open-Computer's Assembly may be different from other assembly languages.
-
-Warning ⚠️: Have you read [Code Flow and Tips](#--code-flow-and-tips)
+**Warning** ⚠️: Assembly languages are specific to their hardware so remember that Open-Computer's Assembly may be different from other assembly languages.
 
 Read the specifications below to learn the code syntax.
 
@@ -162,18 +162,9 @@ Read the specifications below to learn the code syntax.
 - **Numbers** can be written in hexadecimal in the form of ```0xff``` or in decimal as ```255```;
 
 ## Naming Practices
-- A **variable, procedure or label name** should start with a letter and the rest of the name can have more letters and numbers;
+- A **label name** should start with a letter and the rest of the name can have more letters and numbers;
 - Every name should obey the following regex: ```[a-z][a-zA-Z0-9]*```;
 - Snake-case is not allowed and the use of camel-case is encouraged.
-
-## Declaring Variables
-- The variables should be declared between the imports and instructions.
-- Form: ```declare {variableName} {number}```
-- Example
-	```sh
-	declare variable 0xff
-	```
-- Remember to follow the [naming practices](#naming-practices)
 
 ## Jump Label
 - Definition: it marks the line for possible jumps to that line;
@@ -196,19 +187,13 @@ An instruction line is a line that contains an instruction call.
 ## Instructions Table
 Check out [here](#-instructions) the instruction table to know what instructions you can use and their parameters.
 
-## Procedures
-```sh
-procedure procSum
-	store variable
-	copy variable
-end
-```
-
 ---
 
 # 👨🏻‍💻 Code Example
 ```sh
-import help.asm # it has procedure procSum
+# Let's get two numbers as input and print the result of the sum of them
+
+
 
 procedure procSub
 	copy 0xff # copy value in the address ff in RAM
@@ -226,8 +211,66 @@ kill
 
 ---
 
-# :arrow_forward: Assembler CLI
-You can use the flag ```--help``` to see the options 
+# :arrow_forward: Setup and Run
+These are the steps to setup and run Open-Computer's Assembler.
+
+You can find more information about the assembler CLI [here](#-assembler-cli) and about running the circuit [here](https://github.com/Open-Machine/Circuits/#️-run).
+
+## Setup
+1. Build the GoLang project
+	```sh
+	go build
+	```
+2. Clone [Open-Computer's Circuit Repository](https://github.com/Open-Machine/Assembler/)
+
+	You will need this repository to run the assembled program.
+
+	If you have git installed in your terminal, run:
+	```sh
+	git clone https://github.com/Open-Machine/Assembler/
+	```
+
+## Assemble your code
+1. **Assemble** your code
+   ```sh
+   ./assembler assemble ${main.asm}
+   ```
+
+## Run your code   
+There are two ways of running your application
+
+#### GUI Mode
+In this mode, you will be able to see everything that is happening to the circuits in real time and interact with it by changing the inputs.
+
+You can watch [this video](https://www.youtube.com/watch?v=NAITQqdOw7c) as an introduction to Logisim-Evolution, which is the program that we will be using to simulate the circuit.
+
+1. Navigate to the Circuits repository
+2. Start the circuit: follow the steps [here](https://github.com/Open-Machine/Circuits/#️start-the-circuit)
+3. Right click in the RAM and click ""
+4. Select the assembled file
+
+   You should select the file generated by the assemble program, not the file with the assembly code.
+
+5. To run the program (start the clock simulation), follow the steps [here](https://github.com/Open-Machine/Circuits/#run-the-circuit)
+
+
+## CLI Mode
+In this mode, you will only be able to see the outputs of your application. You just have to run: 
+```sh
+java -jar logisim-evolution.jar main.circ -load ${assembled_file} -tty table
+```
+*Remember to write the name of the file that was generated by the assembler command instead of ```${assembled_file}```*.
+
+### About the outputs
+
+The outputs will appear on the console following this pattern: ```{16 bits of the main output}     {4 bit ouptut counter}```.
+
+The first output can be ignored.
+
+---
+
+## 💻 Assembler CLI
+You can use the flag ```--help``` to see all the options.
 
 ### Assemble
 ```sh
@@ -248,7 +291,6 @@ Flags:
 Args:
   <file-name>  Provide the name of file with the assembly code
 ```
-*ps: If you want to **assemble your assembly file** run:* ```./assembler assemble filename.asm```
 
 ### Syntax
 ```sh
@@ -265,22 +307,6 @@ Flags:
   -e, --example                  Assembly code example with explanation
   -l, --ls                       List all available instructions
   -c, --instruction=INSTRUCTION  Explanation of an specific instruction
-```
-
----
-
-# :bug: Build and Test
-
-## Build
-To build the GoLang code run:
-```sh
-go build
-```
-
-## Test
-To test the GoLang code run:
-```sh
-go test ./...
 ```
 
 ---
