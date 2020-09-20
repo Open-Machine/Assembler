@@ -44,7 +44,7 @@ Because of this strong correspondence, the translating process is called assembl
 
 The core of the assembling process is to identify the assembly instructions and translate them to the circuit's instruction binary equivalent. Similarly, it also has to convert each variable to a memory address.
 
-#### Learn more
+## Learn more
 
 If you are interested in knowing more how this process works don't be afraid to read at the code.
 
@@ -54,7 +54,9 @@ If you are interested in knowing more about the Open-Computer project, click [he
 
 ---
 
-# Instructions
+# 🔢 Instructions
+First of all, let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
+
 ### Symbols Legend for the Instructions Table
 Symbol | Explanation
 --- | ---
@@ -154,14 +156,6 @@ Read the specifications below to learn the code syntax.
 - A **variable, procedure or label name** should start with a letter and the rest of the name can have more letters and numbers;
 - Every name should obey the following regex: ```[a-z][a-zA-Z0-9]*```;
 - Snake-case is not allowed and the use of camel-case is encouraged.
-
-## Imports
-- The important files cannot have any code outside procedures.
-- Form: ```import {fileName}.asm```
-- Example:
-	```sh
-	import help.asm
-	```
 
 ## Declaring Variables
 - The variables should be declared between the imports and instructions.
