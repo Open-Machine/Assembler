@@ -22,7 +22,9 @@
 
 </div>
 
+<br/>
 ---
+<br/>
 
 # 🔖 Table of Contents
 
@@ -42,7 +44,9 @@
 ##### *More*
 ### &nbsp;&nbsp;&nbsp;&nbsp;9. [📄 Contributing Guidelines](#-contributing-guidelines)
 
+<br/>
 ---
+<br/>
 
 # 📌 Definition and Explanation
 Assembly is basically the most basic programming language of a certain hardware. There's a very strong correspondence between the instructions in the language and the architecture's machine code instructions: every instruction in the language is a machine code instruction and vice-versa. It was created so that humans don't had to memorize the machine code instructions which are many numbers.
@@ -62,7 +66,9 @@ If you are interested in knowing more **about the actual circuit** that runs the
 
 If you are interested in knowing more **about the Open-Computer project**, click [here](https://github.com/Open-Machine/README/).
 
+<br/>
 ---
+<br/>
 
 # 🔢 Instructions
 Let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
@@ -94,19 +100,20 @@ jg | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the 
 je | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
 jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
 
+<br/>
 ---
+<br/>
 
 # 🔀 Code Flow and Tips
 This section will help you think more in an assembly way.
 
 Because Open-Machine's Circuit only has very simple commands and very few registers, the way to think about your assembly code will be very different.
 
-<h3><a href="http://example.com/" target="_blank">Click here!</a>
-</h3>
-
 ### [Click here](https://github.com/Open-Machine/Circuits/#-code-flow-and-tips) to go the section!
 
+<br/>
 ---
+<br/>
 
 # 🔡 Code Syntax
 **Warning** ⚠️: Assembly languages are specific to their hardware so remember that Open-Computer's Assembly may be different from other assembly languages.
@@ -130,6 +137,7 @@ Read the specifications below to learn the code syntax.
 - Remember to follow the [naming practices](#naming-practices)
 
 ## Instruction line
+
 ***Definition***
 
 An instruction line is a line that contains an instruction call.
@@ -142,10 +150,13 @@ An instruction line is a line that contains an instruction call.
 - A instruction line should be in the following form ```{instruction} [arg]```;
 - An instruction line should obey the following regex: ```^[\t ]*(((nop)|(copy)|(store)|(add)|(sub)|(input)|(output)|(kill)|(jmp)|(jg)|(je)|(jl))(([\t ]+[a-z][a-zA-Z0-9]*)|()))[\t ]*$```
 
-## Instructions Table
+***Instructions List***
+
 Check out [here](#-instructions) the instruction table to know what instructions you can use and their parameters.
 
+<br/>
 ---
+<br/>
 
 # 👨🏻‍💻 Code Example
 ```sh
@@ -167,7 +178,9 @@ start:
 kill
 ```
 
+<br/>
 ---
+<br/>
 
 # :arrow_forward: Setup and Run
 These are the steps to setup and run Open-Computer's Assembler.
@@ -225,7 +238,9 @@ The outputs will appear on the console following this pattern: ```{16 bits of th
 
 The first output can be ignored.
 
+<br/>
 ---
+<br/>
 
 ## 💻 Assembler CLI
 You can use the flag ```--help``` to see all the options.
@@ -267,7 +282,9 @@ Flags:
   -c, --instruction=INSTRUCTION  Explanation of an specific instruction
 ```
 
+<br/>
 ---
+<br/>
 
 # 📄 Contributing Guidelines
 Check out the contributing guidelines [here](https://github.com/Open-Machine/github.com/open-machine/assemblerblob/master/CONTRIBUTION.md).
