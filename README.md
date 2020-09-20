@@ -26,20 +26,20 @@
 
 # 🔖 Table of Contents
 
-## Introduction
+##### *Introduction*
 ### 1. [📌 Definition and Explanation](#-definition-and-explanation)
 
-## Code
+##### *Code*
 ### 2. [🔢 Instructions](#-instructions)
 ### 3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
 ### 4. [🔡 Code syntax](#-code-syntax)
 ### 5. [👨🏻‍💻 Code Example](#-code-example)
 
-## Run
+##### *Run*
 ### 6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
 ### 7. [💻 Assembler CLI](#-assembler-cli)
 
-## More
+##### *More*
 ### 9. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 ---
