@@ -38,6 +38,7 @@
 
 ##### *Introduction*
 <<<<<<< HEAD
+<<<<<<< HEAD
 ### &nbsp;&nbsp;&nbsp;&nbsp;1. [📌 Definition and Explanation](#-definition-and-explanation)
 
 ##### *Code*
@@ -56,20 +57,27 @@
 <br/>
 =======
 ### 1. [📌 Definition and Explanation](#-definition-and-explanation)
+=======
+### &nbsp;&nbsp;&nbsp;&nbsp;1. [📌 Definition and Explanation](#-definition-and-explanation)
+>>>>>>> 0ff5ce2... :memo: DOCS: Table of preview tab
 
 ##### *Code*
-### 2. [🔢 Instructions](#-instructions)
-### 3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
-### 4. [🔡 Code syntax](#-code-syntax)
-### 5. [👨🏻‍💻 Code Example](#-code-example)
+### &nbsp;&nbsp;&nbsp;&nbsp;2. [🔢 Instructions](#-instructions)
+### &nbsp;&nbsp;&nbsp;&nbsp;3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
+### &nbsp;&nbsp;&nbsp;&nbsp;4. [🔡 Code syntax](#-code-syntax)
+### &nbsp;&nbsp;&nbsp;&nbsp;5. [👨🏻‍💻 Code Example](#-code-example)
 
 ##### *Run*
-### 6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
-### 7. [💻 Assembler CLI](#-assembler-cli)
+### &nbsp;&nbsp;&nbsp;&nbsp;6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
+### &nbsp;&nbsp;&nbsp;&nbsp;7. [💻 Assembler CLI](#-assembler-cli)
 
 ##### *More*
+<<<<<<< HEAD
 ### 9. [📄 Contributing Guidelines](#-contributing-guidelines)
 >>>>>>> b74e425... :memo: DOCS: Improve format
+=======
+### &nbsp;&nbsp;&nbsp;&nbsp;9. [📄 Contributing Guidelines](#-contributing-guidelines)
+>>>>>>> 0ff5ce2... :memo: DOCS: Table of preview tab
 
 ---
 
