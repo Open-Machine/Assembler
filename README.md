@@ -67,7 +67,7 @@ If you are interested in knowing more **about the Open-Computer project**, click
 # 🔢 Instructions
 Let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
 
-**Warning** ⚠️: If you have never programmed in an assembly language (or with this assembly), please read this section and [🔀 Code Flow and Tips](#-code-flow-and-tips) in parallel. The ```code flow``` section will help you understand what to make with the instructions.
+**Warning** ⚠️: If you have never programmed in an assembly language (or with this assembly), please read this section and [🔀 Code Flow and Tips](#-code-flow-and-tips) in parallel. The *Code Flow and Tips* section will help you understand what to make with the instructions.
 
 ### Symbols Legend
 Some symbols are used in the Instructions Table. Here you can see their meaning.
