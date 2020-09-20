@@ -249,7 +249,7 @@ You can watch [this video](https://www.youtube.com/watch?v=NAITQqdOw7c) as an in
 5. To run the program (start the clock simulation), follow the steps [here](https://github.com/Open-Machine/Circuits/#run-the-circuit)
 
 
-## CLI Mode
+#### CLI Mode
 In this mode, you will only be able to see the outputs of your application. You just have to run: 
 ```sh
 java -jar logisim-evolution.jar main.circ -load ${assembled_file} -tty table
