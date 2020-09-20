@@ -156,7 +156,7 @@ An instruction line is a line that contains an instruction call.
 
 ***Components***
 - ```instruction``` is the actual instruction that will be executed, it must be one of the following in the instruction table;
-- ```arg``` can be either a jump label or a 
+- ```arg``` can be a jump label or a number (depending on the instruction)
 
 ***Form***
 - A instruction line should be in the following form ```{instruction} [arg]```;
