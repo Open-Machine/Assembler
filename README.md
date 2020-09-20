@@ -24,13 +24,22 @@
 ---
 
 # 🔖 Table of Contents
+
+## Introduction
 ### 1. [📌 Definition and Explanation](#-definition-and-explanation)
-### 2. [🔡 Code Flow and Tips](#-code-flow-and-tips)
-### 3. [🔡 Code syntax](#-code-syntax)
-### 4. [👨🏻‍💻 Code Example](#-code-example)
-### 5. [:arrow_forward: Assembler CLI](#arrow_forward-assembler-cli)
-### 6. [:bug: Build and Test](#bug-build-and-test)
-### 7. [📄 Contributing Guidelines](#-contributing-guidelines)
+
+## Code
+### 2. [🔢 Instructions](#-instructions)
+### 3. [🔡 Code Flow and Tips](#-code-flow-and-tips)
+### 4. [🔡 Code syntax](#-code-syntax)
+### 5. [👨🏻‍💻 Code Example](#-code-example)
+
+## Run
+### 6. [:arrow_forward: Assembler CLI](#arrow_forward-assembler-cli)
+### 7. [:bug: Build and Test](#bug-build-and-test)
+
+## More
+### 8. [📄 Contributing Guidelines](#-contributing-guidelines)
 
 ---
 
