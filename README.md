@@ -17,7 +17,7 @@
 <i><b>Assembler</b> of Open-Machine's <a href="https://github.com/Open-Machine/Circuits">Circuit</a>. The program reads assembly code and generates machine code.</i>
 <br/>
 
-<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project</a>: <b>developing a computer from scratch</b> with its custom <a href="https://github.com/Open-Machine/Circuits">circuit</a>, <a href="https://github.com/Open-Machine/Assembler">assembler</a> and compiler.</i>
+<i>This repository is part of a <a href="https://github.com/Open-Machine/">larger project</a>: <b>developing a computer from scratch</b> with its custom <a href="https://github.com/Open-Machine/Circuits">circuit</a> and <a href="https://github.com/Open-Machine/Assembler">assembler</a>.</i>
 
 </div>
 
@@ -25,7 +25,7 @@
 
 # 🔖 Table of Contents
 
-## Introduction
+##### Introduction
 ### 1. [📌 Definition and Explanation](#-definition-and-explanation)
 
 ## Code
@@ -55,18 +55,18 @@ The core of the assembling process is to identify the assembly instructions and 
 
 ## Learn more
 
-If you are interested in knowing more how this process works don't be afraid to read at the code.
+If you are interested in knowing more **how this process works** don't be afraid to read at the code.
 
-If you are interested in knowing more about the actual circuit that runs the code you write, click [here](https://github.com/Open-Machine/Circuits/).
+If you are interested in knowing more **about the actual circuit** that runs the code you write, click [here](https://github.com/Open-Machine/Circuits/).
 
-If you are interested in knowing more about the Open-Computer project, click [here](https://github.com/Open-Machine/README/).
+If you are interested in knowing more **about the Open-Computer project**, click [here](https://github.com/Open-Machine/README/).
 
 ---
 
 # 🔢 Instructions
 Let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
 
-**Warning** ⚠️: If you have never programmed in an assembly language, please read the section [🔀 Code Flow and Tips](#-code-flow-and-tips).
+**Warning** ⚠️: If you have never programmed in an assembly language (or with this assembly), please read this section and [🔀 Code Flow and Tips](#-code-flow-and-tips) in parallel. The ```code flow``` section will help you understand what to make with the instructions.
 
 ### Symbols Legend
 Some symbols are used in the Instructions Table. Here you can see their meaning.
@@ -96,57 +96,14 @@ jl | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the 
 ---
 
 # 🔀 Code Flow and Tips
+This section will help you think more in an assembly way.
 
-Because Open-Machine's Circuit only has very simple commands and few registers, the way to think about your assembly code will be very different.
+Because Open-Machine's Circuit only has very simple commands and very few registers, the way to think about your assembly code will be very different.
 
-### Storage
-The circuit has two components that store data: the ACC register and the memory RAM. Both of these are volatile memories, which means that when the circuit is turned the data lost. Let's take a closer look in the memories available and when they should be used:
-- **RAM**: is the main memory, it can store thousands of bits and every variable should be stored here.
-- **ACC register**: is an auxiliary memory for arithmetic operations that can store only one value. It must not store variables indefinitely. 
+<h3><a href="http://example.com/" target="_blank">Click here!</a>
+</h3>
 
-	Most CPUs have many registers, so in those cases some registers can be used to store variables indefinitely. However, since Open-Computer's circuit only offers one register, it must be used exclusively as an auxiliary memory for the instructions.
-
-### Operation Flow
-Since the circuit has only one register, the flow of the operations will be a little bit different, following a pattern somewhat similar to:
-
-1. Change the value of ACC register
-2. Do an instruction
-3. Store the value of the ACC register in RAM
-
-**For example**, if you want to sum variables A and B and store the result in C you could use the following instructions:
-1. Copy the value of variable A to the ACC register
-2. Use the sum instruction to sum the value of ACC register with B and store the result in the ACC register
-3. Store the value of the ACC register in C memory address
-
-### IFs, WHILEs, FORs and procedures
-If that's your first time programming assembly, it must be very strange to know that there are no ```if```s, ```while```s and ```for```s. However, it's not that hard not having those keywords, because all of those things can be done with the combination arithmetic operations and conditional and unconditional jumps.
-
-Let me show you an example. Imagine you have this code written in C and wanted to translate it to assembly.
-```c
-	// before
-	if (a > b) {
-		// ...
-	}
-	// after
-```
-One way of doing it would be:
-1. **Copy** the value of ```a``` from RAM to the ACC register
-2. Update the value of the ACC register with the result of the ```subtraction``` between the value of the ACC register and ```b```
-3. **Jump** to **step 5** if the ACC register is greater than zero
-4. One or more instructions inside the ```if``` statement
-	
-	```c
-	// after
-	```
-
-5. After instructions
-
-	```c
-	// after
-	```
-
-## More Tips
-- Remember to add the ```kill``` instruction at the end of your programs
+### [Click here](https://github.com/Open-Machine/Circuits/#-code-flow-and-tips) to go the section!
 
 ---
 
