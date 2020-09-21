@@ -315,4 +315,4 @@ Flags:
 <br/>
 
 # 📄 Contributing Guidelines
-Check out the contributing guidelines [here](https://github.com/Open-Machine/github.com/open-machine/assemblerblob/master/CONTRIBUTION.md).
+Check out the contributing guidelines [here](https://github.com/Open-Machine/github.com/open-machine/assemblerblob/master/CONTRIBUTING.md).
