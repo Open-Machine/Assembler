@@ -61,18 +61,21 @@ func (p *Program) ReplaceLabelsWithNumbers() []error {
 const executerFileHeader = "v2.0 raw"
 
 func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
-	machineCodeStr := executerFileHeader + "\n" + "0000"
+	machineCodeStr := executerFileHeader + "\n" + "0000" + " "
 	// TODO: Circuit requires "0000" as first (probably because of the PC counter and inverted clock)
 
 	var errors []myerrors.CustomError
 
-	for _, instruction := range p.instructions {
+	for i, instruction := range p.instructions {
 		executerCode, err := instruction.toExecuter()
 		if err != nil {
 			errors = append(errors, *err)
 		}
 
 		machineCodeStr += executerCode
+		if i != len(p.instructions)-1 {
+			machineCodeStr += " "
+		}
 	}
 
 	if len(errors) == 0 {
