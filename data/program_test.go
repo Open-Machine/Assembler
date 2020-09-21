@@ -32,7 +32,7 @@ func TestProgToExecuter(t *testing.T) {
 				Instruction{15, NewIntParam(7)},
 				Instruction{0, NewIntParam(0)},
 			},
-			"v2.0 raw\n00001002f0070000",
+			"v2.0 raw\n0000 1002 f007 0000",
 			0,
 		},
 		// 1 Overflow

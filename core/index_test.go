@@ -79,7 +79,7 @@ func TestAssembleFileAux(t *testing.T) {
 				"store 0xA",
 				"kill",
 			},
-			"file.asm", nil, helper.StringPointer("0100020a0900"), "file",
+			"file.asm", nil, helper.StringPointer("0100 020a 0900"), "file",
 		),
 	}
 

@@ -66,13 +66,16 @@ func (p *Program) ToExecuter() (string, []myerrors.CustomError) {
 
 	var errors []myerrors.CustomError
 
-	for _, instruction := range p.instructions {
+	for i, instruction := range p.instructions {
 		executerCode, err := instruction.toExecuter()
 		if err != nil {
 			errors = append(errors, *err)
 		}
 
-		machineCodeStr += executerCode + " "
+		machineCodeStr += executerCode
+		if i != len(p.instructions)-1 {
+			machineCodeStr += " "
+		}
 	}
 
 	if len(errors) == 0 {
