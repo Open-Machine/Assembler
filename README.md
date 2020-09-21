@@ -77,7 +77,7 @@ If you are interested in knowing more **about the Open-Computer project**, click
 <br/>
 
 # 🔢 Instructions
-Let's take a close look at the built-in instructions available. **Don't worry about syntax right now, we will talk about it later.**
+Let's take a close look at the instructions available. **Don't worry about syntax right now, we will talk about it later.**
 
 **Warning** ⚠️: If you have never programmed in an assembly language (or with this assembly), please read this section and [🔀 Code Flow and Tips](#-code-flow-and-tips) in parallel. The *Code Flow and Tips* section will help you understand what to make with the instructions.
 
@@ -216,13 +216,13 @@ You can find more information about the assembler CLI [here](#-assembler-cli) an
 	```sh
 	go build
 	```
-2. Clone [Open-Computer's Circuit Repository](https://github.com/Open-Machine/Assembler/)
+2. Clone [Open-Computer's Circuit Repository](https://github.com/Open-Machine/Circuits/)
 
 	You will need this repository to run the assembled program.
 
 	If you have git installed in your terminal, run:
 	```sh
-	git clone https://github.com/Open-Machine/Assembler/
+	git clone https://github.com/Open-Machine/Circuits/
 	```
 
 ## Assemble your code
