@@ -37,7 +37,7 @@
 ### &nbsp;&nbsp;&nbsp;&nbsp;2. [🔢 Instructions](#-instructions)
 ### &nbsp;&nbsp;&nbsp;&nbsp;3. [🔀 Code Flow and Tips](#-code-flow-and-tips)
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. [🔡 Code syntax](#-code-syntax)
-### &nbsp;&nbsp;&nbsp;&nbsp;5. [👨🏻‍💻 Code Example](#-code-example)
+### &nbsp;&nbsp;&nbsp;&nbsp;5. [⌨️ Code Example](#-code-example)
 
 ##### *Run*
 ### &nbsp;&nbsp;&nbsp;&nbsp;6. [:arrow_forward: Setup and Run](#arrow_forward-setup-and-run)
@@ -172,7 +172,7 @@ Check out [here](#-instructions) the instruction table to know what instructions
 
 <br/>
 
-# 👨🏻‍💻 Code Example
+# ⌨️ Code Example
 The following assembly code gets two numbers from input and outputs the sum of them. If the sum is greater than zero it will output zero.
 
 *ps: Since the ```input``` instruction doesn't wait for a change, expect the output to be zero.*
