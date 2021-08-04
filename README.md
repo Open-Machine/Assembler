@@ -214,7 +214,7 @@ You can find more information about the assembler CLI [here](#-assembler-cli) an
 ## Setup
 1. Build the GoLang project
 	```sh
-	go build
+	./setup.sh
 	```
 2. Clone [Open-Computer's Circuit Repository](https://github.com/Open-Machine/Circuits/)
 
@@ -250,7 +250,7 @@ You can watch [this video](https://www.youtube.com/watch?v=NAITQqdOw7c) as an in
 
 
 ### CLI Mode
-In this mode, you will only be able to see the outputs of your application. You just have to run: 
+In this mode, you will only be able to see the outputs of your application. You just have to run:
 ```sh
 java -jar logisim-evolution.jar main.circ -load ${assembled_file} -tty table
 ```
