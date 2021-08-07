@@ -12,15 +12,17 @@ import (
 	"github.com/open-machine/assembler/helper"
 )
 
-func AssembleFile(path string, execFileNameParam *string) {
-	helper.LogInfo(fmt.Sprintf("========= Starting to assemble '%s' =========", path))
+func AssembleFile(path string, execFileNameParam *string) *string {
+	helper.LogStep(fmt.Sprintf("Starting to assemble '%s'", path))
 
 	status, execFileName := AssembleFileAux(path, execFileNameParam, ioReaderFromPath, ioWriterFromPath)
 
 	if status == config.FailStatus {
-		helper.LogOtherError(fmt.Sprintf("========= Failed to assemble %s =========", path))
+		helper.LogOtherError(fmt.Sprintf("Failed to assemble %s", path))
+		return &execFileName
 	} else {
-		helper.LogInfo(fmt.Sprintf("========= Executable file is available in '%s' =========", execFileName))
+		helper.LogStep(fmt.Sprintf("Executable file is available in '%s'", execFileName))
+		return nil
 	}
 }
 
@@ -71,7 +73,7 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 
 	var execFileName string
 	if execFileNameParam == nil {
-		execFileName = helper.FileNameWithoutExtension(file.Name())
+		execFileName = helper.FileNameWithoutExtension(file.Name()) + config.MachineCodeFileExtension
 	} else {
 		execFileName = *execFileNameParam
 	}

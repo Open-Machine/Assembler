@@ -1,7 +1,15 @@
 #!/bin/bash
+
 echo "Setting up..."
+
 go build
 chmod +x assembler
+
+cd go_scripts/format_circuit_output
+go build
+chmod +x format_circuit_output
+cd ../..
+
 echo "Required setps completed!"
 
 add_shell_variables () {
