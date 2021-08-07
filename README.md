@@ -4,6 +4,8 @@
 
 <i>This repository is a component of a larger project: <b><a href="https://github.com/Open-Machine/README">Open-Machine</a></b> - an open-source computer developed from scratch.</i>
 
+<b>⚠️ It relies heavily on the <a href="https://github.com/Open-Machine/Circuits">Circuits</a> repository and it will not run unless both are in the same folder with the repository names unchanged.</b>
+
 <a href="https://github.com/Open-Machine/Assembler/stargazers"><img src="https://img.shields.io/github/stars/Open-Machine/Assembler" alt="Stars Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/network/members"><img src="https://img.shields.io/github/forks/Open-Machine/Assembler" alt="Forks Badge"/></a>
 <a href="https://github.com/Open-Machine/Assembler/"><img src="https://img.shields.io/badge/version-0.0.1-blue" alt="Version Badge"/></a>
