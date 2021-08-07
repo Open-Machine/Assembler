@@ -15,6 +15,11 @@ var colorYellow = "\033[33m"
 var colorWhite = "\033[37m"
 var _ = "\033[32m" //colorGreen
 
+func LogStep(str string) {
+	formatedStr := fmt.Sprintf("========= %s =========", str)
+	LogInfo(formatedStr)
+}
+
 func LogInfo(str string) {
 	formatedStr := fmt.Sprintf("[INFO] %s \n", str)
 	println(config.Out, colorWhite, formatedStr)
