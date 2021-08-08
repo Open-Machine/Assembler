@@ -75,7 +75,7 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 	if execFileNameParam == nil {
 		execFileName = helper.FileNameWithoutExtension(file.Name()) + config.MachineCodeFileExtension
 	} else {
-		execFileName = *execFileNameParam
+		execFileName = (*execFileNameParam) + config.MachineCodeFileExtension
 	}
 
 	execFile, err := ioWriterFromPath(execFileName)
