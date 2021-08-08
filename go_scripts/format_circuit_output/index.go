@@ -1,15 +1,17 @@
+package main
+
 // This programs reads the outputs of logisim-evolution and formats to readable lines.
 // This script requires a single argument that represents the print format of the numbers, the options are:
 // - b: for binary
 // - h: for hexadecimal
 // - d: for decimal
 
-package main
-
 import (
 	"fmt"
+	"io"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func binaryToInt(binaryStr string) (int64, error) {
@@ -21,7 +23,16 @@ func binaryToInt(binaryStr string) (int64, error) {
 }
 
 func binaryToHexadecimal(num int) string {
-	return fmt.Sprintf("%x", num)
+	isNegative := num < 0
+	abs := num
+	preffix := ""
+	if isNegative {
+		abs = -num
+		preffix = "-"
+	}
+
+	formatted := fmt.Sprintf("%x", abs)
+	return preffix + "0x" + strings.ToUpper(formatted)
 }
 func binaryToDecimal(num int) string {
 	return fmt.Sprintf("%d", num)
@@ -49,18 +60,22 @@ func format(binaryStr string, numFormat string) string {
 	}
 }
 
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("error: this script requires a single argument that represents the print format of the numbers")
+func program(args []string, consoleReader io.Reader, consoleWriter io.Writer) {
+	if len(args) < 2 {
+		fmt.Fprintln(consoleWriter, "error: this script requires a single argument that represents the print format of the numbers")
 		return
 	}
-	numFormat := os.Args[1]
+	numFormat := args[1]
 
 	var str1, str2, str3, str4 string
-	_, err := fmt.Scanf("%s %s %s %s", &str1, &str2, &str3, &str4)
+	_, err := fmt.Fscanf(consoleReader, "%s %s %s %s", &str1, &str2, &str3, &str4)
 	binaryStr := str1 + str2 + str3 + str4
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(format(binaryStr, numFormat))
+	fmt.Fprintln(consoleWriter, format(binaryStr, numFormat))
+}
+
+func main() {
+	program(os.Args, os.Stdin, os.Stdout)
 }
