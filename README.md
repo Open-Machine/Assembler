@@ -264,6 +264,13 @@ The outputs will appear on the console following this pattern: ```{16 bits of th
 
 The first output can be ignored.
 
+## Test
+```sh
+go test ./...
+cd go_scripts/format_circuit_output
+go test ./...
+```
+
 <br/>
 
 ---

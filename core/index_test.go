@@ -58,14 +58,14 @@ func TestAssembleFileAux(t *testing.T) {
 			[]string{
 				"kill",
 			},
-			"file.asm", nil, helper.StringPointer("0900"), "file",
+			"file.asm", nil, helper.StringPointer("0900"), "file.run",
 		),
 		// Changing file name
 		getSuccessTestInfo(
 			[]string{
 				"copy 0x0 # do this",
 			},
-			"file.asm", helper.StringPointer("name"), helper.StringPointer("0100"), "name",
+			"file.asm", helper.StringPointer("name"), helper.StringPointer("0100"), "name.run",
 		),
 		// Error openning the writer file
 		getFailTestInfo(
@@ -79,7 +79,7 @@ func TestAssembleFileAux(t *testing.T) {
 				"store 0xA",
 				"kill",
 			},
-			"file.asm", nil, helper.StringPointer("0100 020a 0900"), "file",
+			"file.asm", nil, helper.StringPointer("0100 020a 0900"), "file.run",
 		),
 	}
 
