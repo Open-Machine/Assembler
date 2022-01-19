@@ -5,7 +5,7 @@ import "testing"
 func TestStrToInt(t *testing.T) {
 	var tests = []struct {
 		param        string
-		expected     int
+		expected     uint
 		expectsError bool
 	}{
 		{"0x10", 16, false},

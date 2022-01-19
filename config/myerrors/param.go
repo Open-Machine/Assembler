@@ -2,8 +2,8 @@ package myerrors
 
 import "fmt"
 
-func ParamOverflow(param int, amntBits int) error {
-	return fmt.Errorf("Param '%b' overflows %d bits", param, amntBits)
+func ValueOverflow(number uint, amntBits int) error {
+	return fmt.Errorf("Value '%b' overflows %d bits", number, amntBits)
 }
 
 func InvalidParamLabelOrInt(param string, err error) error {

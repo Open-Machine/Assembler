@@ -26,83 +26,68 @@ func TestProgramFromFile(t *testing.T) {
 				" ",
 				"    ",
 			},
-			newProgramPointer([]data.Instruction{}, map[string]int{}),
+			newProgramPointer([]data.Instruction{}, map[string]int{}, map[string]data.Variable{}),
 			false,
 		},
-		// blank lines and right methods
+		// variables and code
 		{
 			[]string{
+				"@VAR",
+				"var2 = 3",
+				"variable = 1",
 				"",
-				"  ",
-				"store 1",
-				"store 0xC",
+				"@CODE",
+				"store variable",
+				"for:",
+				"store var2",
+				"end:",
 			},
 			newProgramPointer(
 				[]data.Instruction{
-					*newInstruction(0x2, 1),
-					*newInstruction(0x2, 12),
+					*data.NewInstructionTest(0x2, "variable", 0, data.VariableParam),
+					*data.NewInstructionTest(0x2, "var2", 0, data.VariableParam),
+				},
+				map[string]int{
+					"for": 1,
+					"end": 2,
+				},
+				map[string]data.Variable{
+					"var2":     createVariable("var2", 0, 3),
+					"variable": createVariable("variable", 1, 1),
+				},
+			),
+			false,
+		},
+		// only method
+		{
+			[]string{
+				"@CODE",
+				"store var",
+			},
+			newProgramPointer(
+				[]data.Instruction{
+					*data.NewInstructionTest(0x2, "var", 0, data.VariableParam),
 				},
 				map[string]int{},
+				map[string]data.Variable{},
 			),
 			false,
 		},
 		// wrong method
 		{
 			[]string{
+				"@CODE",
 				"mov 1",
 			},
 			nil,
 			true,
 		},
-		// wrong params
+		// invalid status
 		{
 			[]string{
-				"store",
-			},
-			nil,
-			true,
-		},
-		// labels always alone on the line (successful)
-		{
-			[]string{
-				"label1 :  ",
-				"store 1",
-				"store 0xC",
-				"jmping:",
-				"store 0xC",
-			},
-			newProgramPointer(
-				[]data.Instruction{
-					*newInstruction(0x2, 1),
-					*newInstruction(0x2, 12),
-					*newInstruction(0x2, 12),
-				},
-				map[string]int{
-					"label1": 0,
-					"jmping": 2,
-				},
-			),
-			false,
-		},
-		// jump labels mixed on same line and on the line above (successful)
-		{
-			[]string{
-				"store 1",
-				"label1:",
-				"store 1",
-				"store 0xC",
-				"label2: copy 0xF",
-				"kill",
-			},
-			nil,
-			true,
-		},
-		// invalid label (fail)
-		{
-			[]string{
-				"1label1 :  ",
-				"store 1",
-				"store 0xC",
+				"@CODE",
+				"store variable",
+				"@VAR",
 			},
 			nil,
 			true,
@@ -136,9 +121,13 @@ func TestProgramFromFile(t *testing.T) {
 		}
 	}
 }
-func newProgramPointer(instructions []data.Instruction, jumpLabelsDict map[string]int) *data.Program {
-	prog := data.ProgramFromInstructionsAndLabels(instructions, jumpLabelsDict)
+func newProgramPointer(instructions []data.Instruction, jumpLabelsDict map[string]int, variablesDict map[string]data.Variable) *data.Program {
+	prog := data.NewCompleteProgram(instructions, jumpLabelsDict, variablesDict)
 	return &prog
+}
+func createVariable(name string, index int, initialValue uint) data.Variable {
+	variable, _ := data.NewVariable(name, index, initialValue)
+	return *variable
 }
 
 func TestWriteAssembledFile(t *testing.T) {
@@ -154,39 +143,36 @@ func TestWriteAssembledFile(t *testing.T) {
 		expectsErr      bool
 	}{
 		{
-			data.ProgramFromInstructionsAndLabels([]data.Instruction{
-				*newInstruction(0x2, 1),
-				*newInstruction(0x2, 12),
-			}, map[string]int{}),
-			"v2.0 raw\n0000 2001 200c",
+			data.NewCompleteProgram(
+				[]data.Instruction{
+					*newInstruction(0x2, 1),
+					*newInstruction(0x2, 12),
+				}, map[string]int{}, map[string]data.Variable{},
+			),
+			"v2.0 raw\n0000 2001 200c 4093*0 ",
 			0,
 			false,
 		},
 		{
-			data.ProgramFromInstructionsAndLabels([]data.Instruction{
-				*newInstruction(0x2, 1),
-				*newInstruction(0x2, 12),
-				*newInstruction(0xD, 15),
-			}, map[string]int{}),
-			"v2.0 raw\n0000 2001 200c d00f",
+			data.NewCompleteProgram(
+				[]data.Instruction{
+					*newInstruction(0x2, 1),
+					*newInstruction(0x2, 12),
+					*newInstruction(0xD, 15),
+				}, map[string]int{}, map[string]data.Variable{},
+			),
+			"v2.0 raw\n0000 2001 200c d00f 4092*0 ",
 			0,
 			false,
 		},
 		{
-			data.ProgramFromInstructionsAndLabels([]data.Instruction{
-				*newInstruction(0x2, 1),
-				*data.NewInstructionTest(0x222, data.NewIntParam(12)),
-				*newInstruction(0xD, 115),
-			}, map[string]int{}),
-			"",
-			1,
-			true,
-		},
-		{
-			data.ProgramFromInstructionsAndLabels([]data.Instruction{
-				*newInstruction(0x2, 1),
-				*data.NewInstructionTest(0x2, data.NewStringParam("a")),
-			}, map[string]int{}),
+			data.NewCompleteProgram(
+				[]data.Instruction{
+					*newInstruction(0x2, 1),
+					*newInstruction(0x222, 12),
+					*newInstruction(0xD, 115),
+				}, map[string]int{}, map[string]data.Variable{},
+			),
 			"",
 			1,
 			true,
@@ -203,18 +189,16 @@ func TestWriteAssembledFile(t *testing.T) {
 
 		gotFileStr := fileWriter.String()
 		if gotFileStr != test.expectedFileStr {
-			t.Errorf("[%d] Expected file str: %v, Got file str: %v", i, test.expectedFileStr, gotFileStr)
+			t.Errorf("[%d] Expected file str: '%s', Got file str: '%s'", i, test.expectedFileStr, gotFileStr)
 		}
 
 		stderrStr := config.Err.(*bytes.Buffer).String()
 		gotErr := stderrStr != ""
 		if test.expectsErr != gotErr {
-			t.Errorf("[%d] Expected error: %t, Got error: %t // ", i, test.expectsErr, gotErr)
-			t.Errorf("\t\t StdErr: %s", stderrStr)
+			t.Errorf("[%d] Expected error: %t, Got error: %t // StdErr: %s", i, test.expectsErr, gotErr, stderrStr)
 		}
 	}
 }
 func newInstruction(cmdCode int, param int) *data.Instruction {
-	got, _ := data.NewInstruction(cmdCode, data.NewIntParam(param))
-	return got
+	return data.NewInstructionTest(cmdCode, "", param, 0)
 }

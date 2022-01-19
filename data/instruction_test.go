@@ -6,36 +6,6 @@ import (
 	"github.com/open-machine/assembler/config"
 )
 
-func TestNewInstructionOverflowValidation(t *testing.T) {
-	var tests = []struct {
-		code         int
-		param        int
-		expectsError bool
-	}{
-		{0, 0, false},
-		// neg
-		{-1, 0, true},
-		{0, -1, true},
-		// large num
-		{0, 5000, true},
-		{1000, 0, true},
-		// line between right and wrong
-		{15, 0, false},
-		{16, 0, true},
-		{0, 4095, false},
-		{0, 4096, true},
-	}
-
-	for i, test := range tests {
-		_, err := NewInstruction(test.code, NewIntParam(test.param))
-		gotErr := err != nil
-
-		if test.expectsError != gotErr {
-			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsError, gotErr)
-		}
-	}
-}
-
 func TestNewInstructionWrongStringParam(t *testing.T) {
 	var tests = []struct {
 		code         int
@@ -48,11 +18,17 @@ func TestNewInstructionWrongStringParam(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		_, err := NewInstruction(test.code, NewStringParam(test.param))
-		gotErr := err != nil
+		_, err1 := NewVariableInstruction(test.code, test.param)
+		_, err2 := NewJumpInstruction(test.code, test.param)
 
-		if test.expectsError != gotErr {
-			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsError, gotErr)
+		gotErr1 := err1 != nil
+		if test.expectsError != gotErr1 {
+			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsError, gotErr1)
+		}
+
+		gotErr2 := err2 != nil
+		if test.expectsError != gotErr2 {
+			t.Errorf("[%d] Expected error: %t, Got error: %t", i, test.expectsError, gotErr2)
 		}
 	}
 }
@@ -63,12 +39,11 @@ func TestToExecuter(t *testing.T) {
 		expected     string
 		expectsError bool
 	}{
-		{Instruction{0, NewIntParam(0)}, "0000", false},
-		{Instruction{11, NewIntParam(5)}, "b005", false},
-		{Instruction{5, NewIntParam(300)}, "512c", false},
-		{Instruction{5000, NewIntParam(5)}, "", true},
-		{Instruction{5, NewIntParam(5000)}, "", true},
-		{Instruction{5, NewStringParam("abc")}, "", true},
+		{Instruction{0, "", 0, 0}, "0000", false},
+		{Instruction{11, "", 5, 0}, "b005", false},
+		{Instruction{5, "", 300, 0}, "512c", false},
+		{Instruction{5000, "", 5, 0}, "", true},
+		{Instruction{5, "", 5000, 0}, "", true},
 	}
 
 	for i, test := range tests {
@@ -86,23 +61,25 @@ func TestToExecuter(t *testing.T) {
 }
 
 func TestNewInstructionTest(t *testing.T) {
-	code := 300
-	param := NewIntParam(300)
+	config.TestSetup()
 
-	_, err := NewInstruction(code, param)
-	if err == nil {
-		t.Errorf("Expected error! NewInstruction should verify params and these params should be wrong to validate the NewInstructionTest function")
+	code := 300
+	param := 300
+
+	ptrInstructionNotNil := NewInstructionTest(code, "", param, 0)
+	if ptrInstructionNotNil == nil {
+		t.Errorf("Expected not nil instruction, got nil instruction")
 	}
 
 	config.Testing = false
-	ptrInstructionNil := NewInstructionTest(code, param)
+	ptrInstructionNil := NewInstructionTest(code, "", param, 0)
 	if ptrInstructionNil != nil {
 		t.Errorf("Expected nil instruction, got not nil instruction")
 	}
 
 	config.Testing = true
-	ptrInstructionNotNil := NewInstructionTest(code, param)
-	if ptrInstructionNotNil == nil {
-		t.Errorf("Expected nil instruction, got not nil instruction")
+	ptrInstructionNotNil2 := NewInstructionTest(code, "", param, 0)
+	if ptrInstructionNotNil2 == nil {
+		t.Errorf("Expected not nil instruction, got nil instruction")
 	}
 }

@@ -67,13 +67,22 @@ func program(args []string, consoleReader io.Reader, consoleWriter io.Writer) {
 	}
 	numFormat := args[1]
 
-	var str1, str2, str3, str4 string
-	_, err := fmt.Fscanf(consoleReader, "%s %s %s %s", &str1, &str2, &str3, &str4)
-	binaryStr := str1 + str2 + str3 + str4
-	if err != nil {
-		panic(err)
+	isFirst := true // first print is always zero
+	for {
+		var str1, str2, str3, str4, str5 string
+		_, err := fmt.Fscanf(consoleReader, "%s %s %s %s     %s", &str1, &str2, &str3, &str4, &str5)
+		if isFirst {
+			isFirst = false
+			continue
+		}
+
+		binaryStr := str1 + str2 + str3 + str4
+		if err != nil {
+			panic(err)
+		}
+		fmt.Fprintln(consoleWriter, format(binaryStr, numFormat))
+
 	}
-	fmt.Fprintln(consoleWriter, format(binaryStr, numFormat))
 }
 
 func main() {

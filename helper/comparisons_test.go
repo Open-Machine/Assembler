@@ -1,8 +1,9 @@
 package helper
 
 import (
-	"github.com/open-machine/assembler/data"
 	"testing"
+
+	"github.com/open-machine/assembler/data"
 )
 
 func TestSafeIsEqualStringPointer(t *testing.T) {
@@ -33,10 +34,10 @@ func TestSafeIsEqualProgramPointer(t *testing.T) {
 		expected bool
 	}{
 		{nil, nil, true},
-		{newProgram(1, 1), nil, false},
-		{nil, newProgram(1, 1), false},
-		{newProgram(1, 1), newProgram(1, 1), true},
-		{newProgram(1, 1), newProgram(1, 2), false},
+		{newProgram(1, "a"), nil, false},
+		{nil, newProgram(1, "a"), false},
+		{newProgram(1, "a"), newProgram(1, "a"), true},
+		{newProgram(1, "a"), newProgram(1, "b"), false},
 	}
 
 	for i, test := range tests {
@@ -46,9 +47,10 @@ func TestSafeIsEqualProgramPointer(t *testing.T) {
 		}
 	}
 }
-func newProgram(a int, b int) *data.Program {
-	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
-	program := data.ProgramFromInstructionsAndLabels([]data.Instruction{*cmd}, map[string]int{})
+
+func newProgram(a int, b string) *data.Program {
+	cmd, _ := data.NewJumpInstruction(a, b)
+	program := data.NewCompleteProgram([]data.Instruction{*cmd}, map[string]int{}, map[string]data.Variable{})
 	return &program
 }
 
@@ -59,10 +61,10 @@ func TestSafeIsEqualInstructionPointer(t *testing.T) {
 		expected bool
 	}{
 		{nil, nil, true},
-		{newInstruction(1, 1), nil, false},
-		{nil, newInstruction(1, 1), false},
-		{newInstruction(1, 1), newInstruction(1, 1), true},
-		{newInstruction(1, 1), newInstruction(1, 2), false},
+		{newInstruction(1, "a"), nil, false},
+		{nil, newInstruction(1, "a"), false},
+		{newInstruction(1, "a"), newInstruction(1, "a"), true},
+		{newInstruction(1, "a"), newInstruction(1, "b"), false},
 	}
 
 	for i, test := range tests {
@@ -72,32 +74,7 @@ func TestSafeIsEqualInstructionPointer(t *testing.T) {
 		}
 	}
 }
-func newInstruction(a int, b int) *data.Instruction {
-	cmd, _ := data.NewInstruction(a, data.NewIntParam(b))
+func newInstruction(a int, b string) *data.Instruction {
+	cmd, _ := data.NewVariableInstruction(a, b)
 	return cmd
-}
-
-func TestSafeIsEqualInstructionParamPointer(t *testing.T) {
-	var tests = []struct {
-		param1   *data.InstructionParameter
-		param2   *data.InstructionParameter
-		expected bool
-	}{
-		{nil, nil, true},
-		{newIntParam(1), nil, false},
-		{nil, newIntParam(1), false},
-		{newIntParam(1), newIntParam(1), true},
-		{newIntParam(1), newIntParam(2), false},
-	}
-
-	for i, test := range tests {
-		got := SafeIsEqualInstructionParamPointer(test.param1, test.param2)
-		if got != test.expected {
-			t.Errorf("[%d] Expected: %t, Got: %t", i, test.expected, got)
-		}
-	}
-}
-func newIntParam(a int) *data.InstructionParameter {
-	param := data.NewIntParam(a)
-	return &param
 }

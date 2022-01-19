@@ -20,9 +20,9 @@ func IsValidName(varName string) bool {
 }
 
 const (
-	validName        = iota
-	invalidNameRegex = iota
-	reservedWord     = iota
+	validName = iota
+	invalidNameRegex
+	reservedWord
 )
 
 func nameStatus(varName string) int {
@@ -48,7 +48,7 @@ func isReservedWord(varName string) bool {
 	return false
 }
 
-func CheckParamName(varName string) error {
+func CheckVariableName(varName string) error {
 	status := nameStatus(varName)
 	if status == invalidNameRegex {
 		return myerrors.InvalidParamLabel(varName)

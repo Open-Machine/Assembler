@@ -13,12 +13,19 @@ import (
 	"github.com/open-machine/assembler/helper"
 )
 
+const (
+	NoneState = iota
+	VarsState
+	CodeState
+)
+
 func programFromFile(file utils.MyFileInterface) *data.Program {
 	reader := bufio.NewReader(file.Reader())
 	lineIndex := 1
 	program := data.NewProgram(0)
-
+	assemblerState := NoneState
 	successful := true
+	variableIndex := 0
 
 	for {
 		line, errRead := reader.ReadString('\n')
@@ -28,20 +35,33 @@ func programFromFile(file utils.MyFileInterface) *data.Program {
 			return nil
 		}
 
-		jumpLabel, instructionPointer, errAssemble := assembleEntireLine(line)
+		jumpLabel, variable, instructionPointer, errAssemble := assembleEntireLine(line, &assemblerState, &variableIndex)
+
+		if errAssemble != nil {
+			successful = false
+			helper.LogErrorInLine(*errAssemble, lineIndex, line)
+			return nil
+		}
+
+		if variable != nil {
+			varErr := program.AddVariable(*variable)
+			if varErr != nil {
+				helper.LogErrorInLine(*myerrors.NewCodeError(varErr), lineIndex, line)
+				return nil
+			}
+		}
 
 		if jumpLabel != nil {
-			errJumpLabel := program.AddJumpLabel(*jumpLabel, program.LenInstructions())
+			errJumpLabel := program.AddJumpLabel(*jumpLabel, program.LenInstructions()+1)
+			// TODO: has "+1" because circuit requires "0000" at first
+
 			if errJumpLabel != nil {
 				helper.LogErrorInLine(*myerrors.NewCodeError(errJumpLabel), lineIndex, line)
 				return nil
 			}
 		}
 
-		if errAssemble != nil {
-			successful = false
-			helper.LogErrorInLine(*errAssemble, lineIndex, line)
-		} else if instructionPointer != nil {
+		if instructionPointer != nil {
 			program.AddInstruction(*instructionPointer)
 		}
 

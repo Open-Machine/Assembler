@@ -5,10 +5,12 @@ type CustomError struct {
 	errType int
 }
 
+// Error in the assembler programming
 func NewAssemblerError(e error) *CustomError {
 	return &CustomError{s: e.Error(), errType: assemblerError}
 }
 
+// Error in the assembly code
 func NewCodeError(e error) *CustomError {
 	return &CustomError{s: e.Error(), errType: codeError}
 }

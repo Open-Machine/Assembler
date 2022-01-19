@@ -18,67 +18,59 @@ func AssembleInstruction(line string) (*data.Instruction, *myerrors.CustomError)
 		return nil, myerrors.NewCodeError(err)
 	}
 
-	param, paramErr := instructionConfig.getParam(instructionName, arrayWords)
-	if paramErr != nil {
-		return nil, paramErr
+	switch instructionConfig.parameterType {
+	case data.VariableParam:
+		param, paramErr := getParam(instructionName, arrayWords)
+		if paramErr != nil {
+			return nil, paramErr
+		}
+		err := utils.CheckVariableName(param)
+		if err != nil {
+			return nil, myerrors.NewCodeError(err)
+		}
+		return data.NewVariableInstruction(instructionConfig.code, param)
+	case data.JumpLabelParam:
+		param, paramErr := getParam(instructionName, arrayWords)
+		if paramErr != nil {
+			return nil, paramErr
+		}
+		err := utils.CheckVariableName(param)
+		if err != nil {
+			return nil, myerrors.NewCodeError(err)
+		}
+		return data.NewJumpInstruction(instructionConfig.code, param)
+	case data.NoParam:
 	}
-
-	instructionPointer, customErr := data.NewInstruction(instructionConfig.code, *param)
-	return instructionPointer, customErr
-}
-
-func getParamNoParam(instructionName string, words []string) (*data.InstructionParameter, *myerrors.CustomError) {
-	if len(words) != 1 {
-		remainingParams := getInstructionParams(words)
-		err := myerrors.WrongNumberOfParamsError(instructionName, 0, len(remainingParams), remainingParams)
-		return nil, myerrors.NewCodeError(err)
+	err := getNoParam(instructionName, arrayWords)
+	if err != nil {
+		return nil, err
 	}
-
-	param := data.NewIntParam(0)
-	return &param, nil
+	instruction := data.NewInstructionWithoutParam(instructionConfig.code)
+	return &instruction, nil
 }
 
-func getSecondWordAsInt(instructionName string, words []string) (*data.InstructionParameter, *myerrors.CustomError) {
-	return getSecondWord(instructionName, words, false)
-}
-
-func getSecondWordAsIntOrString(instructionName string, words []string) (*data.InstructionParameter, *myerrors.CustomError) {
-	return getSecondWord(instructionName, words, true)
-}
-
-func getSecondWord(instructionName string, words []string, acceptStringParam bool) (*data.InstructionParameter, *myerrors.CustomError) {
+func getParam(instructionName string, words []string) (string, *myerrors.CustomError) {
 	if len(words) != 2 {
 		if len(words) < 2 {
 			err := myerrors.WrongNumberOfParamsError(instructionName, 1, 0, []string{})
-			return nil, myerrors.NewCodeError(err)
+			return "", myerrors.NewCodeError(err)
 		}
 
 		remainingParams := getInstructionParams(words)
 		err := myerrors.WrongNumberOfParamsError(instructionName, 1, len(remainingParams), remainingParams)
-		return nil, myerrors.NewCodeError(err)
+		return "", myerrors.NewCodeError(err)
 	}
 
-	strParam := words[1]
+	return words[1], nil
+}
 
-	if acceptStringParam && utils.IsValidName(strParam) {
-		param := data.NewStringParam(strParam)
-		return &param, nil
+func getNoParam(instructionName string, words []string) *myerrors.CustomError {
+	if len(words) != 1 {
+		remainingParams := getInstructionParams(words)
+		err := myerrors.WrongNumberOfParamsError(instructionName, 0, len(remainingParams), remainingParams)
+		return myerrors.NewCodeError(err)
 	}
-
-	num, err := utils.StrToPositiveInt(strParam)
-
-	if err != nil {
-		var customMsgErr error
-		if acceptStringParam {
-			customMsgErr = myerrors.InvalidParamLabelOrInt(strParam, err)
-		} else {
-			customMsgErr = myerrors.InvalidParamInt(strParam, err)
-		}
-		return nil, myerrors.NewCodeError(customMsgErr)
-	}
-
-	param := data.NewIntParam(num)
-	return &param, nil
+	return nil
 }
 
 func getInstructionParams(words []string) []string {

@@ -91,24 +91,24 @@ ACC | The ACC register
 variable | A variable from the memory
 label | Jump label
 [ ] | "Value of"
-```${memAddr}``` | Memory address parameter
-```${jumpTo}``` | Instruction index or jump label parameter
+```${varname}``` | Name of a defined variable
+```${jumpLabel}``` | Jump label
 
 ### Instructions Table
 Assembly Command | Short Instruction Description | Long Instruction Description | Short Param Description | Long Param Description
 --- | --- | --- | --- | ---
 ```nop``` | - | This instruction doesn't perform any action | - | No parameter is required
-```copy ${memAddr}``` | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
-```store ${memAddr}``` | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
-```add ${memAddr}``` | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-```sub ${memAddr}``` | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
-```input ${memAddr}``` | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
-```output ${memAddr}``` | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
+```copy ${varname}``` | [ACC] = [variable] | A value from the memory is copied to the ACC register | variable | It's the name of the variable that will be used in the instruction
+```store ${varname}``` | [variable] = [ACC] | The value from the ACC register is stored into memory | variable | It's the name of the variable that will be used in the instruction
+```add ${varname}``` | [ACC] = [ACC] + [variable] | The sum of the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+```sub ${varname}``` | [ACC] = [ACC] - [variable] | The difference between the value of the ACC register and a value from the memory is stored in the ACC register | variable | It's the name of the variable that will be used in the instruction
+```input ${varname}``` | [variable] = input value | The input value is copied to the memory | variable | It's the name of the variable that will be used in the instruction
+```output ${varname}``` | Output [variable] | Outputs a value from the memory into the circuit LEDs | variable | It's the name of the variable that will be used in the instruction
 ```kill``` | Finishes program | When this instruction is encountered, the program is finished and no more instructions will be executed | - | No parameter is required
-```jmp ${jumpTo}``` | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
-```jg ${jumpTo}``` | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
-```je ${jumpTo}``` | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
-```jl ${jumpTo}``` | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
+```jmp ${jumpLabel}``` | Jump to EE | Jump to another line of code | label | The jump label the program will jump to
+```jg ${jumpLabel}``` | Jump to EE if [ACC] > 0 | Jump to another line of code if the value of the ACC register is positive | label | The jump label the program will jump to if the condition is right
+```je ${jumpLabel}``` | Jump to EE if [ACC] = 0 | Jump to another line of code if the value of the ACC register is zero | label | The jump label the program will jump to if the condition is right
+```jl ${jumpLabel}``` | Jump to EE if [ACC] < 0 | Jump to another line of code if the value of the ACC register is negative | label | The jump label the program will jump to if the condition is right
 
 <br/>
 
@@ -134,23 +134,43 @@ Because Open-Machine's Circuit only has very simple commands and very few regist
 
 Read the specifications below to learn the code syntax.
 
-## Tabs, spaces and case sensitivity
+## General Definitions
+
+### Tabs, spaces and case sensitivity
 - Case sensitive;
 - **Tabs and spaces** can be used interchangeably;
 - Blank or empty lines won't be considered;
 - **Numbers** can be written in hexadecimal in the form of ```0xff``` or in decimal as ```255```;
+- Comments: characters written after a '#' character will be ignored in the assembly
 
-## Naming Practices
-- A **label name** should start with a letter and the rest of the name can have more letters and numbers;
+### Naming Practices
+- A **label name** should start with a lowercase letter and the rest of the name can have more letters and numbers;
 - Every name should obey the following regex: ```[a-z][a-zA-Z0-9]*```;
-- Snake-case is not allowed and the use of camel-case is encouraged.
+- Snake-case is not allowed, use camel-case instead.
 
-## Jump Label
+## The Two Parts
+The file should be separated into 2 parts: the variable declaration and the actual code, as such:
+```
+@VAR
+# you should declare your variables here
+
+@CODE
+# you should add the instructions and jump labels here
+```
+
+## Declaring Variables
+The syntax of declaring variables is really easy: ```{variableName} = {int value}```.
+
+For example: ```variable = 12``` or ```variable = 0x2```.
+
+## Code
+
+### Jump Label
 - Definition: it marks the line for possible jumps to that line;
 - Form: ```{labelName}:```
 - Remember to follow the [naming practices](#naming-practices)
 
-## Instruction line
+### Instruction line
 
 ***Definition***
 
@@ -170,36 +190,48 @@ Check out [here](#-instructions) the instruction table to know what instructions
 
 <br/>
 
+
 ---
 
 <br/>
 
-# ⌨️ Code Example
-The following assembly code gets two numbers from input and outputs the sum of them. If the sum is greater than zero it will output zero.
-
-*ps: Since the ```input``` instruction doesn't wait for a change, expect the output to be zero.*
+# ⌨️ Example
+The following assembly code calculates the ```fibonacciNumberIndex```th fibonacci number.
 ```sh
-# data inputs
-input 0x55
-input 0x56
+@VAR
+    fibonacciNumberIndex = 8
 
-# sum
-copy 0x55
-add 0x56
-store 0x57
+    oneVarConst = 1
+    prev = 1
+    current = 1
+    auxNext = -1
 
-# output
-output 0x57
+@CODE
+    copy fibonacciNumberIndex
+    sub oneVarConst
+    sub oneVarConst
+    store fibonacciNumberIndex
 
-# if output higher than zero, it will output zero
-copy 0x57
-je finish # if
-jl finish # if
-output 0xff # [0xff] = 0 since we didn't change it
+    for:
+        copy prev
+        add current
+        store auxNext
 
-finish:
+        copy current
+        store prev
 
-kill
+        copy auxNext
+        store current
+
+        copy fibonacciNumberIndex
+        sub oneVarConst
+        je end
+
+        store fibonacciNumberIndex
+        jmp for
+    end:
+    output current
+    kill
 ```
 
 <br/>
@@ -227,12 +259,6 @@ You can find more information about the assembler CLI [here](#-assembler-cli) an
 	git clone https://github.com/Open-Machine/Circuits/
 	```
 
-## Assemble
-Assemble your code
-```sh
-./assembler assemble ${main.asm}
-```
-
 ## Run
 There are two ways of running your application from the machine code generated by the ```assemble``` command.
 
@@ -250,35 +276,26 @@ You can watch [this video](https://www.youtube.com/watch?v=NAITQqdOw7c) as an in
 
 5. To run the program (start the clock simulation), follow the steps <a href="https://github.com/Open-Machine/Circuits/#iii-run-the-circuit">to Run the Circuit</a>
 
-
-### CLI Mode
-In this mode, you will only be able to see the outputs of your application. You just have to run:
-```sh
-java -jar logisim-evolution.jar main.circ -load ${assembled_file} -tty table
-```
-*Remember to write the name of the file that was generated by the assembler command instead of ```${assembled_file}```*.
-
-#### About the outputs
-
-The outputs will appear on the console following this pattern: ```{16 bits of the main output}     {4 bit ouptut counter}```.
-
-The first output can be ignored.
-
-## Test
-```sh
-go test ./...
-cd go_scripts/format_circuit_output
-go test ./...
-```
-
-<br/>
-
----
-
-<br/>
-
-# 💻 Assembler CLI
+## 💻 Assembler CLI
 You can use the flag ```--help``` to see all the options.
+
+### Run
+```sh
+./assembler run --help
+```
+```
+usage: assembly run <file-name> [<number-format>]
+
+Run machine code
+
+Flags:
+    --help  Show context-sensitive help (also try --help-long and
+            --help-man).
+
+Args:
+  <file-name>        Provide the name of file with the assembly or machine code
+  [<number-format>]  Provide the format for the numbers printed
+```
 
 ### Assemble
 ```sh
@@ -315,6 +332,13 @@ Flags:
   -e, --example                  Assembly code example with explanation
   -l, --ls                       List all available instructions
   -c, --instruction=INSTRUCTION  Explanation of an specific instruction
+```
+
+## Test
+```sh
+go test ./...
+cd go_scripts/format_circuit_output
+go test ./...
 ```
 
 <br/>

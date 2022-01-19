@@ -69,7 +69,7 @@ func TestIsValidVarName(t *testing.T) {
 
 		gotError := got != validName
 
-		gotParam := CheckParamName(test.param)
+		gotParam := CheckVariableName(test.param)
 		gotErrorParam := gotParam != nil
 
 		gotJump := CheckJumpLabelName(test.param)

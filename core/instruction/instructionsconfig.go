@@ -1,13 +1,10 @@
 package instruction
 
-import (
-	"github.com/open-machine/assembler/config/myerrors"
-	"github.com/open-machine/assembler/data"
-)
+import "github.com/open-machine/assembler/data"
 
 type InstructionConfig struct {
-	code     int
-	getParam func(instructionName string, words []string) (*data.InstructionParameter, *myerrors.CustomError)
+	code          int
+	parameterType int
 }
 
 func GetInstructionsConfig() map[string]InstructionConfig {
@@ -15,52 +12,52 @@ func GetInstructionsConfig() map[string]InstructionConfig {
 }
 
 var instructions = map[string]InstructionConfig{
-	"nop": InstructionConfig{
-		getParam: getParamNoParam,
-		code:     0x0,
+	"nop": {
+		code:          0x0,
+		parameterType: data.NoParam,
 	},
-	"copy": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x1,
+	"copy": {
+		code:          0x1,
+		parameterType: data.VariableParam,
 	},
-	"store": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x2,
+	"store": {
+		code:          0x2,
+		parameterType: data.VariableParam,
 	},
-	"add": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x3,
+	"add": {
+		code:          0x3,
+		parameterType: data.VariableParam,
 	},
-	"sub": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x4,
+	"sub": {
+		code:          0x4,
+		parameterType: data.VariableParam,
 	},
-	"input": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x7,
+	"input": {
+		code:          0x7,
+		parameterType: data.VariableParam,
 	},
-	"output": InstructionConfig{
-		getParam: getSecondWordAsInt,
-		code:     0x8,
+	"output": {
+		code:          0x8,
+		parameterType: data.VariableParam,
 	},
-	"kill": InstructionConfig{
-		getParam: getParamNoParam,
-		code:     0x9,
+	"kill": {
+		code:          0x9,
+		parameterType: data.NoParam,
 	},
-	"jmp": InstructionConfig{
-		getParam: getSecondWordAsIntOrString,
-		code:     0xA,
+	"jmp": {
+		code:          0xA,
+		parameterType: data.JumpLabelParam,
 	},
-	"jg": InstructionConfig{
-		getParam: getSecondWordAsIntOrString,
-		code:     0xB,
+	"jg": {
+		code:          0xB,
+		parameterType: data.JumpLabelParam,
 	},
-	"je": InstructionConfig{
-		getParam: getSecondWordAsIntOrString,
-		code:     0xD,
+	"je": {
+		code:          0xD,
+		parameterType: data.JumpLabelParam,
 	},
-	"jl": InstructionConfig{
-		getParam: getSecondWordAsIntOrString,
-		code:     0xF,
+	"jl": {
+		code:          0xF,
+		parameterType: data.JumpLabelParam,
 	},
 }

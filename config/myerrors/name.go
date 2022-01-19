@@ -14,6 +14,14 @@ func JumpLabelDoesNotExistError(label string) error {
 	return fmt.Errorf("Jump label '%s' does not exist", label)
 }
 
+func VariableAlreadyExistsError(label string) error {
+	return fmt.Errorf("Variable '%s' already exists", label)
+}
+
+func VariableDoesNotExistError(label string) error {
+	return fmt.Errorf("Variable '%s' does not exist", label)
+}
+
 // Reserved Word
 
 func reservedWordError(label string, commandType string) error {

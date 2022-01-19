@@ -35,7 +35,6 @@ type RunCommandConfig struct {
 
 func (data *RunCommandConfig) run(c *kingpin.ParseContext) error {
 	extension := helper.FileExtension(data.FileName)
-
 	switch extension {
 	case config.AssemblyFileExtension, config.MachineCodeFileExtension:
 		var machineCodeFile string

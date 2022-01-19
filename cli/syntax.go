@@ -79,8 +79,14 @@ func (data *SyntaxInstruction) run(c *kingpin.ParseContext) error {
 
 func GetAssemblyExample() []string {
 	return []string{
-		"store 0x0",
-		"copy 1",
+		"@VAR",
+		"a = 10",
+		"b = 20",
+		"",
+		"@CODE",
+		"copy a",
+		"add b",
+		"store b",
 		"kill",
 	}
 }

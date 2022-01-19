@@ -9,6 +9,13 @@ const AmntBitsInstruction = 4
 const AmntHexDigitsInstruction = 1
 const AmntBitsParam = 12
 const AmntHexDigitsParam = 3
+const AmntBitsVariable = AmntBitsInstruction + AmntBitsParam
+const AmntHexDigitsVariable = AmntHexDigitsInstruction + AmntHexDigitsParam
+
+const MemorySlots = 4096 //2^AmntBitsParam
+
+const AssemblerStateVarHeader = "@VAR"
+const AssemblerStateCodeHeader = "@CODE"
 
 const VariableNameRegex = "^[a-z][a-zA-Z0-9]*$"
 

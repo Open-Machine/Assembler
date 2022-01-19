@@ -19,10 +19,10 @@ func AssembleFile(path string, execFileNameParam *string) *string {
 
 	if status == config.FailStatus {
 		helper.LogOtherError(fmt.Sprintf("Failed to assemble %s", path))
-		return &execFileName
+		return nil
 	} else {
 		helper.LogStep(fmt.Sprintf("Executable file is available in '%s'", execFileName))
-		return nil
+		return &execFileName
 	}
 }
 
@@ -60,7 +60,7 @@ func AssembleFileAux(path string, execFileNameParam *string, ioReaderFromPath io
 		return config.FailStatus, ""
 	}
 
-	errs := ptrProgram.ReplaceLabelsWithNumbers()
+	errs := ptrProgram.ReplaceLabelsWithAddresses()
 	if len(errs) > 0 {
 		for _, err := range errs {
 			// TODO: create infrastructure go get lineIndex and line here

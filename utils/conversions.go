@@ -1,22 +1,23 @@
 package utils
 
 import (
-	"github.com/open-machine/assembler/config/myerrors"
 	"strconv"
+
+	"github.com/open-machine/assembler/config/myerrors"
 )
 
 const bitsize = 64 // so that numStr is never considered negative
-func StrToPositiveInt(numStr string) (int, error) {
+func StrToPositiveInt(numStr string) (uint, error) {
 	isHex := len(numStr) >= 2 && numStr[0:2] == "0x"
 	if isHex {
 		hexStr := numStr[2:]
 
 		num, err := strconv.ParseUint(hexStr, 16, bitsize)
-		return int(num), err
+		return uint(num), err
 	}
 
 	num, err := strconv.ParseInt(numStr, 10, bitsize)
-	return int(num), err
+	return uint(num), err
 }
 
 func IntToStrHex(num int, strLength int) (string, error) {

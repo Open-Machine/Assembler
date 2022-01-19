@@ -43,12 +43,15 @@ func TestAssembleFileAux(t *testing.T) {
 		getFailTestInfo(
 			[]string{
 				"coding now",
-			}, "file.asm", nil, []string{"coding", "exist"}, nil, nil,
+			}, "file.asm", nil, []string{"coding", "now"}, nil, nil,
 		),
 		// Error on ReplaceLabelsWithNumbers
 		getFailTestInfo(
 			[]string{
-				"store 0x0",
+				"@VAR",
+				"var = 1",
+				"@CODE",
+				"store var",
 				"name:",
 				"jmp unknown",
 			}, "file.asm", nil, []string{"unknown", "exist"}, nil, nil,
@@ -56,6 +59,7 @@ func TestAssembleFileAux(t *testing.T) {
 		// Not changing file name
 		getSuccessTestInfo(
 			[]string{
+				"@CODE",
 				"kill",
 			},
 			"file.asm", nil, helper.StringPointer("0900"), "file.run",
@@ -63,7 +67,8 @@ func TestAssembleFileAux(t *testing.T) {
 		// Changing file name
 		getSuccessTestInfo(
 			[]string{
-				"copy 0x0 # do this",
+				"@CODE",
+				"kill # do this",
 			},
 			"file.asm", helper.StringPointer("name"), helper.StringPointer("0100"), "name.run",
 		),
@@ -74,12 +79,18 @@ func TestAssembleFileAux(t *testing.T) {
 		// Basic valid code with all functionalities
 		getSuccessTestInfo(
 			[]string{
-				"copy 0x0 # do this",
+				"@VAR",
+				"var = 1",
+				"var2 = 0x5",
+				"",
+				"@CODE",
+				"copy var # do this",
 				" name:",
-				"store 0xA",
+				"store var2",
+				"jmp name",
 				"kill",
 			},
-			"file.asm", nil, helper.StringPointer("0100 020a 0900"), "file.run",
+			"file.asm", nil, helper.StringPointer("0100 020a a002 0900"), "file.run",
 		),
 	}
 
